@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Outlet, useNavigate } from 'react-router-dom';
+import LoginPage from './Paginas/LoginPage';
+import ExplorarServicios from './Paginas/ExplorarServicios';
+import Registro from './Paginas/Registro';
+import MisServicios from './Paginas/MisServicios';
+import PerfilProveedor from './Paginas/PerfilProveedor';
+import Comentarios from './Paginas/Comentarios';
+import Contrataciones from './Paginas/Contrataciones';
+import InicioDescripcion from './Paginas/InicioDescripcion';
+
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = true; // Aquí puedes verificar si el usuario está autenticado
+  const navigate = useNavigate();
+  if (!isAuthenticated) {
+    navigate('/login');
+    return null;
+  }
+  return children;
+};
+
+const NotFoundPage = () => <div>Página no encontrada</div>;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<InicioDescripcion />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/explorar-servicios' element={<ExplorarServicios />} />
+        <Route path='/registro' element={<Registro />} />
+        <Route path='/mis-servicios' element={<ProtectedRoute><MisServicios /></ProtectedRoute>} />
+        <Route path='/perfil-proveedor' element={<ProtectedRoute><PerfilProveedor /></ProtectedRoute>} />
+        <Route path='/comentarios' element={<ProtectedRoute><Comentarios /></ProtectedRoute>} />
+        <Route path='/contrataciones' element={<ProtectedRoute><Contrataciones /></ProtectedRoute>} />
+        <Route path='*' element={<NotFoundPage />} />
+      </Routes>
+    </Router>
   );
 }
 
