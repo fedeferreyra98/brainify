@@ -36,6 +36,9 @@ function Registro() {
           <TextField className={classes.textField} label='Correo electrónico' variant='outlined' />
         </Grid>
         <Grid item xs={12}>
+          <TextField className={classes.textField} label='Número de Teléfono' variant='outlined' />
+        </Grid>
+        <Grid item xs={12}>
           <TextField className={classes.textField} label='Contraseña' type='password' variant='outlined' />
         </Grid>
       </Grid>
