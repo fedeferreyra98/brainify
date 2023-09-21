@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Outlet, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import LoginPage from './Paginas/LoginPage';
 import ExplorarServicios from './Paginas/ExplorarServicios';
 import Registro from './Paginas/Registro';
@@ -8,6 +8,8 @@ import PerfilProveedor from './Paginas/PerfilProveedor';
 import Comentarios from './Paginas/Comentarios';
 import Contrataciones from './Paginas/Contrataciones';
 import InicioDescripcion from './Paginas/InicioDescripcion';
+import './styles.css';
+
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = true; // Aquí puedes verificar si el usuario está autenticado
