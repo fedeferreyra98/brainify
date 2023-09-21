@@ -1,5 +1,5 @@
-import React from 'react';
-import {AppBar, Toolbar, Button, Container, Typography, List, ListItem, ListItemText } from '@material-ui/core';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Button, Container, Typography, List, ListItem, ListItemText, Select, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
@@ -39,6 +39,38 @@ const useStyles = makeStyles((theme) => ({
 function Contrataciones() {
   const classes = useStyles();
 
+  // Estado inicial para las contrataciones
+  const [contrataciones, setContrataciones] = useState([
+    {
+      id: 1,
+      servicio: 'Clase de Matemáticas',
+      usuario: 'Juan Pérez',
+      numeroTelefonico: '1544054552',
+      horarioContacto: '10:30-18:00',
+      estado: 'solicitada'
+    },
+    {
+      id: 2,
+      servicio: 'Clase de Aleman',
+      usuario: 'Benjamin Fernandez',
+      numeroTelefonico: '1148766551',
+      horarioContacto: '08:00-20:00',
+      estado: 'aceptada'
+    },
+    // ... puedes agregar más contrataciones iniciales si lo deseas
+  ]);
+
+  // Función para cambiar el estado de una contratación
+  const handleEstadoChange = (id, nuevoEstado) => {
+    const updatedContrataciones = contrataciones.map(contratacion => {
+      if (contratacion.id === id) {
+        return { ...contratacion, estado: nuevoEstado };
+      }
+      return contratacion;
+    });
+    setContrataciones(updatedContrataciones);
+  };
+
   return (
     <div>
       <AppBar position="static">
@@ -63,21 +95,33 @@ function Contrataciones() {
           Contrataciones
         </Typography>
         <List className={classes.list}>
-          {/* Ejemplo de contratación */}
-          <ListItem alignItems='flex-start'>
-            <ListItemText
-              primary='Clase de Matemáticas'
+          {contrataciones.map(contratacion => (
+            <ListItem key={contratacion.id} alignItems='flex-start'>
+              <ListItemText
+              primary={contratacion.servicio}
               secondary={
                 <React.Fragment>
                   <Typography component='span' variant='body2' color='textPrimary'>
-                    Proveedor: Juan Pérez
+                    Usuario: {contratacion.usuario} <br />
+                    Teléfono de contacto: {contratacion.numeroTelefonico} <br />
+                    Franja Horaria: {contratacion.horarioContacto}
                   </Typography>
-                  {' — Estado: Aceptada'}
+                  <br />
+                  {'Estado: '}
+                  <Select
+                    value={contratacion.estado}
+                    onChange={(e) => handleEstadoChange(contratacion.id, e.target.value)}
+                  >
+                    <MenuItem value="solicitada">Solicitada</MenuItem>
+                    <MenuItem value="aceptada">Aceptada</MenuItem>
+                    <MenuItem value="finalizada">Finalizada</MenuItem>
+                  </Select>
                 </React.Fragment>
               }
             />
-          </ListItem>
-          {/* Puedes agregar más contrataciones de la misma manera */}
+            </ListItem>
+
+          ))}
         </List>
       </Container>
     </div>

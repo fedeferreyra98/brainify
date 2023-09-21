@@ -44,7 +44,7 @@ function ExplorarServicios() {
   const classes = useStyles();
 
   //Estados lista de servicios y filtrada
-  const [servicios, setServicios] = useState([
+  const [servicios] = useState([
     { id: 1, nombre: 'Clase de Matemáticas', proveedor: 'Juan Pérez', categoria: 'tutorias', tipo: 'individual', frecuencia: 'única', duracion: '1 hora', costo: '$2000' },
     { id: 2, nombre: 'Clase de Fisica', proveedor: 'Juana Maria', categoria: 'tutorias', tipo: 'grupal', frecuencia: 'semanal', duracion: '1 hora', costo: '$3000' },
     { id: 3, nombre: 'Clase de Quimica', proveedor: 'Daniel Castillo', categoria: 'tutorias', tipo: 'individual', frecuencia: 'semanal', duracion: '1 hora', costo: '$3500' },
