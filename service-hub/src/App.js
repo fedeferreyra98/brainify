@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import LoginPage from './Paginas/LoginPage';
-import ExplorarServicios from './Paginas/ExplorarServicios';
-import Registro from './Paginas/Registro';
-import MisServicios from './Paginas/MisServicios';
-import PerfilProveedor from './Paginas/PerfilProveedor';
-import Comentarios from './Paginas/Comentarios';
-import Contrataciones from './Paginas/Contrataciones';
-import InicioDescripcion from './Paginas/InicioDescripcion';
+import LoginPage from './components/LoginPage';
+import ServiceExplorer from './components/ServiceExplorer';
+import SignupPage from './components/SignupPage';
+import MyServices from './components/MyServices';
+import ProviderProfile from './components/ProviderProfile';
+import Comments from './components/Comments';
+import Hirings from './components/Hirings';
+import LandingPage from './components/LandingPage';
 import './styles.css';
 
 
@@ -27,14 +27,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<InicioDescripcion />} />
+        <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<LoginPage />} />
-        <Route path='/explorar-servicios' element={<ExplorarServicios />} />
-        <Route path='/registro' element={<Registro />} />
-        <Route path='/mis-servicios' element={<ProtectedRoute><MisServicios /></ProtectedRoute>} />
-        <Route path='/perfil-proveedor' element={<ProtectedRoute><PerfilProveedor /></ProtectedRoute>} />
-        <Route path='/comentarios' element={<ProtectedRoute><Comentarios /></ProtectedRoute>} />
-        <Route path='/contrataciones' element={<ProtectedRoute><Contrataciones /></ProtectedRoute>} />
+        <Route path='/explorar-servicios' element={<ServiceExplorer />} />
+        <Route path='/registro' element={<SignupPage />} />
+        <Route path='/mis-servicios' element={<ProtectedRoute><MyServices /></ProtectedRoute>} />
+        <Route path='/perfil-proveedor' element={<ProtectedRoute><ProviderProfile /></ProtectedRoute>} />
+        <Route path='/comentarios' element={<ProtectedRoute><Comments /></ProtectedRoute>} />
+        <Route path='/contrataciones' element={<ProtectedRoute><Hirings /></ProtectedRoute>} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </Router>

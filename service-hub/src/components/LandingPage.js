@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, makeStyles, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import serviceHubLogo from './Logos/Group_246-removebg-preview.png';
+import serviceHubLogo from '../assets/Logos/service-hub-icon.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function InicioDescripcion() {
+function LandingPage() {
   const classes = useStyles();
 
   return (
@@ -75,74 +75,4 @@ function InicioDescripcion() {
   );
 }
 
-export default InicioDescripcion;
-
-
-/*
-import React from 'react';
-import { Button, Container, Typography, Grid, Link } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: theme.spacing(3)
-  },
-  button: {
-    margin: theme.spacing(1)
-  }
-}));
-
-function InicioDescripcion() {
-  const classes = useStyles();
-
-  return (
-    <Container className={classes.root}>
-      <Typography variant='h4' gutterBottom>
-        Bienvenido a nuestro Marketplace
-      </Typography>
-      <Typography variant='body1' paragraph>
-        Aquí puedes explorar y contratar diversos servicios ofrecidos por profesionales. Ya sea que busques clases particulares, tutorías o cualquier otro servicio, ¡estás en el lugar correcto!
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item>
-          <Button variant='contained' color='primary' className={classes.button} component={Link} href='/explorar-servicios'>
-            Explorar Servicios
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='contained' color='secondary' className={classes.button} component={Link} href='/registro'>
-            Registrarse
-          </Button>
-        </Grid>
-      </Grid>
-    </Container>
-  );
-}
-
-export default InicioDescripcion;
-*/
-/*
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const InicioDescripcion = () => {
-  return (
-    <div className='inicio-descripcion-container'>
-      <h1>Bienvenido a nuestro Marketplace</h1>
-      <p>Esta es una plataforma donde los profesores pueden ofrecer clases particulares y los alumnos pueden buscar y contratar estos servicios.</p>
-      <div className='enlaces-container'>
-        <Link to='/explorar-servicios'>Explorar Servicios</Link>
-        <Link to='/registro'>Registro</Link>
-        <Link to='/ingreso'>Ingreso</Link>
-        <Link to='/mis-servicios'>Mis Servicios</Link>
-        <Link to='/perfil-proveedor'>Perfil Proveedor</Link>
-        <Link to='/comentarios'>Comentarios</Link>
-        <Link to='/contrataciones'>Contrataciones</Link>
-      </div>
-    </div>
-  );
-};
-
-export default InicioDescripcion;
-*/
+export default LandingPage;
