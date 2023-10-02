@@ -7,8 +7,10 @@ import MyServices from './components/MyServices';
 import ProviderProfile from './components/ProviderProfile';
 import Comments from './components/Comments';
 import Hirings from './components/Hirings';
-import LandingPage from './components/LandingPage';
+// import LandingPage from './components/LandingPage';
+import Navbar from './components/Navbar';
 import './styles.css';
+import { CssBaseline, Container } from '@material-ui/core';
 
 
 const ProtectedRoute = ({ children }) => {
@@ -26,18 +28,26 @@ const NotFoundPage = () => <div>Página no encontrada</div>;
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/explorar-servicios' element={<ServiceExplorer />} />
-        <Route path='/registro' element={<SignupPage />} />
-        <Route path='/mis-servicios' element={<ProtectedRoute><MyServices /></ProtectedRoute>} />
-        <Route path='/perfil-proveedor' element={<ProtectedRoute><ProviderProfile /></ProtectedRoute>} />
-        <Route path='/comentarios' element={<ProtectedRoute><Comments /></ProtectedRoute>} />
-        <Route path='/contrataciones' element={<ProtectedRoute><Hirings /></ProtectedRoute>} />
-        <Route path='*' element={<NotFoundPage />} />
-      </Routes>
+      <div>
+      <CssBaseline />
+      <Navbar style={{ position: "fixed", top: 0, left: 0, right: 0 }} /> 
+      
+        <Container style={{paddingTop: "64px"}}>
+            <Routes>
+              {/* <Route path='/' element={<Navbar />} /> */}
+              <Route path='/login' element={<LoginPage />} />
+              <Route path='/explorar-servicios' element={<ServiceExplorer />} />
+              <Route path='/registro' element={<SignupPage />} />
+              <Route path='/mis-servicios' element={<ProtectedRoute><MyServices /></ProtectedRoute>} />
+              <Route path='/perfil-proveedor' element={<ProtectedRoute><ProviderProfile /></ProtectedRoute>} />
+              <Route path='/comentarios' element={<ProtectedRoute><Comments /></ProtectedRoute>} />
+              <Route path='/contrataciones' element={<ProtectedRoute><Hirings /></ProtectedRoute>} />
+              <Route path='*' element={<NotFoundPage />} />
+            </Routes>
+        </Container>
+      </div>
     </Router>
+    
   );
 }
 

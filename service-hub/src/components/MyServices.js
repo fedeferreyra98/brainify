@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Select, MenuItem, FormControl, InputLabel, AppBar, Toolbar, Button, Container, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { Select, MenuItem, FormControl, InputLabel, Button, Container, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function MisServicios() {
+function MyServices() {
   const classes = useStyles();
 
   // Funciones para gestionar los servicios
@@ -156,23 +155,6 @@ const handleSave = () => {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}></Typography>
-          <Link to="/login" className={classes.link}><Button color="inherit">Iniciar Sesión</Button></Link>
-          <Link to="/registro" className={classes.link}><Button color="inherit">Registrarse</Button></Link>
-        </Toolbar>
-      </AppBar>
-      <AppBar position="static" color="default">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>ServiceHub</Typography>
-          <Link to="/" className={classes.link}><Button color="inherit">Inicio</Button></Link>
-          <Link to="/explorar-servicios" className={classes.link}><Button color="inherit">Explorar Servicios</Button></Link>
-          <Link to="/mis-servicios" className={classes.link}><Button color="inherit">Mis Servicios</Button></Link>
-          <Link to="/comentarios" className={classes.link}><Button color="inherit">Comentarios</Button></Link>
-          <Link to="/contrataciones" className={classes.link}><Button color="inherit">Contrataciones</Button></Link>
-        </Toolbar>
-      </AppBar>
       <Container className={classes.root}>
         <Typography variant='h4' gutterBottom>Mis Servicios</Typography>
         <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => setDialogOpen(true)}>Agregar Servicio</Button>
@@ -197,39 +179,4 @@ const handleSave = () => {
   );
 }
 
-export default MisServicios;
-
-
-/*
-import React, { useState } from 'react';
-
-const MisServicios = () => {
-  const [servicios, setServicios] = useState([
-    { id: 1, nombre: 'Clases de Matemáticas', duracion: '1 hora', frecuencia: 'Semanal', costo: '$50' },
-    { id: 2, nombre: 'Clases de Inglés', duracion: '2 horas', frecuencia: 'Mensual', costo: '$100' }
-    // Puedes agregar más servicios de ejemplo aquí
-  ]);
-
-  const handleEliminar = (id) => {
-    const nuevosServicios = servicios.filter(servicio => servicio.id !== id);
-    setServicios(nuevosServicios);
-  };
-
-  return (
-    <div className='mis-servicios-container'>
-      <h2>Mis Servicios</h2>
-      {servicios.map(servicio => (
-        <div key={servicio.id} className='servicio-item'>
-          <h3>{servicio.nombre}</h3>
-          <p>Duración: {servicio.duracion}</p>
-          <p>Frecuencia: {servicio.frecuencia}</p>
-          <p>Costo: {servicio.costo}</p>
-          <button onClick={() => handleEliminar(servicio.id)}>Eliminar</button>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default MisServicios;
-*/
+export default MyServices;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Button, Container, Typography, List, ListItem, ListItemText, Select, MenuItem } from '@material-ui/core';
+import { Container, Typography, List, ListItem, ListItemText, Select, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Contrataciones() {
+function Hirings() {
   const classes = useStyles();
 
   // Estado inicial para las contrataciones
@@ -73,23 +72,6 @@ function Contrataciones() {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}></Typography>
-          <Link to="/login" className={classes.link}><Button color="inherit">Iniciar Sesión</Button></Link>
-          <Link to="/registro" className={classes.link}><Button color="inherit">Registrarse</Button></Link>
-        </Toolbar>
-      </AppBar>
-      <AppBar position="static" color="default">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>ServiceHub</Typography>
-          <Link to="/" className={classes.link}><Button color="inherit">Inicio</Button></Link>
-          <Link to="/explorar-servicios" className={classes.link}><Button color="inherit">Explorar Servicios</Button></Link>
-          <Link to="/mis-servicios" className={classes.link}><Button color="inherit">Mis Servicios</Button></Link>
-          <Link to="/comentarios" className={classes.link}><Button color="inherit">Comentarios</Button></Link>
-          <Link to="/contrataciones" className={classes.link}><Button color="inherit">Contrataciones</Button></Link>
-        </Toolbar>
-      </AppBar>
       <Container className={classes.root}>
         <Typography variant='h4' gutterBottom>
           Contrataciones
@@ -128,43 +110,4 @@ function Contrataciones() {
   );
 }
 
-export default Contrataciones;
-/*
-import React, { useState } from 'react';
-
-const Contrataciones = () => {
-  const [contrataciones, setContrataciones] = useState([
-    { id: 1, usuario: 'Ana López', servicio: 'Clases de Matemáticas', estado: 'Solicitada' },
-    { id: 2, usuario: 'Carlos Rodríguez', servicio: 'Clases de Inglés', estado: 'Aceptada' }
-    // Puedes agregar más contrataciones de ejemplo aquí
-  ]);
-
-  const handleCambiarEstado = (id, nuevoEstado) => {
-    const nuevasContrataciones = contrataciones.map(contratacion => {
-      if (contratacion.id === id) {
-        return { ...contratacion, estado: nuevoEstado };
-      }
-      return contratacion;
-    });
-    setContrataciones(nuevasContrataciones);
-  };
-
-  return (
-    <div className='contrataciones-container'>
-      <h2>Contrataciones</h2>
-      {contrataciones.map(contratacion => (
-        <div key={contratacion.id} className='contratacion-item'>
-          <h3>{contratacion.usuario}</h3>
-          <p>Servicio: {contratacion.servicio}</p>
-          <p>Estado: {contratacion.estado}</p>
-          <button onClick={() => handleCambiarEstado(contratacion.id, 'Aceptada')}>Aceptar</button>
-          <button onClick={() => handleCambiarEstado(contratacion.id, 'Finalizada')}>Finalizar</button>
-          <button onClick={() => handleCambiarEstado(contratacion.id, 'Cancelada')}>Cancelar</button>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default Contrataciones;
-*/
+export default Hirings;
