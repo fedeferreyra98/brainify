@@ -1,7 +1,6 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
+import { Typography, Container } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { Link } from 'react-router-dom';
 import serviceHubLogo from '../assets/Logos/service-hub-icon.png';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,27 +33,6 @@ function LandingPage() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-          </Typography>
-          <Link to="/login" className={classes.link}><Button color="inherit">Iniciar Sesión</Button></Link>
-          <Link to="/registro" className={classes.link}><Button color="inherit">Registrarse</Button></Link>
-        </Toolbar>
-      </AppBar>
-      <AppBar position="static" color="default">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            ServiceHub
-          </Typography>
-          <Link to="/" className={classes.link}><Button color="inherit">Inicio</Button></Link>
-          <Link to="/explorar-servicios" className={classes.link}><Button color="inherit">Explorar Servicios</Button></Link>
-          <Link to="/mis-servicios" className={classes.link}><Button color="inherit">Mis Servicios</Button></Link>
-          <Link to="/comentarios" className={classes.link}><Button color="inherit">Comentarios</Button></Link>
-          <Link to="/contrataciones" className={classes.link}><Button color="inherit">Contrataciones</Button></Link>
-          {/* Puedes agregar un link para "Contacto" si tienes una página dedicada para ello */}
-        </Toolbar>
-      </AppBar>
       <Container className={classes.mainContent}>
         <Typography variant="h4" gutterBottom>
           Bienvenido a ServiceHub

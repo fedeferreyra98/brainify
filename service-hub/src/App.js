@@ -8,6 +8,7 @@ import ProviderProfile from './components/ProviderProfile';
 import Comments from './components/Comments';
 import Hirings from './components/Hirings';
 import Navbar from './components/Navbar';
+import LandingPage from './components/LandingPage';
 import './styles.css';
 import { CssBaseline, Container, ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material';
 
@@ -35,6 +36,7 @@ function App() {
         
           <Container style={{paddingTop: "64px"}}>
               <Routes>
+                <Route path='/' element={<LandingPage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/explorar-servicios' element={<ServiceExplorer />} />
                 <Route path='/registro' element={<SignupPage />} />
