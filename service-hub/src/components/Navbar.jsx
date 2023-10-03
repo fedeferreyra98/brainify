@@ -1,5 +1,6 @@
 import React from "react";
-import { AppBar, Toolbar, Button, makeStyles } from "@material-ui/core";
+import { AppBar, Toolbar, Button } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { Link } from "react-router-dom";
 import serviceHubLogo from "../assets/Logos/service-hub-icon.png";
 

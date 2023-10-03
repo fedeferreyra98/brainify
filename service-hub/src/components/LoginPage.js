@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Container, Typography, Grid, TextField } from '@material-ui/core';
+import { Button, Container, Typography, Grid, TextField } from '@mui/material';
 import { Link } from 'react-router-dom'; // Importa el Link de react-router-dom
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {

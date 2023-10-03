@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Select, MenuItem, FormControl, InputLabel, Button, Container, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
+import { Select, MenuItem, FormControl, InputLabel, Button, Container, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,10 +163,18 @@ const handleSave = () => {
             <ListItem key={service.id}>
               <ListItemText primary={service.name} secondary={`Duración: ${service.duration} — Costo: ${service.cost}`} />
               <ListItemSecondaryAction>
-                <IconButton edge='end' aria-label='edit' onClick={() => { setCurrentService(service); setDialogOpen(true); }}>
+                <IconButton
+                  edge='end'
+                  aria-label='edit'
+                  onClick={() => { setCurrentService(service); setDialogOpen(true); }}
+                  size="large">
                   <EditIcon />
                 </IconButton>
-                <IconButton edge='end' aria-label='delete' onClick={() => deleteService(service.id)}>
+                <IconButton
+                  edge='end'
+                  aria-label='delete'
+                  onClick={() => deleteService(service.id)}
+                  size="large">
                   <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>
