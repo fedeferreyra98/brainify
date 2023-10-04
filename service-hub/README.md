@@ -68,3 +68,50 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+---
+# Configuracion para el entorno de Desarrollo Local
+
+Para garantizar la calidad y consistencia del código en nuestro proyecto, hemos implementado [ESLint](https://eslint.org/) y [Prettier](https://prettier.io/). A continuación, se presentan los pasos para configurar tu ambiente de desarrollo para trabajar con estas herramientas.
+
+### 1. Instalación de Dependencias
+
+Luego de clonar o actualizar el repositorio, debes instalar todas las dependencias necesarias. Esto incluye paquetes relacionados con ESLint, Prettier y otros paquetes asociados.
+
+```bash
+npm install
+```
+
+### 2. Configuración de VSCode
+
+Si estás utilizando Visual Studio Code como editor:
+
+- Asegúrate de tener instaladas las extensiones "ESLint" y "Prettier - Code formatter".
+- Estas extensiones proporcionarán resaltado en tiempo real de los errores y advertencias del linter, y también permitirán la corrección automática al guardar (si se configuró de esta manera).
+
+### 3. Ejecución y Comprobación del Linter
+
+Para comprobar que todo está configurado correctamente, puedes ejecutar el linter en todo el proyecto o en archivos específicos:
+
+```bash
+npm run lint
+```
+
+Si también deseas corregir automáticamente los errores detectados (cuando sea posible):
+
+```bash
+npm run lint:fix
+```
+
+### 4. Configuración Personalizada de VSCode
+
+Si se requiere alguna configuración adicional o personalizada en VSCode (por ejemplo, para el comportamiento de guardado automático), consulta con el equipo o revisa la configuración local en `.vscode/settings.json`.
+
+### 5. Consideraciones Adicionales
+
+- Evita el uso de operadores unarios como `++` y `--` para mantener la claridad y legibilidad del código.
+- Si surgen problemas o incompatibilidades, consulta con el equipo o revisa las versiones de las dependencias en `package.json`.
+
+---
+
+Puedes agregar esta sección a tu `README.md` y adaptarla según las necesidades específicas de tu proyecto o cualquier detalle adicional que desees incluir.
