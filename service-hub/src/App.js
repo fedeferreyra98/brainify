@@ -7,7 +7,7 @@ import MyServices from './components/MyServices';
 import ProviderProfile from './components/ProviderProfile';
 import Comments from './components/Comments';
 import Hirings from './components/Hirings';
-import Navbar from './components/Navbar';
+import ResponsiveAppBar from './components/ResponsiveNavBar';
 import LandingPage from './components/LandingPage';
 import './styles.css';
 import { CssBaseline, Container, ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material';
@@ -32,7 +32,7 @@ function App() {
       <Router>
         <div>
         <CssBaseline />
-        <Navbar style={{ position: "fixed", top: 0, left: 0, right: 0 }} /> 
+        <ResponsiveAppBar/> 
         
           <Container style={{paddingTop: "64px"}}>
               <Routes>
