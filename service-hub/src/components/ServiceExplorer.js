@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Button, Container, Typography, Grid, List, ListItem, ListItemText, ListItemSecondaryAction, Select, MenuItem, FormControl, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import DynamicSelect from './DynamicSelect';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -172,6 +173,16 @@ function ServiceExplorer() {
           Explorar Servicios
         </Typography>
         <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+          <DynamicSelect
+                label="Fruit"
+                options={[
+                  { value: 'apple', label: "Apple" },
+                  { value: 'banana', label: "Banana" },
+                  { value: 'cherry', label: "Cherry" },
+                ]}
+              />
+            </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl className={classes.formControl} fullWidth>
               <InputLabel>Categoría</InputLabel>
