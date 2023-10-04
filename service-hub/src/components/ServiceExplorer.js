@@ -173,44 +173,45 @@ function ServiceExplorer() {
           Explorar Servicios
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-          <DynamicSelect
-                label="Fruit"
-                options={[
-                  { value: 'apple', label: "Apple" },
-                  { value: 'banana', label: "Banana" },
-                  { value: 'cherry', label: "Cherry" },
-                ]}
-              />
-            </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel>Categoría</InputLabel>
-              <Select value={categoriaFiltro} onChange={(e) => setCategoriaFiltro(e.target.value)}>
-                <MenuItem value={'tutorias'}>Tutorías escolares</MenuItem>
-                <MenuItem value={'idioma'}>Clases de idioma</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel>Tipo de clase</InputLabel>
-              <Select value={tipoFiltro} onChange={(e) => setTipoFiltro(e.target.value)}>
-                <MenuItem value={'individual'}>Individual</MenuItem>
-                <MenuItem value={'grupal'}>Grupal</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel>Frecuencia</InputLabel>
-              <Select value={frecuenciaFiltro} onChange={(e) => setFrecuenciaFiltro(e.target.value)}>
-                <MenuItem value={'única'}>Única</MenuItem>
-                <MenuItem value={'semanal'}>Semanal</MenuItem>
-                <MenuItem value={'mensual'}>Mensual</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
+        <Grid item xs={12} sm={6}>
+  <DynamicSelect
+    label="Categoría"
+    value={categoriaFiltro}
+    onChange={(e) => setCategoriaFiltro(e.target.value)}
+    className={classes.formControl}
+    options={[
+      { value: 'tutorias', label: 'Tutorías escolares' },
+      { value: 'idioma', label: 'Clases de idioma' }
+    ]}
+  />
+</Grid>
+
+<Grid item xs={12} sm={6}>
+  <DynamicSelect
+    label="Tipo de clase"
+    value={tipoFiltro}
+    onChange={(e) => setTipoFiltro(e.target.value)}
+    className={classes.formControl}
+    options={[
+      { value: 'individual', label: 'Individual' },
+      { value: 'grupal', label: 'Grupal' }
+    ]}
+  />
+</Grid>
+
+<Grid item xs={12} sm={6}>
+  <DynamicSelect
+    label="Frecuencia"
+    value={frecuenciaFiltro}
+    onChange={(e) => setFrecuenciaFiltro(e.target.value)}
+    className={classes.formControl}
+    options={[
+      { value: 'única', label: 'Única' },
+      { value: 'semanal', label: 'Semanal' },
+      { value: 'mensual', label: 'Mensual' }
+    ]}
+  />
+</Grid>
         </Grid>
         <Button variant='contained' color='primary' className={classes.button} onClick={filtrarServicios}>
           Filtrar

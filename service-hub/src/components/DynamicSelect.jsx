@@ -5,24 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-function DynamicSelect({ label, options }) {
-  const [selectedValue, setSelectedValue] = React.useState('');
-
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
-
-  return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id={`${label}-label`}>{label}</InputLabel>
-        <Select
-          labelId={`${label}-label`}
-          id={`${label}-select`}
-          value={selectedValue}
-          label={label}
-          onChange={handleChange}
-        >
+function DynamicSelect({ label, options, value, onChange, className }) {
+    return (
+        <Box sx={{ minWidth: 120 }}>
+      <FormControl className={className} fullWidth>
+        <InputLabel>{label}</InputLabel>
+        <Select 
+        value={value} 
+        onChange={onChange}
+        label={label}>
           {options.map(option => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
@@ -31,7 +22,8 @@ function DynamicSelect({ label, options }) {
         </Select>
       </FormControl>
     </Box>
-  );
-}
+    );
+  }
+  
 
 export default DynamicSelect;
