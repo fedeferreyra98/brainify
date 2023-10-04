@@ -12,24 +12,32 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { Link } from 'react-router-dom';
 import ServiceExplorer from './ServiceExplorer';
 import MyServices from './MyServices';
 import Comments from './Comments';
 import Hirings from './Hirings';
 import SignUpPage from './SignupPage';
 import LoginPage from './LoginPage';
-import { Link } from 'react-router-dom';
 
-const pages = ['Explorar Servicios', 'Mis Servicios', 'Comentarios', 'Contrataciones'];
+const pages = [
+  'Explorar Servicios',
+  'Mis Servicios',
+  'Comentarios',
+  'Contrataciones',
+];
 const pageRoutes = {
-    'Explorar Servicios': { path:'/explorar-servicios', component : ServiceExplorer },
-    'Mis Servicios': { path:'/mis-servicios', component : MyServices},
-    'Comentarios': {path:'/comentarios', component : Comments},
-    'Contrataciones': {path: '/contrataciones', component : Hirings},
-    'Login': {path: '/login', component : LoginPage},
-    'Registro': {path: '/registro', component : SignUpPage},
-    };
-const homePage = { path: '/'};
+  'Explorar Servicios': {
+    path: '/explorar-servicios',
+    component: ServiceExplorer,
+  },
+  'Mis Servicios': { path: '/mis-servicios', component: MyServices },
+  Comentarios: { path: '/comentarios', component: Comments },
+  Contrataciones: { path: '/contrataciones', component: Hirings },
+  Login: { path: '/login', component: LoginPage },
+  Registro: { path: '/registro', component: SignUpPage },
+};
+const homePage = { path: '/' };
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -56,12 +64,13 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> {/**TODO: Change this icon */}
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />{' '}
+          {/** TODO: Change this icon */}
           <Typography
             variant="h6"
             noWrap
             component={Link}
-            to = {`${homePage.path}`}
+            to={`${homePage.path}`}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -74,7 +83,6 @@ function ResponsiveAppBar() {
           >
             BRAINIFY
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -105,11 +113,11 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem 
-                key={page} 
-                onClick={handleCloseNavMenu}
-                component = {Link}
-                to = {`${pageRoutes[page].path}`}
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={`${pageRoutes[page].path}`}
                 >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -121,7 +129,7 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component={Link}
-            to = {`${homePage.path}`}
+            to={`${homePage.path}`}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -140,15 +148,14 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                component = {Link}
-                to = {`${pageRoutes[page].path}`}
+                component={Link}
+                to={`${pageRoutes[page].path}`}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

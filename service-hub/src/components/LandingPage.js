@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'inherit'
-  }
+    color: 'inherit',
+  },
 }));
 
 function LandingPage() {
@@ -38,7 +38,8 @@ function LandingPage() {
           Bienvenido a ServiceHub
         </Typography>
         <Typography variant="h6" paragraph>
-          Encuentra y ofrece servicios de calidad en nuestra plataforma. Desde tutorías hasta clases de música, ¡tenemos algo para todos!
+          Encuentra y ofrece servicios de calidad en nuestra plataforma. Desde
+          tutorías hasta clases de música, ¡tenemos algo para todos!
         </Typography>
         <img src={serviceHubLogo} alt="ServiceHub" width="60%" />
       </Container>

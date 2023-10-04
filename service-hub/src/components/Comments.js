@@ -1,14 +1,20 @@
 import React from 'react';
-import {Container, Typography, List, ListItem, ListItemText } from '@mui/material';
+import {
+  Container,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
   button: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   list: {
     width: '100%',
@@ -31,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'inherit'
-  }
+    color: 'inherit',
+  },
 }));
 
 function Comments() {
@@ -41,21 +47,25 @@ function Comments() {
   return (
     <div>
       <Container className={classes.root}>
-        <Typography variant='h4' gutterBottom>
+        <Typography variant="h4" gutterBottom>
           Comentarios
         </Typography>
         <List className={classes.list}>
           {/* Ejemplo de comentario */}
-          <ListItem alignItems='flex-start'>
+          <ListItem alignItems="flex-start">
             <ListItemText
-              primary='Usuario 1'
+              primary="Usuario 1"
               secondary={
-                <React.Fragment>
-                  <Typography component='span' variant='body2' color='textPrimary'>
+                <>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    color="textPrimary"
+                  >
                     Excelente servicio!
                   </Typography>
                   {' — Estoy muy satisfecho con la clase que tomé.'}
-                </React.Fragment>
+                </>
               }
             />
           </ListItem>
