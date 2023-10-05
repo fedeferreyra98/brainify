@@ -4,10 +4,6 @@ import {
   Container,
   Typography,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
   Select,
   MenuItem,
   FormControl,
@@ -17,9 +13,27 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Pagination,
+  Card,
+  CardContent,
+  CardActions,
+  Rating,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  List,
 } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CategoryIcon from '@mui/icons-material/Category';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import TimerIcon from '@mui/icons-material/Timer';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import ClassIcon from '@mui/icons-material/Class';
 import makeStyles from '@mui/styles/makeStyles';
 import DynamicSelect from './DynamicSelect';
+import mockServices from './mockServices';
+import mockComments from './mockComments';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,55 +70,139 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     color: 'inherit',
   },
+  pagination: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing(3),
+  },
+  commentCard: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
 }));
+
+function ServiceCard({ service, onClick, onHire }) {
+  // Calculate average rating for the service
+  const serviceComments = mockComments.filter(
+    (comment) => comment.serviceName === service.nombre
+  );
+  const averageRating =
+    serviceComments.reduce((acc, comment) => acc + comment.rating, 0) /
+    serviceComments.length;
+
+  return (
+    <Grid item xs={12} sm={6} md={4}>
+      <Card>
+        <CardContent>
+          <Typography variant="h6">{service.nombre}</Typography>
+          <Typography color="textSecondary">{service.proveedor}</Typography>
+          <Rating value={averageRating} readOnly precision={0.5} />
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary" onClick={() => onClick(service)}>
+            Ver más
+          </Button>
+          <Button size="small" color="secondary" onClick={onHire}>
+            Contratar
+          </Button>
+        </CardActions>
+      </Card>
+    </Grid>
+  );
+}
+
+function ServiceDetails({ service, onClose, onHire }) {
+  const classes = useStyles();
+
+  // Filter comments for the selected service
+  const serviceComments = mockComments.filter(
+    (comment) => comment.serviceName === service?.nombre
+  );
+
+  return (
+    <Dialog open={!!service} onClose={onClose} fullWidth maxWidth="md">
+      <DialogTitle>{service?.nombre}</DialogTitle>
+      <DialogContent>
+        <List>
+          <ListItem>
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Proveedor" secondary={service?.proveedor} />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+          <ListItem>
+            <ListItemIcon>
+              <CategoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="Categoría" secondary={service?.categoria} />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+          <ListItem>
+            <ListItemIcon>
+              <ClassIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tipo" secondary={service?.tipo} />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+          <ListItem>
+            <ListItemIcon>
+              <ScheduleIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Frecuencia"
+              secondary={service?.frecuencia}
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+          <ListItem>
+            <ListItemIcon>
+              <TimerIcon />
+            </ListItemIcon>
+            <ListItemText primary="Duración" secondary={service?.duracion} />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+          <ListItem>
+            <ListItemIcon>
+              <AttachMoneyIcon />
+            </ListItemIcon>
+            <ListItemText primary="Costo" secondary={service?.costo} />
+          </ListItem>
+        </List>
+
+        <Divider className={classes.commentCard} />
+
+        {/* Display user comments and their ratings */}
+        {serviceComments.map((comment) => (
+          <Card key={comment.id} className={classes.commentCard}>
+            <CardContent>
+              <Typography variant="h6">{comment.user}</Typography>
+              <Rating value={comment.rating} readOnly />
+              <Typography variant="body1">{comment.comment}</Typography>
+              <Typography variant="body2">
+                {comment.secondaryComment}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Cerrar
+        </Button>
+        <Button onClick={onHire} color="secondary">
+          Contratar
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
 function ServiceExplorer() {
   const classes = useStyles();
 
   // Estados lista de servicios y filtrada
-  const [servicios] = useState([
-    {
-      id: 1,
-      nombre: 'Clase de Matemáticas',
-      proveedor: 'Juan Pérez',
-      categoria: 'tutorias',
-      tipo: 'individual',
-      frecuencia: 'única',
-      duracion: '1 hora',
-      costo: '$2000',
-    },
-    {
-      id: 2,
-      nombre: 'Clase de Fisica',
-      proveedor: 'Juana Maria',
-      categoria: 'tutorias',
-      tipo: 'grupal',
-      frecuencia: 'semanal',
-      duracion: '1 hora',
-      costo: '$3000',
-    },
-    {
-      id: 3,
-      nombre: 'Clase de Quimica',
-      proveedor: 'Daniel Castillo',
-      categoria: 'tutorias',
-      tipo: 'individual',
-      frecuencia: 'semanal',
-      duracion: '1 hora',
-      costo: '$3500',
-    },
-    {
-      id: 4,
-      nombre: 'Clase de Aleman',
-      proveedor: 'Fernando Lopez',
-      categoria: 'idioma',
-      tipo: 'grupal',
-      frecuencia: 'mensual',
-      duracion: '1 hora',
-      costo: '$4000',
-    },
-    // ... puedes agregar más servicios ficticios aquí
-  ]);
+  const [servicios] = useState(mockServices);
   const [serviciosFiltrados, setServiciosFiltrados] = useState(servicios);
 
   // Estados para los filtros
@@ -261,6 +359,21 @@ function ServiceExplorer() {
     </Dialog>
   );
 
+  const [selectedService, setSelectedService] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const servicesPerPage = 6;
+  const totalPages = Math.ceil(serviciosFiltrados.length / servicesPerPage);
+
+  const currentServices = serviciosFiltrados.slice(
+    (currentPage - 1) * servicesPerPage,
+    currentPage * servicesPerPage
+  );
+
+  const handleHire = () => {
+    setDialogOpen(true);
+  };
+
   return (
     <div>
       <Container className={classes.root}>
@@ -324,36 +437,30 @@ function ServiceExplorer() {
         >
           Limpiar Filtros
         </Button>
-        <List className={classes.list}>
-          {serviciosFiltrados.map((servicio) => (
-            <ListItem key={servicio.id} alignItems="flex-start">
-              <ListItemText
-                primary={servicio.nombre}
-                secondary={
-                  <>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
-                      Proveedor: {servicio.proveedor}
-                    </Typography>
-                    {` — Duración: ${servicio.duracion} — Costo: ${servicio.costo}`}
-                  </>
-                }
-              />
-              <ListItemSecondaryAction>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => setDialogOpen(true)}
-                >
-                  Contratar
-                </Button>
-              </ListItemSecondaryAction>
-            </ListItem>
+        <Grid container spacing={3}>
+          {currentServices.map((servicio) => (
+            <ServiceCard
+              key={servicio.id}
+              service={servicio}
+              onClick={setSelectedService}
+              onHire={handleHire}
+            />
           ))}
-        </List>
+        </Grid>
+
+        <div className={classes.pagination}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+          />
+        </div>
+
+        <ServiceDetails
+          service={selectedService}
+          onClose={() => setSelectedService(null)}
+          onHire={handleHire}
+        />
       </Container>
       {renderDialogContratacion()}
     </div>
