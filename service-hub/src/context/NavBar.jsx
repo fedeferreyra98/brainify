@@ -14,12 +14,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
-import ServiceExplorer from './ServiceExplorer';
-import MyServices from './MyServices';
+import ServiceExplorer from '../components/ServiceExplorer';
+import MyServices from '../components/MyServices';
 import Comments from '../pages/Comments';
 import Hirings from '../pages/Hirings';
-import SignUpPage from './SignupPage';
-import LoginPage from './LoginPage';
+import SignUpPage from '../components/SignupPage';
+import LoginPage from '../components/LoginPage';
 import mockProvider from '../data/mockProvider';
 
 const pages = [

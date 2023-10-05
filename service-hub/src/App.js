@@ -19,7 +19,7 @@ import MyServices from './components/MyServices';
 import ProviderProfile from './components/ProviderProfile';
 import Comments from './pages/Comments';
 import Hirings from './pages/Hirings';
-import ResponsiveAppBar from './components/ResponsiveNavBar';
+import ResponsiveAppBar from './context/NavBar';
 import LandingPage from './pages/Home/index';
 import './assets/stylesheets/styles.css';
 
