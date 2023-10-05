@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import ServiceExplorer from './ServiceExplorer';
 import MyServices from './MyServices';
-import Comments from './Comments';
+import Comments from '../pages/Comments';
 import Hirings from './Hirings';
 import SignUpPage from './SignupPage';
 import LoginPage from './LoginPage';

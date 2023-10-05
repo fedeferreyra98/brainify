@@ -17,7 +17,7 @@ import ServiceExplorer from './components/ServiceExplorer';
 import SignupPage from './components/SignupPage';
 import MyServices from './components/MyServices';
 import ProviderProfile from './components/ProviderProfile';
-import Comments from './components/Comments';
+import Comments from './pages/Comments';
 import Hirings from './components/Hirings';
 import ResponsiveAppBar from './components/ResponsiveNavBar';
 import LandingPage from './components/LandingPage';

@@ -20,8 +20,8 @@ import mockServices from '../data/mockServices';
 import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails';
 import useStyles from '../styles/styles';
-import NotificationRed from './NotificationRed';
-import NotificationGreen from './NotificationGreen';
+import NotificationRed from '../context/NotificationRed';
+import NotificationGreen from '../context/NotificationGreen';
 
 function ServiceExplorer() {
   const classes = useStyles();
