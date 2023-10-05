@@ -21,7 +21,7 @@ import Comments from './components/Comments';
 import Hirings from './components/Hirings';
 import ResponsiveAppBar from './components/ResponsiveNavBar';
 import LandingPage from './components/LandingPage';
-import './styles.css';
+import './assets/stylesheets/styles.css';
 
 const theme = createTheme();
 function ProtectedRoute({ children }) {
