@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Select,
-  MenuItem,
-} from '@mui/material';
+import { Grid, Container, Typography, Tabs, Tab } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import HiringList from './HiringList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +33,19 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'none',
     color: 'inherit',
+  },
+  tabsContainer: {
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
+  },
+  tabItem: {
+    [theme.breakpoints.up('md')]: {
+      maxWidth: '25%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
 }));
 
@@ -77,6 +83,11 @@ function Hirings() {
     });
     setContrataciones(updatedContrataciones);
   };
+  const [currentTab, setCurrentTab] = useState('General');
+
+  const handleChangeTab = (event, newValue) => {
+    setCurrentTab(newValue);
+  };
 
   return (
     <div>
@@ -84,41 +95,47 @@ function Hirings() {
         <Typography variant="h4" gutterBottom>
           Contrataciones
         </Typography>
-        <List className={classes.list}>
-          {contrataciones.map((contratacion) => (
-            <ListItem key={contratacion.id} alignItems="flex-start">
-              <ListItemText
-                primary={contratacion.servicio}
-                secondary={
-                  <>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
-                      Usuario: {contratacion.usuario} <br />
-                      Teléfono de contacto: {contratacion.numeroTelefonico}{' '}
-                      <br />
-                      Franja Horaria: {contratacion.horarioContacto}
-                    </Typography>
-                    <br />
-                    {'Estado: '}
-                    <Select
-                      value={contratacion.estado}
-                      onChange={(e) =>
-                        handleEstadoChange(contratacion.id, e.target.value)
-                      }
-                    >
-                      <MenuItem value="solicitada">Solicitada</MenuItem>
-                      <MenuItem value="aceptada">Aceptada</MenuItem>
-                      <MenuItem value="finalizada">Finalizada</MenuItem>
-                    </Select>
-                  </>
-                }
-              />
-            </ListItem>
-          ))}
-        </List>
+
+        <Grid
+          container
+          justifyContent="center"
+          className={classes.tabsContainer}
+        >
+          <Tabs
+            value={currentTab}
+            onChange={handleChangeTab}
+            centered
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label="General" value="General" className={classes.tabItem} />
+            <Tab
+              label="Solicitada"
+              value="solicitada"
+              className={classes.tabItem}
+            />
+            <Tab
+              label="Aceptada"
+              value="aceptada"
+              className={classes.tabItem}
+            />
+            <Tab
+              label="Finalizada"
+              value="finalizada"
+              className={classes.tabItem}
+            />
+          </Tabs>
+        </Grid>
+
+        <HiringList
+          contrataciones={
+            currentTab === 'General'
+              ? contrataciones
+              : contrataciones.filter((c) => c.estado === currentTab)
+          }
+          handleEstadoChange={handleEstadoChange}
+          classes={classes}
+        />
       </Container>
     </div>
   );
