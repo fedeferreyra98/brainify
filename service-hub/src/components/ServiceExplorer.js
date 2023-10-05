@@ -15,7 +15,7 @@ import {
   TextField,
   Pagination,
 } from '@mui/material';
-import DynamicSelect from './DynamicSelect';
+import DynamicSelect from '../context/DynamicSelect';
 import mockServices from '../data/mockServices';
 import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails';

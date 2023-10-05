@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import ServiceExplorer from './ServiceExplorer';
 import MyServices from './MyServices';
 import Comments from '../pages/Comments';
-import Hirings from './Hirings';
+import Hirings from '../pages/Hirings';
 import SignUpPage from './SignupPage';
 import LoginPage from './LoginPage';
 import mockProvider from '../data/mockProvider';
