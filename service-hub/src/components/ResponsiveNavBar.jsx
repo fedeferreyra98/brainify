@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,6 +20,7 @@ import Comments from '../pages/Comments';
 import Hirings from './Hirings';
 import SignUpPage from './SignupPage';
 import LoginPage from './LoginPage';
+import mockProvider from '../data/mockProvider';
 
 const pages = [
   'Explorar Servicios',
@@ -42,6 +44,7 @@ const homePage = { path: '/' };
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+  const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -159,7 +162,10 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt={`${providerInfo.firstName} ${providerInfo.lastName}`}
+                  src="/static/images/avatar/2.jpg"
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -179,7 +185,12 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={handleCloseUserMenu}
+                  component={setting === 'Profile' ? Link : null}
+                  to={setting === 'Profile' ? '/perfil-proveedor' : null}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
