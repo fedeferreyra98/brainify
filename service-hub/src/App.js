@@ -18,9 +18,9 @@ import SignupPage from './components/SignupPage';
 import MyServices from './components/MyServices';
 import ProviderProfile from './components/ProviderProfile';
 import Comments from './pages/Comments';
-import Hirings from './components/Hirings';
+import Hirings from './pages/Hirings';
 import ResponsiveAppBar from './components/ResponsiveNavBar';
-import LandingPage from './components/LandingPage';
+import LandingPage from './pages/Home/index';
 import './assets/stylesheets/styles.css';
 
 const theme = createTheme();

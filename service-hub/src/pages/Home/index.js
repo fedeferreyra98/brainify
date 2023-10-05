@@ -13,9 +13,9 @@ import {
 } from '@mui/material';
 import { Class, Comment, Group, Book } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
-import mockServices from '../data/mockServices';
-import mockComments from '../data/mockComments';
-import ServiceDetails from './ServiceDetails';
+import mockServices from '../../data/mockServices';
+import mockComments from '../../data/mockComments';
+import ServiceDetails from '../../components/ServiceDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
