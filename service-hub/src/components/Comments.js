@@ -13,8 +13,8 @@ import {
   CardActions,
   Rating,
 } from '@mui/material';
-import Notification from './Notification';
-import mockComments from './mockComments';
+import NotificationGreen from './NotificationGreen';
+import mockComments from '../data/mockComments';
 
 function CommentActions({ onPublish, onDelete }) {
   return (
@@ -130,7 +130,7 @@ function Comments() {
           ))}
         </List>
       </Box>
-      <Notification
+      <NotificationGreen
         open={openSnackbar}
         message={snackbarMessage}
         onClose={handleCloseSnackbar}

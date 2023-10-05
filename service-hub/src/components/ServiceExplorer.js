@@ -14,189 +14,14 @@ import {
   DialogTitle,
   TextField,
   Pagination,
-  Card,
-  CardContent,
-  CardActions,
-  Rating,
-  Divider,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  List,
 } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CategoryIcon from '@mui/icons-material/Category';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import TimerIcon from '@mui/icons-material/Timer';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import ClassIcon from '@mui/icons-material/Class';
-import makeStyles from '@mui/styles/makeStyles';
 import DynamicSelect from './DynamicSelect';
 import mockServices from './mockServices';
-import mockComments from './mockComments';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-  list: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  mainContent: {
-    padding: theme.spacing(5),
-    textAlign: 'center',
-  },
-  footer: {
-    marginTop: theme.spacing(5),
-    padding: theme.spacing(3),
-    backgroundColor: '#f5f5f5',
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'inherit',
-  },
-  pagination: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: theme.spacing(3),
-  },
-  commentCard: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-}));
-
-function ServiceCard({ service, onClick, onHire }) {
-  // Calculate average rating for the service
-  const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service.nombre
-  );
-  const averageRating =
-    serviceComments.reduce((acc, comment) => acc + comment.rating, 0) /
-    serviceComments.length;
-
-  return (
-    <Grid item xs={12} sm={6} md={4}>
-      <Card>
-        <CardContent>
-          <Typography variant="h6">{service.nombre}</Typography>
-          <Typography color="textSecondary">{service.proveedor}</Typography>
-          <Rating value={averageRating} readOnly precision={0.5} />
-        </CardContent>
-        <CardActions>
-          <Button size="small" color="primary" onClick={() => onClick(service)}>
-            Ver más
-          </Button>
-          <Button size="small" color="secondary" onClick={onHire}>
-            Contratar
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
-  );
-}
-
-function ServiceDetails({ service, onClose, onHire }) {
-  const classes = useStyles();
-
-  // Filter comments for the selected service
-  const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service?.nombre
-  );
-
-  return (
-    <Dialog open={!!service} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>{service?.nombre}</DialogTitle>
-      <DialogContent>
-        <List>
-          <ListItem>
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Proveedor" secondary={service?.proveedor} />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem>
-            <ListItemIcon>
-              <CategoryIcon />
-            </ListItemIcon>
-            <ListItemText primary="Categoría" secondary={service?.categoria} />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem>
-            <ListItemIcon>
-              <ClassIcon />
-            </ListItemIcon>
-            <ListItemText primary="Tipo" secondary={service?.tipo} />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem>
-            <ListItemIcon>
-              <ScheduleIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Frecuencia"
-              secondary={service?.frecuencia}
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem>
-            <ListItemIcon>
-              <TimerIcon />
-            </ListItemIcon>
-            <ListItemText primary="Duración" secondary={service?.duracion} />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem>
-            <ListItemIcon>
-              <AttachMoneyIcon />
-            </ListItemIcon>
-            <ListItemText primary="Costo" secondary={service?.costo} />
-          </ListItem>
-        </List>
-
-        <Divider className={classes.commentCard} />
-
-        {/* Display user comments and their ratings */}
-        {serviceComments.map((comment) => (
-          <Card key={comment.id} className={classes.commentCard}>
-            <CardContent>
-              <Typography variant="h6">{comment.user}</Typography>
-              <Rating value={comment.rating} readOnly />
-              <Typography variant="body1">{comment.comment}</Typography>
-              <Typography variant="body2">
-                {comment.secondaryComment}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cerrar
-        </Button>
-        <Button onClick={onHire} color="secondary">
-          Contratar
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
+import ServiceCard from './ServiceCard';
+import ServiceDetails from './ServiceDetails';
+import useStyles from '../styles/styles';
+import NotificationRed from './NotificationRed';
+import NotificationGreen from './NotificationGreen';
 
 function ServiceExplorer() {
   const classes = useStyles();
@@ -219,6 +44,26 @@ function ServiceExplorer() {
   const [horario, setHorario] = useState({ inicio: '', fin: '' });
   const [mensaje, setMensaje] = useState('');
 
+  const [selectedService, setSelectedService] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const servicesPerPage = 6;
+  const totalPages = Math.ceil(serviciosFiltrados.length / servicesPerPage);
+
+  const currentServices = serviciosFiltrados.slice(
+    (currentPage - 1) * servicesPerPage,
+    currentPage * servicesPerPage
+  );
+
+  const handleHire = () => {
+    setDialogOpen(true);
+  };
+
+  // Estados para controlar las notificaciones
+  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
+  const [notificationRedMessage, setNotificationRedMessage] = useState('');
+  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
+
   // Función para resetear el formulario de contratación
   const resetFormContratacion = () => {
     setTelefono('');
@@ -232,11 +77,23 @@ function ServiceExplorer() {
     return telefono && email && horario.inicio && horario.fin && mensaje;
   };
 
+  // Función para validar un número de teléfono
+  const isValidPhoneNumber = (phoneNumber) => {
+    const pattern = /^[0-9]{10}$/; // Asume un número de 10 dígitos
+    return pattern.test(phoneNumber);
+  };
+
+  // Función para validar un correo electrónico
+  const isValidEmail = () => {
+    const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return pattern.test(email);
+  };
+
   // Generar las opciones de horario en intervalos de 30 minutos
   const generateTimeOptions = () => {
     const options = [];
     for (let i = 0; i < 24; i += 1) {
-      for (let j = 1; j < 60; j += 30) {
+      for (let j = 0; j < 60; j += 30) {
         const hour = i.toString().padStart(2, '0');
         const minute = j.toString().padStart(2, '0');
         options.push(`${hour}:${minute}hs`);
@@ -245,17 +102,36 @@ function ServiceExplorer() {
     return options;
   };
 
-  // Función para validar que la hora de finalización sea mayor que la hora de inicio
+  // Función para validar que la hora de finalización sea mayor que la hora de inicio y otras validaciones
   const CheckTime = () => {
-    if (horario.fin <= horario.inicio) {
-      alert('La hora de finalización debe ser mayor que la hora de inicio.');
-      resetFormContratacion(); // Restablecer el formulario
-      setDialogOpen(false); // Cerrar el diálogo
-      setDialogOpen(true); // Abrir el diálogo
-    } else {
-      setDialogOpen(false);
-      resetFormContratacion();
+    if (!isValidPhoneNumber(telefono)) {
+      setNotificationRedMessage(
+        'Por favor, ingrese un número de teléfono válido'
+      );
+      setNotificationRedOpen(true);
+      return;
     }
+
+    if (!isValidEmail(email)) {
+      setNotificationRedMessage(
+        'Por favor, ingrese un correo electrónico válido'
+      );
+      setNotificationRedOpen(true);
+      return;
+    }
+
+    if (horario.fin <= horario.inicio) {
+      setNotificationRedMessage(
+        'La hora de finalización debe ser mayor que la hora de inicio'
+      );
+      setNotificationRedOpen(true);
+      return;
+    }
+
+    // Si todas las validaciones pasan, mostrar notificación de éxito
+    setNotificationGreenOpen(true);
+    setDialogOpen(false);
+    resetFormContratacion();
   };
 
   // Funcion de filtrado
@@ -359,21 +235,6 @@ function ServiceExplorer() {
     </Dialog>
   );
 
-  const [selectedService, setSelectedService] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const servicesPerPage = 6;
-  const totalPages = Math.ceil(serviciosFiltrados.length / servicesPerPage);
-
-  const currentServices = serviciosFiltrados.slice(
-    (currentPage - 1) * servicesPerPage,
-    currentPage * servicesPerPage
-  );
-
-  const handleHire = () => {
-    setDialogOpen(true);
-  };
-
   return (
     <div>
       <Container className={classes.root}>
@@ -463,6 +324,16 @@ function ServiceExplorer() {
         />
       </Container>
       {renderDialogContratacion()}
+      <NotificationRed
+        open={notificationRedOpen}
+        message={notificationRedMessage}
+        onClose={() => setNotificationRedOpen(false)}
+      />
+      <NotificationGreen
+        open={notificationGreenOpen}
+        message="Solicitud de contacto enviada"
+        onClose={() => setNotificationGreenOpen(false)}
+      />
     </div>
   );
 }
