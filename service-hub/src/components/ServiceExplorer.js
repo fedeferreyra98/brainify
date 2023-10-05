@@ -16,7 +16,7 @@ import {
   Pagination,
 } from '@mui/material';
 import DynamicSelect from './DynamicSelect';
-import mockServices from './mockServices';
+import mockServices from '../data/mockServices';
 import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails';
 import useStyles from '../styles/styles';
