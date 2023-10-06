@@ -22,6 +22,8 @@ import Hirings from './pages/Hirings';
 import ResponsiveAppBar from './components/ui/NavBar';
 import LandingPage from './pages/Home/index';
 import './assets/stylesheets/styles.css';
+import ForgotPassword from './pages/ForgotPassword/index';
+import ChangePassword from './pages/ChangePassword/index';
 
 const theme = createTheme();
 function ProtectedRoute({ children }) {
@@ -64,6 +66,9 @@ function App() {
             <Container style={{ paddingTop: '64px' }}>
               <Routes>
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/change-password" element={<ChangePassword />} />
+
                 <Route
                   path="/login"
                   element={<LoginPage onLogin={handleLogin} />}
