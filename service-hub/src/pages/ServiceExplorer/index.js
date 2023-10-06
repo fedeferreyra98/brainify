@@ -1,20 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Container,
-  Typography,
-  Grid,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Pagination,
-} from '@mui/material';
+import { Button, Container, Typography, Grid, Pagination } from '@mui/material';
 import DynamicSelect from '../../components/form/DynamicSelect';
 import mockServices from '../../data/mockServices';
 import ServiceCard from './ServiceCard';
@@ -22,6 +7,7 @@ import ServiceDetails from './ServiceDetails';
 import useStyles from '../../styles/styles';
 import NotificationRed from '../../components/ui/NotificationRed';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import ContratacionForm from './ContratacionForm';
 
 function ServiceExplorer() {
   const classes = useStyles();
@@ -154,87 +140,6 @@ function ServiceExplorer() {
     setServiciosFiltrados(servicios);
   };
 
-  // Renderizar el formulario de contratación
-  const renderDialogContratacion = () => (
-    <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-      <DialogTitle>Contratar Servicio</DialogTitle>
-      <DialogContent>
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Teléfono"
-          value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Typography variant="h7" gutterBottom>
-          Franja horaria de contacto
-        </Typography>
-        <FormControl className={classes.formControl} fullWidth>
-          <InputLabel>Hora de inicio</InputLabel>
-          <Select
-            value={horario.inicio}
-            onChange={(e) => setHorario({ ...horario, inicio: e.target.value })}
-          >
-            <MenuItem value="Seleccionar">Seleccionar</MenuItem>
-            {generateTimeOptions().map((time) => (
-              <MenuItem key={time} value={time}>
-                {time}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl} fullWidth>
-          <InputLabel>Hora de finalización</InputLabel>
-          <Select
-            value={horario.fin}
-            onChange={(e) => setHorario({ ...horario, fin: e.target.value })}
-          >
-            <MenuItem value="Seleccionar">Seleccionar</MenuItem>
-            {generateTimeOptions().map((time) => (
-              <MenuItem key={time} value={time}>
-                {time}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Mensaje al proveedor"
-          value={mensaje}
-          onChange={(e) => setMensaje(e.target.value)}
-          multiline
-          rows={4}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={() => {
-            setDialogOpen(false);
-            resetFormContratacion();
-          }}
-          color="primary"
-        >
-          Cancelar
-        </Button>
-        <Button
-          onClick={CheckTime}
-          color="primary"
-          disabled={!isFormComplete()} // Deshabilita el botón si el formulario no está completo
-        >
-          Enviar
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-
   return (
     <div>
       <Container className={classes.root}>
@@ -323,7 +228,22 @@ function ServiceExplorer() {
           onHire={handleHire}
         />
       </Container>
-      {renderDialogContratacion()}
+      <ContratacionForm
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        telefono={telefono}
+        setTelefono={setTelefono}
+        email={email}
+        setEmail={setEmail}
+        horario={horario}
+        setHorario={setHorario}
+        mensaje={mensaje}
+        setMensaje={setMensaje}
+        generateTimeOptions={generateTimeOptions}
+        CheckTime={CheckTime}
+        isFormComplete={isFormComplete}
+        resetFormContratacion={resetFormContratacion}
+      />
       <NotificationRed
         open={notificationRedOpen}
         message={notificationRedMessage}
