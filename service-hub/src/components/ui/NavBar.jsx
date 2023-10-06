@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import ServiceExplorer from '../../pages/ServiceExplorer/index';
 import MyServices from '../../pages/MyServices';
@@ -21,6 +20,7 @@ import Hirings from '../../pages/Hirings';
 import SignUpPage from '../../pages/Signup';
 import LoginPage from '../../pages/Login';
 import mockProvider from '../../data/mockProvider';
+import logo from '../../assets/Logos/company-logo.ico';
 
 const pages = [
   'Explorar Servicios',
@@ -70,10 +70,9 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />{' '}
           {/** TODO: Change this icon */}
           <Typography
             variant="h6"
@@ -88,8 +87,20 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+              '&:hover, &:active, &:focus': {
+                textDecoration: 'none !important',
+              },
             }}
           >
+            <img
+              src={logo}
+              alt="Company Logo"
+              style={{
+                height: '30px',
+                marginRight: '10px',
+                verticalAlign: 'middle',
+              }}
+            />
             BRAINIFY
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -143,7 +154,6 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
               })}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -157,10 +167,21 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
-              textDecoration: 'none',
+              '&:hover, &:active, &:focus': {
+                textDecoration: 'none',
+              },
             }}
           >
-            Brainify
+            <img
+              src={logo}
+              alt="Company Logo"
+              style={{
+                height: '30px',
+                marginRight: '10px',
+                verticalAlign: 'middle',
+              }}
+            />
+            BRAINIFY
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => {
