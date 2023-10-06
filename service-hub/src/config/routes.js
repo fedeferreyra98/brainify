@@ -11,6 +11,8 @@ import Hirings from '../pages/Hirings';
 import LandingPage from '../pages/Home/index';
 import ForgotPassword from '../pages/ForgotPassword/index';
 import ChangePassword from '../pages/ChangePassword/index';
+// eslint-disable-next-line import/no-unresolved
+import RestorePassword from '../pages/RestorePassword/index';
 import notFoundImage from '../assets/Logos/notFound.jpg';
 
 function ProtectedRoute({ children }) {
@@ -50,6 +52,7 @@ function NotFoundPage() {
 export const ROUTE_HOME = '/';
 export const ROUTE_FORGOT_PASSWORD = '/forgot-password';
 export const ROUTE_CHANGE_PASSWORD = '/change-password';
+export const ROUTE_RESTORE_PASSWORD = '/restore-password';
 export const ROUTE_LOGIN = '/login';
 export const ROUTE_EXPLORE_SERVICES = '/explorar-servicios';
 export const ROUTE_SIGNUP = '/registro';
@@ -64,6 +67,7 @@ export const routesConfig = [
   { path: ROUTE_HOME, element: <LandingPage /> },
   { path: ROUTE_FORGOT_PASSWORD, element: <ForgotPassword /> },
   { path: ROUTE_CHANGE_PASSWORD, element: <ChangePassword /> },
+  { path: ROUTE_RESTORE_PASSWORD, element: <RestorePassword /> },
   { path: ROUTE_LOGIN, element: <LoginPage /> },
   { path: ROUTE_EXPLORE_SERVICES, element: <ServiceExplorer /> },
   { path: ROUTE_SIGNUP, element: <SignupPage /> },

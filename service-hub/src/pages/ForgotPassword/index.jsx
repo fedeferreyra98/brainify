@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 import emailRegex from '../../data/emailRegex';
 import mockDatabaseMails from '../../data/mockDataBaseMails';
+import { ROUTE_RESTORE_PASSWORD } from '../../data/pageRoutes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +49,7 @@ function ForgotPassword() {
     setErrorMessage('');
     const resetLink = `${
       window.location.origin
-    }/change-password?email=${encodeURIComponent(email)}`;
+    }${ROUTE_RESTORE_PASSWORD}?email=${encodeURIComponent(email)}`;
 
     // eslint-disable-next-line no-alert
     window.prompt(

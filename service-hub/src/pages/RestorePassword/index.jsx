@@ -28,11 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ChangePasswordPage() {
+function RestorePassword() {
   const classes = useStyles();
   const query = useQuery();
   const email = query.get('email');
-  const [originalPassword, setOriginalPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -48,8 +47,8 @@ function ChangePasswordPage() {
       (user) => user.email === email
     );
 
-    if (!userCredentials || userCredentials.password !== originalPassword) {
-      setNotificationRedMessage('Contraseña original incorrecta.');
+    if (!userCredentials) {
+      setNotificationRedMessage('TODO: Validacion backend de usuario');
       setNotificationRedOpen(true);
       return;
     }
@@ -68,19 +67,9 @@ function ChangePasswordPage() {
   return (
     <Container className={classes.root}>
       <Typography className={classes.title} variant="h4" gutterBottom>
-        Modificar Contraseña
+        Restablecer Contraseña
       </Typography>
       <form onSubmit={handleSubmit}>
-        <TextField
-          className={classes.textField}
-          type="password"
-          label="Contraseña Original"
-          variant="outlined"
-          fullWidth
-          value={originalPassword}
-          onChange={(event) => setOriginalPassword(event.target.value)}
-          sx={{ mb: 2 }}
-        />
         <TextField
           className={classes.textField}
           type="password"
@@ -124,4 +113,4 @@ function ChangePasswordPage() {
   );
 }
 
-export default ChangePasswordPage;
+export default RestorePassword;
