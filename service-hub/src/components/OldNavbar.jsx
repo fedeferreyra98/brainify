@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Button } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { Link } from 'react-router-dom';
-import serviceHubLogo from '../assets/Logos/service-hub-icon.png';
+import serviceHubLogo from '../assets/Logos/Picture1.png';
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles((theme) => ({
