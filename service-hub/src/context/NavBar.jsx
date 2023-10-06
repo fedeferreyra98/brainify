@@ -18,8 +18,8 @@ import ServiceExplorer from '../components/ServiceExplorer';
 import MyServices from '../components/MyServices';
 import Comments from '../pages/Comments';
 import Hirings from '../pages/Hirings';
-import SignUpPage from '../components/SignupPage';
-import LoginPage from '../components/LoginPage';
+import SignUpPage from '../pages/Signup';
+import LoginPage from '../pages/Login';
 import mockProvider from '../data/mockProvider';
 
 const pages = [

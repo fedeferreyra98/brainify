@@ -12,9 +12,9 @@ import {
   StyledEngineProvider,
   createTheme,
 } from '@mui/material';
-import LoginPage from './components/LoginPage';
+import LoginPage from './pages/Login';
 import ServiceExplorer from './components/ServiceExplorer';
-import SignupPage from './components/SignupPage';
+import SignupPage from './pages/Signup';
 import MyServices from './components/MyServices';
 import ProviderProfile from './components/ProviderProfile';
 import Comments from './pages/Comments';
