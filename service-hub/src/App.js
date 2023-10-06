@@ -19,7 +19,7 @@ import MyServices from './components/MyServices';
 import ProviderProfile from './components/ProviderProfile';
 import Comments from './pages/Comments';
 import Hirings from './pages/Hirings';
-import ResponsiveAppBar from './context/NavBar';
+import ResponsiveAppBar from './components/ui/NavBar';
 import LandingPage from './pages/Home/index';
 import './assets/stylesheets/styles.css';
 
@@ -58,6 +58,7 @@ function App() {
             <ResponsiveAppBar
               isAuthenticated={isAuthenticated}
               onLogout={handleLogout}
+              position="fixed"
             />
 
             <Container style={{ paddingTop: '64px' }}>
