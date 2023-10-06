@@ -14,7 +14,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import mockProvider from '../data/mockProvider';
+import mockProvider from '../../data/mockProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -15,13 +15,13 @@ import {
   TextField,
   Pagination,
 } from '@mui/material';
-import DynamicSelect from './form/DynamicSelect';
-import mockServices from '../data/mockServices';
+import DynamicSelect from '../../components/form/DynamicSelect';
+import mockServices from '../../data/mockServices';
 import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails';
-import useStyles from '../styles/styles';
-import NotificationRed from './ui/NotificationRed';
-import NotificationGreen from './ui/NotificationGreen';
+import useStyles from '../../styles/styles';
+import NotificationRed from '../../components/ui/NotificationRed';
+import NotificationGreen from '../../components/ui/NotificationGreen';
 
 function ServiceExplorer() {
   const classes = useStyles();

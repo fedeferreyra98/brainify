@@ -13,8 +13,8 @@ import {
   DialogActions,
   TextField,
 } from '@mui/material';
-import mockComments from '../data/mockComments';
-import NotificationGreen from './ui/NotificationGreen';
+import mockComments from '../../data/mockComments';
+import NotificationGreen from '../../components/ui/NotificationGreen';
 
 function ServiceCard({ service, onClick, onHire }) {
   // Calculate average rating for the service

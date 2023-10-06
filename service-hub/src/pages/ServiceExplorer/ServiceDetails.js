@@ -21,8 +21,8 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import TimerIcon from '@mui/icons-material/Timer';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ClassIcon from '@mui/icons-material/Class';
-import useStyles from '../styles/styles';
-import mockComments from '../data/mockComments';
+import useStyles from '../../styles/styles';
+import mockComments from '../../data/mockComments';
 
 function ServiceDetails({ service, onClose, onHire }) {
   const classes = useStyles();

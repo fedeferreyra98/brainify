@@ -13,10 +13,10 @@ import {
   createTheme,
 } from '@mui/material';
 import LoginPage from './pages/Login';
-import ServiceExplorer from './components/ServiceExplorer';
+import ServiceExplorer from './pages/ServiceExplorer/index';
 import SignupPage from './pages/Signup';
-import MyServices from './components/MyServices';
-import ProviderProfile from './components/ProviderProfile';
+import MyServices from './pages/MyServices';
+import ProviderProfile from './pages/ProviderProfile';
 import Comments from './pages/Comments';
 import Hirings from './pages/Hirings';
 import ResponsiveAppBar from './components/ui/NavBar';

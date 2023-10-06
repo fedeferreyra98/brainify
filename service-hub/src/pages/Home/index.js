@@ -16,7 +16,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
 import mockServices from '../../data/mockServices';
 import mockComments from '../../data/mockComments';
-import ServiceDetails from '../../components/ServiceDetails';
+import ServiceDetails from '../ServiceExplorer/ServiceDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
