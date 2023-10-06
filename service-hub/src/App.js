@@ -1,10 +1,6 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {
   CssBaseline,
   Container,
@@ -12,33 +8,12 @@ import {
   StyledEngineProvider,
   createTheme,
 } from '@mui/material';
-import LoginPage from './pages/Login';
-import ServiceExplorer from './pages/ServiceExplorer/index';
-import SignupPage from './pages/Signup';
-import MyServices from './pages/MyServices';
-import ProviderProfile from './pages/ProviderProfile';
-import Comments from './pages/Comments';
-import Hirings from './pages/Hirings';
 import ResponsiveAppBar from './components/ui/NavBar';
-import LandingPage from './pages/Home/index';
 import './assets/stylesheets/styles.css';
-import ForgotPassword from './pages/ForgotPassword/index';
-import ChangePassword from './pages/ChangePassword/index';
+import { ROUTE_LOGIN, routesConfig } from './config/routes';
+import LoginPage from './pages/Login/index';
 
 const theme = createTheme();
-function ProtectedRoute({ children }) {
-  const isAuthenticated = true; // Aquí puedes verificar si el usuario está autenticado (el que vale es el de dentro de app)
-  const navigate = useNavigate();
-  if (!isAuthenticated) {
-    navigate('/login');
-    return null;
-  }
-  return children;
-}
-
-function NotFoundPage() {
-  return <div>Página no encontrada</div>;
-}
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false); // Aquí puedes verificar si el usuario está autenticado
@@ -65,52 +40,24 @@ function App() {
 
             <Container style={{ paddingTop: '64px' }}>
               <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/change-password" element={<ChangePassword />} />
-
-                <Route
-                  path="/login"
-                  element={<LoginPage onLogin={handleLogin} />}
-                />
-                <Route
-                  path="/explorar-servicios"
-                  element={<ServiceExplorer />}
-                />
-                <Route path="/registro" element={<SignupPage />} />
-                <Route
-                  path="/mis-servicios"
-                  element={
-                    <ProtectedRoute>
-                      <MyServices />
-                    </ProtectedRoute>
+                {routesConfig.map((route, index) => {
+                  if (route.path === ROUTE_LOGIN) {
+                    return (
+                      <Route
+                        key={index}
+                        path={route.path}
+                        element={<LoginPage onLogin={handleLogin} />}
+                      />
+                    );
                   }
-                />
-                <Route
-                  path="/perfil-proveedor"
-                  element={
-                    <ProtectedRoute>
-                      <ProviderProfile />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/comentarios"
-                  element={
-                    <ProtectedRoute>
-                      <Comments />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/contrataciones"
-                  element={
-                    <ProtectedRoute>
-                      <Hirings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="*" element={<NotFoundPage />} />
+                  return (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      element={route.element}
+                    />
+                  );
+                })}
               </Routes>
             </Container>
           </div>
