@@ -18,6 +18,10 @@ import mockServices from '../../data/mockServices';
 import mockComments from '../../data/mockComments';
 import ServiceDetails from '../ServiceExplorer/ServiceDetails';
 
+import service1Image from '../../assets/Logos/matematica.jpg';
+import service2Image from '../../assets/Logos/fisica.jpg';
+import service3Image from '../../assets/Logos/quimica.jpg';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -77,6 +81,8 @@ function LandingPage() {
 
   const navigate = useNavigate();
 
+  const serviceImages = [service1Image, service2Image, service3Image];
+
   return (
     <div className={classes.root}>
       <Container className={classes.mainContent}>
@@ -90,7 +96,7 @@ function LandingPage() {
           </Typography>
           <Typography variant="h5" paragraph>
             Bienvenido a Brainify, tu puerta de entrada a un mundo de
-            oportunidades y aprendizaje.
+            oportunidades y aprendizaje
           </Typography>
 
           <Grid container spacing={5}>
@@ -145,7 +151,7 @@ function LandingPage() {
             Echa un vistazo a algunos de nuestros servicios más populares
           </Typography>
           <Grid container spacing={3}>
-            {mockServices.slice(0, 3).map((service) => (
+            {mockServices.slice(0, 3).map((service, index) => (
               <Grid item xs={12} sm={4} key={service.id}>
                 <Card
                   className={classes.card}
@@ -153,7 +159,7 @@ function LandingPage() {
                 >
                   <CardMedia
                     className={classes.media}
-                    image={service.image}
+                    image={serviceImages[index]}
                     title={service.nombre}
                   />
                   <CardContent>
