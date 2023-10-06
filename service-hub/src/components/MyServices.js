@@ -24,7 +24,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import mockServices from '../data/mockServices';
-import NotificationGreen from '../context/NotificationGreen';
+import NotificationGreen from './ui/NotificationGreen';
 
 const useStyles = makeStyles((theme) => ({
   root: {

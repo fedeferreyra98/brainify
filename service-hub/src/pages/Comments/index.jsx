@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Typography, List, ListItem, Box } from '@mui/material';
-import NotificationGreen from '../../context/NotificationGreen';
+import NotificationGreen from '../../components/ui/NotificationGreen';
 import CommentCard from './CommentCard';
 import mockComments from '../../data/mockComments';
 
