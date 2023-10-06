@@ -64,6 +64,7 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
   };
 
   const handleLogoutClick = () => {
+    handleCloseUserMenu();
     onLogout();
   };
 
@@ -119,16 +120,26 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  component={Link}
-                  to={`${pageRoutes[page].path}`}
-                >
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page) => {
+                if (
+                  !isAuthenticated &&
+                  (page === 'Mis Servicios' ||
+                    page === 'Comentarios' ||
+                    page === 'Contrataciones')
+                ) {
+                  return null; // No renderizar estos botones si el usuario no está autenticado
+                }
+                return (
+                  <MenuItem
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    to={`${pageRoutes[page].path}`}
+                  >
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -176,7 +187,7 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
           <Box sx={{ flexGrow: 0 }}>
             {!isAuthenticated ? (
               <Button component={Link} to="/login" sx={{ color: 'white' }}>
-                Login Proveedores
+                Proveedores
               </Button>
             ) : (
               <>
