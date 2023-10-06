@@ -25,7 +25,7 @@ import './assets/stylesheets/styles.css';
 
 const theme = createTheme();
 function ProtectedRoute({ children }) {
-  const isAuthenticated = false; // Aquí puedes verificar si el usuario está autenticado
+  const isAuthenticated = true; // Aquí puedes verificar si el usuario está autenticado (el que vale es el de dentro de app)
   const navigate = useNavigate();
   if (!isAuthenticated) {
     navigate('/login');
@@ -39,13 +39,15 @@ function NotFoundPage() {
 }
 
 function App() {
+  const isAuthenticated = false; // Aquí puedes verificar si el usuario está autenticado
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <Router>
           <div>
             <CssBaseline />
-            <ResponsiveAppBar />
+            <ResponsiveAppBar isAuthenticated={isAuthenticated} />
 
             <Container style={{ paddingTop: '64px' }}>
               <Routes>

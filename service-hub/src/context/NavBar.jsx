@@ -43,7 +43,7 @@ const homePage = { path: '/' };
 
 const settings = ['Profile', 'Logout'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ isAuthenticated }) {
   const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -147,17 +147,27 @@ function ResponsiveAppBar() {
             Brainify
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                component={Link}
-                to={`${pageRoutes[page].path}`}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            {pages.map((page) => {
+              if (
+                !isAuthenticated &&
+                (page === 'Mis Servicios' ||
+                  page === 'Comentarios' ||
+                  page === 'Contrataciones')
+              ) {
+                return null; // No renderizar estos botones si el usuario no está autenticado
+              }
+              return (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={`${pageRoutes[page].path}`}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              );
+            })}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
