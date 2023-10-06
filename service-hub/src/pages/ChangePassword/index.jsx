@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Container } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import { makeStyles } from '@mui/styles';
 import mockDataBaseUserCredentials from '../../data/mockDataBaseUserCredentials';
 import NotificationRed from '../../components/ui/NotificationRed';
 import NotificationGreen from '../../components/ui/NotificationGreen';
@@ -8,8 +9,27 @@ import NotificationGreen from '../../components/ui/NotificationGreen';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: '100vh',
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  textField: {
+    margin: theme.spacing(1),
+    width: '100%',
+  },
+  title: {
+    margin: theme.spacing(1),
+  },
+}));
 
 function ChangePasswordPage() {
+  const classes = useStyles();
   const query = useQuery();
   const email = query.get('email');
   const [originalPassword, setOriginalPassword] = useState('');
@@ -46,12 +66,13 @@ function ChangePasswordPage() {
   };
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
+    <Container className={classes.root}>
+      <Typography className={classes.title} variant="h4" gutterBottom>
         Restablecer Contraseña
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
+          className={classes.textField}
           type="password"
           label="Contraseña Original"
           variant="outlined"
@@ -61,6 +82,7 @@ function ChangePasswordPage() {
           sx={{ mb: 2 }}
         />
         <TextField
+          className={classes.textField}
           type="password"
           label="Nueva Contraseña"
           variant="outlined"
@@ -70,6 +92,7 @@ function ChangePasswordPage() {
           sx={{ mb: 2 }}
         />
         <TextField
+          className={classes.textField}
           type="password"
           label="Confirmar Contraseña"
           variant="outlined"
@@ -78,7 +101,12 @@ function ChangePasswordPage() {
           onChange={(event) => setConfirmPassword(event.target.value)}
           sx={{ mb: 2 }}
         />
-        <Button variant="contained" color="primary" type="submit">
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          type="submit"
+        >
           Confirmar
         </Button>
       </form>

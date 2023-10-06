@@ -3,13 +3,32 @@
 
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 import emailRegex from '../../data/emailRegex';
 import mockDatabaseMails from '../../data/mockDataBaseMails';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  textField: {
+    margin: theme.spacing(1),
+    width: '100%',
+  },
+}));
+
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const classes = useStyles();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -39,12 +58,13 @@ function ForgotPassword() {
   };
 
   return (
-    <Container>
+    <Container className={classes.root}>
       <Typography variant="h4" gutterBottom>
         Forgot Password
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
+          className={classes.textField}
           id="email"
           label="Email"
           variant="outlined"
@@ -58,6 +78,7 @@ function ForgotPassword() {
           </Typography>
         )}
         <Button
+          className={classes.button}
           variant="contained"
           color="primary"
           type="submit"
