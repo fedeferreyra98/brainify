@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Container, Typography, Tabs, Tab } from '@mui/material';
+import { Container, Typography, Tabs, Tab } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import HiringList from './HiringList';
 
@@ -8,44 +8,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  button: {
-    margin: theme.spacing(1),
-  },
   list: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  mainContent: {
-    padding: theme.spacing(5),
-    textAlign: 'center',
-  },
-  footer: {
-    marginTop: theme.spacing(5),
-    padding: theme.spacing(3),
-    backgroundColor: '#f5f5f5',
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'inherit',
-  },
-  tabsContainer: {
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-    },
-  },
-  tabItem: {
-    [theme.breakpoints.up('md')]: {
-      maxWidth: '25%',
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
   },
 }));
 
@@ -96,36 +61,19 @@ function Hirings() {
           Contrataciones
         </Typography>
 
-        <Grid
-          container
-          justifyContent="center"
-          className={classes.tabsContainer}
+        <Tabs
+          variant="fullWidth"
+          size="small"
+          value={currentTab}
+          onChange={handleChangeTab}
+          centered
+          className={classes.tabs}
         >
-          <Tabs
-            value={currentTab}
-            onChange={handleChangeTab}
-            centered
-            variant="scrollable"
-            scrollButtons="auto"
-          >
-            <Tab label="General" value="General" className={classes.tabItem} />
-            <Tab
-              label="Solicitada"
-              value="solicitada"
-              className={classes.tabItem}
-            />
-            <Tab
-              label="Aceptada"
-              value="aceptada"
-              className={classes.tabItem}
-            />
-            <Tab
-              label="Finalizada"
-              value="finalizada"
-              className={classes.tabItem}
-            />
-          </Tabs>
-        </Grid>
+          <Tab label="General" value="General" />
+          <Tab label="Solicitada" value="solicitada" />
+          <Tab label="Aceptada" value="aceptada" />
+          <Tab label="Finalizada" value="finalizada" />
+        </Tabs>
 
         <HiringList
           contrataciones={

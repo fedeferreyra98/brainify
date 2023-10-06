@@ -41,7 +41,7 @@ const pageRoutes = {
 };
 const homePage = { path: '/' };
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
   const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
