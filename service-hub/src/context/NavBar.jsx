@@ -188,8 +188,10 @@ function ResponsiveAppBar() {
                 <MenuItem
                   key={setting}
                   onClick={handleCloseUserMenu}
-                  component={setting === 'Profile' ? Link : null}
-                  to={setting === 'Profile' ? '/perfil-proveedor' : null}
+                  // component={setting === 'Profile' ? Link : null}
+                  // to={setting === 'Profile' ? '/perfil-proveedor' : null}
+                  component={setting === 'Logout' ? Link : null}
+                  to={setting === 'Logout' ? '/login' : null}
                 >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>

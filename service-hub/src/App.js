@@ -25,7 +25,7 @@ import './assets/stylesheets/styles.css';
 
 const theme = createTheme();
 function ProtectedRoute({ children }) {
-  const isAuthenticated = true; // Aquí puedes verificar si el usuario está autenticado
+  const isAuthenticated = false; // Aquí puedes verificar si el usuario está autenticado
   const navigate = useNavigate();
   if (!isAuthenticated) {
     navigate('/login');

@@ -150,7 +150,7 @@ function MyServices() {
                 <Typography variant="body2">
                   Duración: {service.duracion}
                 </Typography>
-                <Typography variant="body2">Costo: {service.costo}</Typography>
+                <Typography variant="body2">Costo: ${service.costo}</Typography>
               </CardContent>
               <CardActions>
                 <IconButton
@@ -236,10 +236,8 @@ function MyServices() {
           <TextField
             fullWidth
             margin="normal"
-            label="Duración (En Semanas)"
+            label="Duración (Horas Totales)"
             name="duracion"
-            type="number"
-            inputProps={{ min: '1' }}
             value={formData.duracion}
             onChange={handleInputChange}
           />
@@ -260,8 +258,6 @@ function MyServices() {
             margin="normal"
             label="Costo"
             name="costo"
-            type="number"
-            inputProps={{ min: '0' }}
             value={formData.costo}
             onChange={handleInputChange}
           />
