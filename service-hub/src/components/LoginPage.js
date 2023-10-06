@@ -20,8 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginPage() {
+function LoginPage({ onLogin }) {
   const classes = useStyles();
+
+  const handleLoginClick = () => {
+    // Aquí puedes agregar la lógica de autenticación si la tienes.
+    // Por ahora, simplemente llamaremos a onLogin para cambiar el estado.
+    onLogin();
+  };
 
   return (
     <Container className={classes.root}>
@@ -49,6 +55,7 @@ function LoginPage() {
         variant="contained"
         color="primary"
         className={classes.button}
+        onClick={handleLoginClick}
         component={Link}
         to="/"
       >

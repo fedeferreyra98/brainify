@@ -39,7 +39,11 @@ function NotFoundPage() {
 }
 
 function App() {
-  const isAuthenticated = false; // Aquí puedes verificar si el usuario está autenticado
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false); // Aquí puedes verificar si el usuario está autenticado
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
 
   return (
     <StyledEngineProvider injectFirst>
@@ -52,7 +56,10 @@ function App() {
             <Container style={{ paddingTop: '64px' }}>
               <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/login" element={<LoginPage />} />
+                <Route
+                  path="/login"
+                  element={<LoginPage onLogin={handleLogin} />}
+                />
                 <Route
                   path="/explorar-servicios"
                   element={<ServiceExplorer />}
