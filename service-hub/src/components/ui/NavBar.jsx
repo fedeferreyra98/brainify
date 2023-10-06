@@ -42,7 +42,7 @@ const pageRoutes = {
 };
 const homePage = { path: '/' };
 
-const settings = ['Perfil', 'Salir'];
+const settings = ['Perfil', 'Cambiar contraseña', 'Salir'];
 
 function ResponsiveAppBar({ isAuthenticated, onLogout }) {
   const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
@@ -242,7 +242,9 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
                     if (setting === 'Salir') {
                       toPath = '/login';
                     } else if (setting === 'Perfil') {
-                      toPath = '/perfil-proveedor'; // Asumiendo que esta es la ruta correcta para el perfil del proveedor
+                      toPath = '/perfil-proveedor';
+                    } else if (setting === 'Cambiar contraseña') {
+                      toPath = '/change-password'; // Ajusta esta ruta a donde desees que lleve esta opción.
                     }
 
                     return (

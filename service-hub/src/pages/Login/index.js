@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, Typography, Grid, TextField } from '@mui/material';
 import { Link } from 'react-router-dom'; // Importa el Link de react-router-dom
 import makeStyles from '@mui/styles/makeStyles';
+import SimplePasswordField from '../../components/form/SimplePasswordField';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,10 +44,9 @@ function LoginPage({ onLogin }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <SimplePasswordField
             className={classes.textField}
             label="Contraseña"
-            type="password"
             variant="outlined"
           />
         </Grid>

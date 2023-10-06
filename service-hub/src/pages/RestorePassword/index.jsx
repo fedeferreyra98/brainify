@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 import mockDataBaseUserCredentials from '../../data/mockDataBaseUserCredentials';
 import NotificationRed from '../../components/ui/NotificationRed';
 import NotificationGreen from '../../components/ui/NotificationGreen';
-import PasswordControlledField from '../../components/form/PasswordControlledField';
+import ControlledPasswordField from '../../components/form/ControlledPasswordField';
 import SimplePasswordField from '../../components/form/SimplePasswordField';
 
 function useQuery() {
@@ -72,7 +72,7 @@ function RestorePassword() {
         Restablecer Contraseña
       </Typography>
       <form onSubmit={handleSubmit}>
-        <PasswordControlledField
+        <ControlledPasswordField
           className={classes.textField}
           label="Nueva Contraseña"
           value={password}
