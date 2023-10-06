@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import mockProvider from '../../data/mockProvider';
+import NotificationGreen from '../../components/ui/NotificationGreen';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,9 +45,12 @@ function ProviderProfile() {
     setUpdatedProvider((prev) => ({ ...prev, [name]: value }));
   };
 
+  const [notificationOpen, setNotificationOpen] = useState(false);
+
   const handleSave = () => {
     setProviderInfo(updatedProvider); // Actualizar la información del proveedor
     setIsEditing(false);
+    setNotificationOpen(true); // Mostrar la notificación
   };
 
   return (
@@ -163,6 +167,11 @@ function ProviderProfile() {
           </Button>
         </DialogActions>
       </Dialog>
+      <NotificationGreen
+        open={notificationOpen}
+        message="Información actualizada"
+        onClose={() => setNotificationOpen(false)}
+      />
     </Container>
   );
 }
