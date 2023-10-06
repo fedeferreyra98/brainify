@@ -38,10 +38,11 @@ const pageRoutes = {
   Contrataciones: { path: '/contrataciones', component: Hirings },
   Login: { path: '/login', component: LoginPage },
   Registro: { path: '/registro', component: SignUpPage },
+  ProviderProfile: { path: '/perfil-proveedor' },
 };
 const homePage = { path: '/' };
 
-const settings = ['Profile', 'Logout'];
+const settings = ['Perfil', 'Salir'];
 
 function ResponsiveAppBar({ isAuthenticated, onLogout }) {
   const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
@@ -215,20 +216,29 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem
-                      key={setting}
-                      onClick={
-                        setting === 'Logout'
-                          ? handleLogoutClick
-                          : handleCloseUserMenu
-                      }
-                      component={setting === 'Logout' ? Link : null}
-                      to={setting === 'Logout' ? '/login' : null}
-                    >
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  {settings.map((setting) => {
+                    let toPath;
+                    if (setting === 'Salir') {
+                      toPath = '/login';
+                    } else if (setting === 'Perfil') {
+                      toPath = '/perfil-proveedor'; // Asumiendo que esta es la ruta correcta para el perfil del proveedor
+                    }
+
+                    return (
+                      <MenuItem
+                        key={setting}
+                        onClick={
+                          setting === 'Salir'
+                            ? handleLogoutClick
+                            : handleCloseUserMenu
+                        }
+                        component={Link}
+                        to={toPath}
+                      >
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>
+                    );
+                  })}
                 </Menu>
               </>
             )}
