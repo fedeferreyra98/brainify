@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { Class, Comment, Group, Book } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
+import { useNavigate } from 'react-router-dom';
 import mockServices from '../../data/mockServices';
 import mockComments from '../../data/mockComments';
 import ServiceDetails from '../../components/ServiceDetails';
@@ -73,6 +74,8 @@ function LandingPage() {
   const topComments = [...mockComments]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 3);
+
+  const navigate = useNavigate();
 
   return (
     <div className={classes.root}>
@@ -206,7 +209,12 @@ function LandingPage() {
         <Typography variant="h6" paragraph>
           ¿Listo para explorar?
         </Typography>
-        <Button variant="contained" color="primary" size="large">
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={() => navigate('/explorar-servicios')}
+        >
           ¡Empieza Ahora!
         </Button>
       </Container>
