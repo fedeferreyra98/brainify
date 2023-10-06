@@ -11,6 +11,7 @@ import Hirings from '../pages/Hirings';
 import LandingPage from '../pages/Home/index';
 import ForgotPassword from '../pages/ForgotPassword/index';
 import ChangePassword from '../pages/ChangePassword/index';
+import notFoundImage from '../assets/Logos/notFound.jpg';
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = true; // Aquí puedes verificar si el usuario está autenticado (el que vale es el de dentro de app)
@@ -22,7 +23,28 @@ function ProtectedRoute({ children }) {
   return children;
 }
 function NotFoundPage() {
-  return <div>Página no encontrada</div>;
+  const notFoundStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  };
+
+  const responsiveImageStyles = {
+    maxWidth: '50%', // Asegura que la imagen no exceda el ancho del contenedor
+    height: 'auto', // Mantiene la proporción de la imagen
+  };
+
+  return (
+    <div style={notFoundStyles}>
+      <img
+        src={notFoundImage}
+        alt="Página no encontrada"
+        style={responsiveImageStyles}
+      />
+    </div>
+  );
 }
 // Route paths
 export const ROUTE_HOME = '/';
