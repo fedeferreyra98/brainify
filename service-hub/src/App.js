@@ -45,13 +45,20 @@ function App() {
     setIsAuthenticated(true);
   };
 
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <Router>
           <div>
             <CssBaseline />
-            <ResponsiveAppBar isAuthenticated={isAuthenticated} />
+            <ResponsiveAppBar
+              isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+            />
 
             <Container style={{ paddingTop: '64px' }}>
               <Routes>

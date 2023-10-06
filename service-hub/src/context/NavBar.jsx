@@ -43,7 +43,7 @@ const homePage = { path: '/' };
 
 const settings = ['Profile', 'Logout'];
 
-function ResponsiveAppBar({ isAuthenticated }) {
+function ResponsiveAppBar({ isAuthenticated, onLogout }) {
   const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -61,6 +61,10 @@ function ResponsiveAppBar({ isAuthenticated }) {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogoutClick = () => {
+    onLogout();
   };
 
   return (
@@ -203,7 +207,11 @@ function ResponsiveAppBar({ isAuthenticated }) {
                   {settings.map((setting) => (
                     <MenuItem
                       key={setting}
-                      onClick={handleCloseUserMenu}
+                      onClick={
+                        setting === 'Logout'
+                          ? handleLogoutClick
+                          : handleCloseUserMenu
+                      }
                       component={setting === 'Logout' ? Link : null}
                       to={setting === 'Logout' ? '/login' : null}
                     >
