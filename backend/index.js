@@ -19,8 +19,8 @@ app.use("/api/comments", commentsRoutes);
 app.use("/api/hirings", hiringsRoutes);
 
 // Declaration example for a get endpoint
-app.get("/api/hello", (req, res) => {
-    res.send({ express: "Hello From Express" });
+app.get("/api/ping", (req, res) => {
+    res.send({ "" :"pong" });
     }
 );
 
