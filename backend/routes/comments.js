@@ -1,47 +1,27 @@
 import express from "express";
+import {getAll, getById, getByHiringId, getByRatingRange, create, update, remove} from "../controllers/comments.js";
 
 const router = express.Router();
 
 // GetAll
-router.get("/", (req, res) => { 
-    res.send({ "TODO: Get All Comments": "TODO: Get All Comments" });
-    }
-);
+router.get("/", getAll);
 
 // GetById
-router.get("/:id", (req, res) => { 
-    res.send({ "TODO: Get Comment By Id": "TODO: Get Comment By Id" });
-    }
-);
+router.get("/:id", getById);
 
 // GetByHiringId
-router.get("/hiring/:id", (req, res) => { 
-    res.send({ "TODO: Get Comment By Hiring Id": "TODO: Get Comment By Hiring Id" });
-    }
-);
+router.get("/hiring/:id", getByHiringId);
 
 //GetByRatingRange
-router.get("/rating/:min/:max", (req, res) => { 
-    res.send({ "TODO: Get Comment By Rating Range": "TODO: Get Comment By Rating Range" });
-    }
-);
+router.get("/rating/:min/:max", getByRatingRange);
 
 // Create
-router.post("/", (req, res) => { 
-    res.send({ "TODO: Create Comment": "TODO: Create Comment" });
-    }
-);
+router.post("/", create);
 
 // Update
-router.put("/:id", (req, res) => { 
-    res.send({ "TODO: Update Comment": "TODO: Update Comment" });
-    }
-);
+router.put("/:id", update);
 
 // Delete
-router.delete("/:id", (req, res) => { 
-    res.send({ "TODO: Delete Comment": "TODO: Delete Comment" });
-    }
-);
+router.delete("/:id", remove);
 
 export default router;
