@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import providersRoutes from "./routes/providers.js";
+import servicesRoutes from "./routes/services.js";
 
 // Initialize express application and configure it
 const app = express();
@@ -11,6 +12,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/providers", providersRoutes);
+app.use("/api/services", servicesRoutes);
 
 // Declaration example for a get endpoint
 app.get("/api/hello", (req, res) => {
