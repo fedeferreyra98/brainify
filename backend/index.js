@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import providersRoutes from "./routes/providers.js";
 import servicesRoutes from "./routes/services.js";
 import commentsRoutes from "./routes/comments.js";
+import hiringsRoutes from "./routes/hirings.js";
 
 // Initialize express application and configure it
 const app = express();
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use("/api/providers", providersRoutes);
 app.use("/api/services", servicesRoutes);
 app.use("/api/comments", commentsRoutes);
+app.use("/api/hirings", hiringsRoutes);
 
 // Declaration example for a get endpoint
 app.get("/api/hello", (req, res) => {
