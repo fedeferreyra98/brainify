@@ -14,6 +14,18 @@ router.get("/:id", (req, res) => {
     }
 );
 
+// GetByHiringId
+router.get("/hiring/:id", (req, res) => { 
+    res.send({ "TODO: Get Comment By Hiring Id": "TODO: Get Comment By Hiring Id" });
+    }
+);
+
+//GetByRatingRange
+router.get("/rating/:min/:max", (req, res) => { 
+    res.send({ "TODO: Get Comment By Rating Range": "TODO: Get Comment By Rating Range" });
+    }
+);
+
 // Create
 router.post("/", (req, res) => { 
     res.send({ "TODO: Create Comment": "TODO: Create Comment" });
