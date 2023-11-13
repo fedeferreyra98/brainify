@@ -1,36 +1,21 @@
 import express from "express";
-
+import { getAll, getById, create, update, remove } from "../controllers/provider.js";
 const router = express.Router();
 
 
 // GetAll
-router.get("/", (req, res) => { 
-    res.send({ "TODO: Get All Providers": "TODO: Get All Providers" });
-    }
-);
+router.get("/", getAll);
 
 // GetById
-router.get("/:id", (req, res) => { 
-    res.send({ "TODO: Get Provider By Id": "TODO: Get Provider By Id" });
-    }
-);
+router.get("/:id", getById);
 
 // Create
-router.post("/", (req, res) => { 
-    res.send({ "TODO: Create Provider": "TODO: Create Provider" });
-    }
-);
+router.post("/", create);
 
 // Update
-router.put("/:id", (req, res) => { 
-    res.send({ "TODO: Update Provider": "TODO: Update Provider" });
-    }
-);
+router.put("/:id", update);
 
 // Delete
-router.delete("/:id", (req, res) => { 
-    res.send({ "TODO: Delete Provider": "TODO: Delete Provider" });
-    }
-);
+router.delete("/:id", remove);
 
 export default router;
