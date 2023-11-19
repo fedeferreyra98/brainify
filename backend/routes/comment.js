@@ -1,5 +1,5 @@
 import express from "express";
-import {getAll, getById, getByHiringId, getByRatingRange, create, update, remove} from "../controllers/comments.js";
+import {getAll, getById, getByHiringId, getByRatingRange, create, update, remove} from "../controllers/comment.js";
 
 const router = express.Router();
 
