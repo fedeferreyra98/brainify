@@ -1,8 +1,7 @@
 import userService from "../services/user.service.js";
 import {upload} from '../services/cloudinary.js' 
 
-class UserController {
-    async getUser(req, res) {
+export const getUser = async (req, res) => {
         try {
             const user = await userService.findById(req.params.id);
             if (!user) {
@@ -15,7 +14,7 @@ class UserController {
         }
     }
 
-    async getUserPublicData(req, res) {
+    export const getUserPublicData = async (req, res) => {
         try {
             const user = await userService.findById(req.params.id);
             if (!user) {
@@ -29,7 +28,7 @@ class UserController {
         }
     }
 
-    async addUser(req, res) {
+    export const addUser = async (req, res) => {
         try {
             const user = await userService.create(req.body);
             res.status(201).send(user);
@@ -38,7 +37,7 @@ class UserController {
         }
     }
 
-    async updateUser(req, res) {
+    export const updateUser = async (req, res) => {
         try {
             const user = await userService.update(req.params.id, req.body);
             res.json({user});
@@ -48,7 +47,7 @@ class UserController {
         }
     }
 
-    async updateUserProfileImg(req, res) {
+    export const updateUserProfileImg = async (req, res) => {
         try {
             const userId = req;
             const imageUrl = await upload(req.file.buffer);
@@ -59,6 +58,3 @@ class UserController {
             res.status(500).json({message: "Internal server error"});
         }
     }
-}
-
-export default new UserController();

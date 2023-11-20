@@ -1,20 +1,23 @@
 import  express  from 'express';
-import userController from '../controllers/user.js';
+import {getUser, getUserPublicData, addUser, updateUser, updateUserProfileImg} from '../controllers/user.controller.js';
 
 const router = express.Router();
 
 // Define routes
 
-//GetAll
-router.get('/', userController.findAll);
-
 //GetById
-router.get('/:id', userController.findById);
+router.get('/', getUser);
+
+//Get public profile
+router.get('/:id', getUserPublicData);
 
 //Create
-router.post('/', userController.create);
+router.post('/', addUser);
 
 //Update
-router.put('/:id', userController.updateUser);
+router.patch('/:id', updateUser);
+
+//Update profile image
+router.patch('/:id/profileImg', updateUserProfileImg);
 
 export default router;

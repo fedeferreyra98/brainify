@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate";
 import bcrypt from "bcryptjs";
 
 var UserSchema = new mongoose.Schema({
@@ -64,7 +63,6 @@ var UserSchema = new mongoose.Schema({
         }
     }
 
-UserSchema.plugin(mongoosePaginate);
 const User = mongoose.model('User', UserSchema);
 
 export default User;
