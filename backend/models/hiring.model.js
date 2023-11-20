@@ -1,20 +1,43 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate";
-import uuid from "uuid/v4";
 
 const HiringSchema = new mongoose.Schema({
-    id: uuid.v4(),
-    providerId: String,
-    service: {
-        id: uuid.v4(),
-        name: String,
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
     },
-    phoneNumber: String,
-    contactRange: String,
-    status: String
+    serviceId :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Service",
+        required: true,
+    },
+    contactEmail : {
+        type : String,
+        required : true,
+        trim : true,
+    },
+    message : {
+        type : String,
+        required : true,
+        trim : true,
+        maxLength: [255, "Message can not be more than 255 characters"],
+    },
+    phoneNumber : {
+        type : String,
+        required : true,
+    },
+    preferredContactTime : {
+        type : String,
+        enum : ['Morning', 'Afternoon', 'Evening'],
+        required : true,
+    },
+    contractStatus : {
+        type : String,
+        enum : ['Pending', 'Accepted', 'Rejected'],
+        default : 'Pending',
+    },
 });
 
-HiringSchema.plugin(mongoosePaginate);
 const Hiring = mongoose.model("Hiring", HiringSchema);
 
 export default Hiring;

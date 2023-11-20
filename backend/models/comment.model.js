@@ -1,18 +1,30 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate";
-import uuid from "uuid/v4";
 
-const CommentSchema = new mongoose.Schema({
-    id: uuid.v4(),
-    username: String,
-    serviceName: String,
-    commentSummary: String,
-    commentBody: String,
-    rating: Number,
-    date: Date
+const commentSchema = new mongoose.Schema({
+  serviceId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Service",
+    required: true,
+  },
+  content: {
+    type: String,
+    trim: true,
+    maxlength: [255, "El contenido no puede exceder los 255 caracteres"],
+  },
+  rating: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5,
+  },
+  isBlocked: {
+    type: Boolean,
+    default: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-CommentSchema.plugin(mongoosePaginate);
-const Comment = mongoose.model("Comment", CommentSchema);
-
-export default Comment;
+export const Comment = mongoose.model("Comment", commentSchema);
