@@ -4,10 +4,11 @@ import providerRoutes from "./routes/provider.js";
 import serviceRoutes from "./routes/service.js";
 import commentRoutes from "./routes/comment.js";
 import hiringRoutes from "./routes/hiring.js";
+import process from "process";
 
 // Initialize express application and configure it
 const app = express();
-const PORT = 5000; // Since frontend apps are usually running on port 3000. let's use 5000
+const PORT = process.env.PORT || 4000; // Since frontend apps are usually running on port 3000. let's use 4000
 
 // This module allow us to parse request body
 app.use(bodyParser.json());

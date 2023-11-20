@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate";
 import uuid from "uuid/v4";
 
