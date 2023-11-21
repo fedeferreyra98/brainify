@@ -20,16 +20,24 @@ class ServiceRepository{
     }
 
     async update(id, userId, update){
+      try {
         const service = await findServiceAndCheckOwnership(id, userId);
         Object.keys(update).forEach((key) => (service[key] = update[key]));
         await service.save();
         return service;
+      } catch (error) {
+        throw error;
+      } 
     };
     
     async remove(id, userId){
+      try {
         const service = await findServiceAndCheckOwnership(id, userId);
         await service.deleteOne();
-    };
+      } catch (error) {
+        throw error;
+      };
+    }
 
     async validateCategory(category){
         return category === "all" ||  checkCategory(category);
@@ -54,3 +62,5 @@ class ServiceRepository{
       category
     );
   };
+
+  export default new ServiceRepository();
