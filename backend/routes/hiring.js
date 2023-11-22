@@ -1,5 +1,5 @@
 import express from "express";
-import { getAll, getById, create, update, remove } from "../controllers/hiring.js";
+import { getAll, getById, create, update, remove } from "../controllers/hiring.controller.js";
 
 const router = express.Router();
 

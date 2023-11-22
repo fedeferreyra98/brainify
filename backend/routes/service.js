@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getAll, getById, create, update, remove } from "../controllers/service.js";
+import { getAll, getById, create, update, remove } from "../controllers/service.controller.js";
 
 const router = express.Router();
 
