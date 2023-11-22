@@ -1,4 +1,4 @@
-import commentRepository from "../repositories/comment.repository";
+import commentRepository from "../repositories/comment.repository.js";
 
 class CommentService {
     async getCommentsByServiceId(serviceId){
@@ -25,18 +25,19 @@ class CommentService {
     }
 
     async create(serviceId, content, rating){
-        return await commentRepository.create(serviceId, content, rating);
+        return commentRepository.create(serviceId, content, rating);
     };
 
     async getCommentById(commentId) {
-        return await commentRepository.getCommentById(commentId);
+        return commentRepository.getCommentById(commentId);
     };
 
     async updateCommentStatus(commentId, isBlocked){
-        return await commentRepository.updateCommentStatus(commentId, isBlocked);
+        return commentRepository.updateCommentStatus(commentId, isBlocked);
     };
 
     checkUserAuthorization(serviceUserId, userId){
         return serviceUserId.toString() === userId.toString();
     };
 }
+export default CommentService

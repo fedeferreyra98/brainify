@@ -1,5 +1,5 @@
-import Comment from '../models/comment.model';
-import Service from '../models/service.model';
+import Comment from '../models/comment.model.js';
+import Service from '../models/service.model.js';
 
 class CommentRepository{
 
