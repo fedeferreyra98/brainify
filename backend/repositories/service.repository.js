@@ -1,4 +1,4 @@
-import {Service} from "../models/service.model.js";
+import Service from "../models/service.model.js";
 
 class ServiceRepository{
 
@@ -12,7 +12,7 @@ class ServiceRepository{
     };
 
     async create(serviceData){;
-        return await service.create(serviceData);
+        return await Service.create(serviceData);
     }
 
     async getById(id){
@@ -21,10 +21,10 @@ class ServiceRepository{
 
     async update(id, userId, update){
       try {
-        const service = await findServiceAndCheckOwnership(id, userId);
-        Object.keys(update).forEach((key) => (service[key] = update[key]));
-        await service.save();
-        return service;
+        const Service = await findServiceAndCheckOwnership(id, userId);
+        Object.keys(update).forEach((key) => (Service[key] = update[key]));
+        await Service.save();
+        return Service;
       } catch (error) {
         throw error;
       } 
@@ -32,8 +32,8 @@ class ServiceRepository{
     
     async remove(id, userId){
       try {
-        const service = await findServiceAndCheckOwnership(id, userId);
-        await service.deleteOne();
+        const Service = await findServiceAndCheckOwnership(id, userId);
+        await Service.deleteOne();
       } catch (error) {
         throw error;
       };
