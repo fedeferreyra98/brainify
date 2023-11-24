@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),
@@ -35,7 +36,7 @@ function LoginPage({ onLogin }) {
       <Typography variant="h4" gutterBottom>
         Iniciar Sesión
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12}>
           <TextField
             className={classes.textField}

@@ -46,26 +46,56 @@ function ServiceCard({ service, onClick, onHire }) {
   const [lastName, setLastName] = useState('');
   const [mainComment, setMainComment] = useState('');
 
-  const canSubmit = name && lastName && mainComment;
+  const canSubmit = name && lastName;
 
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card>
         <CardContent>
-          <Typography variant="h6">{service.nombre}</Typography>
-          <Typography color="textSecondary">{service.proveedor}</Typography>
-          <Rating value={averageRating} readOnly precision={0.5} />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h5" marginBottom={1} marginTop={1}>
+                {service.nombre}
+              </Typography>
+              <Rating value={averageRating} readOnly precision={0.5} />
+              <Typography color="textSecondary">{service.proveedor}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <img
+                src="https://masqueclases.es/wp-content/uploads/2021/08/Global-Online-Education.jpg"
+                style={{
+                  width: '100%',
+                  height: '20vh',
+                  objectFit: 'cover',
+                }}
+                alt="Product"
+              />
+            </Grid>
+          </Grid>
         </CardContent>
-        <CardActions>
-          <Button size="small" color="primary" onClick={() => onClick(service)}>
-            Ver más
-          </Button>
-          <Button size="small" color="secondary" onClick={onHire}>
-            Contratar
-          </Button>
-          <Button size="small" onClick={handleCommentClick}>
-            Comentar
-          </Button>
+
+        <CardActions style={{ justifyContent: 'center' }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={4}>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => onClick(service)}
+              >
+                Ver más
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <Button size="small" color="secondary" onClick={onHire}>
+                Contratar
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <Button size="small" onClick={handleCommentClick}>
+                Comentar
+              </Button>
+            </Grid>
+          </Grid>
         </CardActions>
 
         <Dialog open={openCommentForm} onClose={handleCloseCommentForm}>

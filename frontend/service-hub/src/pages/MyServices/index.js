@@ -3,9 +3,6 @@ import {
   Container,
   Typography,
   Button,
-  Card,
-  CardContent,
-  CardActions,
   TextField,
   Dialog,
   DialogActions,
@@ -16,20 +13,26 @@ import {
   Select,
   MenuItem,
   Grid,
-  IconButton,
   Pagination,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import mockServices from '../../data/mockServices';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import ServiceCard from './ServiceCard';
+import ServiceComments from './ServiceComments';
+import mockComments from '../../data/mockComments';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: '#DDEBF8',
+  },
+  mainContent: {
+    padding: theme.spacing(5),
+    textAlign: 'left',
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),
@@ -76,9 +79,30 @@ function MyServices() {
     currentPage * servicesPerPage
   );
 
+  const [commentsDialogOpen, setCommentsDialogOpen] = useState(false);
+  const [currentServiceComments, setCurrentServiceComments] = useState([]);
+  const [currentServiceName, setCurrentServiceName] = useState('');
+
+  // Function to handle viewing comments
+  const handleViewComments = (serviceName) => {
+    const serviceComments = mockComments.filter(
+      (comment) => comment.serviceName === serviceName
+    );
+    setCurrentServiceComments(serviceComments);
+    setCurrentServiceName(serviceName);
+    setCommentsDialogOpen(true);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // Function to delete a comment
+  const handleDeleteComment = (commentId) => {
+    setCurrentServiceComments((currentComments) =>
+      currentComments.filter((comment) => comment.id !== commentId)
+    );
   };
 
   const handleSave = () => {
@@ -117,43 +141,37 @@ function MyServices() {
   };
 
   return (
-    <Container className={classes.root}>
-      <Typography variant="h4" gutterBottom>
-        Mis Servicios
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={() => {
-          setCurrentService(null);
-          setFormData({
-            nombre: '',
-            categoria: '',
-            tipo: '',
-            duracion: '',
-            frecuencia: '',
-            costo: '',
-          });
-          setDialogOpen(true);
-        }}
-      >
-        Agregar Servicio
-      </Button>
-      <Grid container spacing={3}>
-        {currentServices.map((service) => (
-          <Grid item xs={12} sm={6} md={4} key={service.id}>
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography variant="h6">{service.nombre}</Typography>
-                <Typography variant="body2">
-                  Duración: {service.duracion}
-                </Typography>
-                <Typography variant="body2">Costo: ${service.costo}</Typography>
-              </CardContent>
-              <CardActions>
-                <IconButton
-                  onClick={() => {
+    <div>
+      <Container className={classes.mainContent}>
+        <Container className={classes.root}>
+          <Typography variant="h4" gutterBottom>
+            Mis Servicios
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={() => {
+              setCurrentService(null);
+              setFormData({
+                nombre: '',
+                categoria: '',
+                tipo: '',
+                duracion: '',
+                frecuencia: '',
+                costo: '',
+              });
+              setDialogOpen(true);
+            }}
+          >
+            Nuevo Servicio
+          </Button>
+          <Grid container spacing={3}>
+            {currentServices.map((service) => (
+              <Grid item xs={12} sm={6} md={4} key={service.id}>
+                <ServiceCard
+                  service={service}
+                  onEdit={() => {
                     setCurrentService(service);
                     setFormData({
                       nombre: service.nombre,
@@ -165,134 +183,137 @@ function MyServices() {
                     });
                     setDialogOpen(true);
                   }}
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => {
+                  onDelete={() => {
                     setServices((prevServices) =>
                       prevServices.filter((s) => s.id !== service.id)
                     );
                     setNotificationMessage('Servicio eliminado correctamente');
                     setNotificationOpen(true);
                   }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </CardActions>
-            </Card>
+                  onViewComments={handleViewComments}
+                  classes={classes}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-      <div className={classes.paginationContainer}>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={(event, value) => setCurrentPage(value)}
-        />
-      </div>
-      <Dialog
-        open={dialogOpen}
-        onClose={() => {
-          setCurrentService(null);
-          setDialogOpen(false);
-        }}
-      >
-        <DialogTitle>
-          {currentService ? 'Modificar Servicio' : 'Agregar Servicio'}
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Nombre"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleInputChange}
-          />
-          <FormControl className={classes.formControl}>
-            <InputLabel>Categoría</InputLabel>
-            <Select
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleInputChange}
-            >
-              <MenuItem value="tutorias">Tutorías escolares</MenuItem>
-              <MenuItem value="idioma">Clases de idioma</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel>Tipo de clase</InputLabel>
-            <Select
-              name="tipo"
-              value={formData.tipo}
-              onChange={handleInputChange}
-            >
-              <MenuItem value="individual">Individual</MenuItem>
-              <MenuItem value="grupal">Grupal</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Duración (Horas Totales)"
-            name="duracion"
-            value={formData.duracion}
-            onChange={handleInputChange}
-          />
-          <FormControl className={classes.formControl}>
-            <InputLabel>Frecuencia</InputLabel>
-            <Select
-              name="frecuencia"
-              value={formData.frecuencia}
-              onChange={handleInputChange}
-            >
-              <MenuItem value="única">Única</MenuItem>
-              <MenuItem value="semanal">Semanal</MenuItem>
-              <MenuItem value="mensual">Mensual</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Costo"
-            name="costo"
-            value={formData.costo}
-            onChange={handleInputChange}
-          />
-          {errorMessage && (
-            <Typography color="error">{errorMessage}</Typography>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setDialogOpen(false);
+          <div className={classes.paginationContainer}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={(event, value) => setCurrentPage(value)}
+            />
+          </div>
+          <Dialog
+            open={dialogOpen}
+            onClose={() => {
               setCurrentService(null);
-              setErrorMessage('');
+              setDialogOpen(false);
             }}
-            color="primary"
           >
-            Cancelar
-          </Button>
-          <Button
-            onClick={handleSave}
-            color="primary"
-            disabled={formData.duracion < 1 || formData.costo < 0}
-          >
-            Guardar
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <NotificationGreen
-        open={notificationOpen}
-        message={notificationMessage}
-        onClose={() => {
-          setCurrentService(null);
-          setNotificationOpen(false);
-        }}
+            <DialogTitle>
+              {currentService ? 'Modificar Servicio' : 'Agregar Servicio'}
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Nombre"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleInputChange}
+              />
+              <FormControl className={classes.formControl}>
+                <InputLabel>Categoría</InputLabel>
+                <Select
+                  name="categoria"
+                  value={formData.categoria}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="tutorias">Tutorías escolares</MenuItem>
+                  <MenuItem value="idioma">Clases de idioma</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel>Tipo de clase</InputLabel>
+                <Select
+                  name="tipo"
+                  value={formData.tipo}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="individual">Individual</MenuItem>
+                  <MenuItem value="grupal">Grupal</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Duración (Minutos)"
+                name="duracion"
+                value={formData.duracion}
+                onChange={handleInputChange}
+              />
+              <FormControl className={classes.formControl}>
+                <InputLabel>Frecuencia</InputLabel>
+                <Select
+                  name="frecuencia"
+                  value={formData.frecuencia}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="única">Única</MenuItem>
+                  <MenuItem value="semanal">Semanal</MenuItem>
+                  <MenuItem value="mensual">Mensual</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Costo"
+                name="costo"
+                value={formData.costo}
+                onChange={handleInputChange}
+              />
+              {errorMessage && (
+                <Typography color="error">{errorMessage}</Typography>
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  setDialogOpen(false);
+                  setCurrentService(null);
+                  setErrorMessage('');
+                }}
+                color="primary"
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleSave}
+                color="primary"
+                disabled={formData.duracion < 1 || formData.costo < 0}
+              >
+                Guardar
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <NotificationGreen
+            open={notificationOpen}
+            message={notificationMessage}
+            onClose={() => {
+              setCurrentService(null);
+              setNotificationOpen(false);
+            }}
+          />
+        </Container>
+      </Container>
+      <ServiceComments
+        open={commentsDialogOpen}
+        serviceName={currentServiceName}
+        comments={currentServiceComments}
+        onDelete={handleDeleteComment}
+        onClose={() => setCommentsDialogOpen(false)}
       />
-    </Container>
+    </div>
   );
 }
 export default MyServices;

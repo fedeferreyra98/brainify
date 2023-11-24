@@ -13,7 +13,11 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 import makeStyles from '@mui/styles/makeStyles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 import mockProvider from '../../data/mockProvider';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 
@@ -21,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),
@@ -53,18 +58,51 @@ function ProviderProfile() {
     setNotificationOpen(true); // Mostrar la notificación
   };
 
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
   return (
     <Container className={classes.root}>
       <Typography variant="h4" gutterBottom>
-        Perfil del Proveedor
+        Mi Perfil
       </Typography>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12} sm={4} md={3}>
-          <Avatar
-            alt={`${providerInfo.firstName} ${providerInfo.lastName}`}
-            src={providerInfo.profileImage}
-            className={classes.largeAvatar}
-          />
+          <Grid
+            container
+            spacing={2}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Grid item xs={12}>
+              <Avatar
+                alt={`${providerInfo.firstName} ${providerInfo.lastName}`}
+                src={providerInfo.profileImage}
+                className={classes.largeAvatar}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+              >
+                Subir Foto
+                <VisuallyHiddenInput type="file" />
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={12} sm={8} md={9}>
           <Typography variant="h5">{`${providerInfo.firstName} ${providerInfo.lastName}`}</Typography>
@@ -73,9 +111,10 @@ function ProviderProfile() {
           <Typography variant="string">{`Tel: ${providerInfo.phoneNumber}`}</Typography>
         </Grid>
       </Grid>
+
       <Card className={classes.card}>
         <CardContent>
-          <Typography variant="h6">Sobre mí:</Typography>
+          <Typography variant="h6">Experiencia:</Typography>
           <Typography variant="body2">{providerInfo.experience}</Typography>
         </CardContent>
       </Card>

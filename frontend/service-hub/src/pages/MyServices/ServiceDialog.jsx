@@ -99,7 +99,7 @@ function ServiceDialog({ open, onClose, service, onSave, classes }) {
         <TextField
           fullWidth
           margin="normal"
-          label="Duración (Horas Totales)"
+          label="Duración (Minutos)"
           name="duracion"
           value={formData.duracion}
           onChange={handleInputChange}

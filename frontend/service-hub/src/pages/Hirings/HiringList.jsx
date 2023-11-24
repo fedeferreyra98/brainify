@@ -19,13 +19,16 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
             <CardContent>
               <Typography variant="h6">{contratacion.servicio}</Typography>
               <Typography color="textSecondary">
-                {contratacion.usuario}
+                {`Usuario: ${contratacion.usuario}`}
               </Typography>
               <Typography color="textSecondary">
-                {contratacion.numeroTelefonico}
+                {`E-mail: ${contratacion.mail}`}
               </Typography>
               <Typography color="textSecondary">
-                {contratacion.horarioContacto}
+                {`Tel: ${contratacion.numeroTelefonico}`}
+              </Typography>
+              <Typography color="textSecondary">
+                {`Horario de contacto: ${contratacion.horarioContacto}`}
               </Typography>
             </CardContent>
             <FormControl
@@ -47,6 +50,7 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
               >
                 <MenuItem value="solicitada">Solicitada</MenuItem>
                 <MenuItem value="aceptada">Aceptada</MenuItem>
+                <MenuItem value="cancelada">Cancelada</MenuItem>
                 <MenuItem value="finalizada">Finalizada</MenuItem>
               </Select>
             </FormControl>

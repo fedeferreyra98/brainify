@@ -4,6 +4,7 @@ const useMyServicesStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),

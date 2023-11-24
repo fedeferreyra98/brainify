@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     height: '100vh',
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),

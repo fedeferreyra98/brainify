@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),

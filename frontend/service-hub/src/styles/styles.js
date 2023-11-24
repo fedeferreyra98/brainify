@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   mainContent: {
     padding: theme.spacing(5),
     textAlign: 'center',
+    backgroundColor: '#DDEBF8',
   },
   footer: {
     marginTop: theme.spacing(5),

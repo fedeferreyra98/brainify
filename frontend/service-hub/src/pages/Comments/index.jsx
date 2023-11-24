@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { Container, Typography, List, ListItem, Box } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import CommentCard from './CommentCard';
 import mockComments from '../../data/mockComments';
 
+const useStyles = makeStyles((theme) => ({
+  mainContent: {
+    padding: theme.spacing(5),
+    textAlign: 'left',
+    backgroundColor: '#DDEBF8',
+  },
+}));
+
 function Comments() {
+  const classes = useStyles();
   const [comments, setComments] = useState(mockComments);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -34,7 +44,7 @@ function Comments() {
   };
 
   return (
-    <Container>
+    <Container className={classes.mainContent}>
       <Box sx={{ p: 3 }}>
         <Typography variant="h4" gutterBottom>
           Comentarios
