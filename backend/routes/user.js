@@ -1,5 +1,5 @@
 import  express  from 'express';
-import {getUser, getUserPublicData, addUser, updateUser, updateUserProfileImg} from '../controllers/user.controller.js';
+import {getUser, getUserPublicData, updateUser, updateUserProfileImg} from '../controllers/user.controller.js';
 
 const router = express.Router();
 
@@ -11,8 +11,6 @@ router.get('/', getUser);
 //Get public profile
 router.get('/:id', getUserPublicData);
 
-//Create
-router.post('/', addUser);
 
 //Update
 router.patch('/:id', updateUser);

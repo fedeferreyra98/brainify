@@ -28,15 +28,6 @@ export const getUser = async (req, res) => {
         }
     }
 
-    export const addUser = async (req, res) => {
-        try {
-            const user = await userService.create(req.body);
-            res.status(201).send(user);
-        } catch (error) {
-            res.status(500).json({message: "Internal server error"});
-        }
-    }
-
     export const updateUser = async (req, res) => {
         try {
             const user = await userService.update(req.params.id, req.body);

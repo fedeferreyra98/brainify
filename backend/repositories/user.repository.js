@@ -9,11 +9,6 @@ class UserRepository {
         return await User.findOne({ email });
     }
 
-    async create(userData) {
-        const user = new User(userData);
-        return await user.save();
-    }
-
     async update(id, userData) {
         const user = await User.findById(id);
         Object.assign(user, userData);
