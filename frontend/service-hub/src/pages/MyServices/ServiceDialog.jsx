@@ -11,6 +11,7 @@ import {
   MenuItem,
   Typography,
   Button,
+  Avatar,
 } from '@mui/material';
 
 function ServiceDialog({ open, onClose, service, onSave, classes }) {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography, Container } from '@mui/material';
+import { Button, Typography, Container, Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import mockDataBaseUserCredentials from '../../data/mockDataBaseUserCredentials';
@@ -72,9 +72,11 @@ function ChangePasswordPage() {
 
   return (
     <Container className={classes.root}>
-      <Typography className={classes.title} variant="h4" gutterBottom>
-        Modificar Contraseña
-      </Typography>
+      <Box sx={{ p: 3 }}>
+        <Typography className={classes.title} variant="h4" gutterBottom>
+          Modificar Contraseña
+        </Typography>
+      </Box>
       <form onSubmit={handleSubmit}>
         <SimplePasswordField
           className={classes.textField}

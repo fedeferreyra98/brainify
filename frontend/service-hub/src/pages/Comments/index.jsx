@@ -11,6 +11,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left',
     backgroundColor: '#DDEBF8',
   },
+  footer: {
+    marginTop: theme.spacing(5),
+    padding: theme.spacing(3),
+    backgroundColor: '#f5f5f5',
+  },
 }));
 
 function Comments() {
@@ -61,6 +66,14 @@ function Comments() {
           ))}
         </List>
       </Box>
+      <footer className={classes.footer}>
+        <Typography variant="h6" align="center" gutterBottom>
+          Brainify
+        </Typography>
+        <Typography variant="subtitle1" align="center" color="textSecondary">
+          Contacto: info@brainify.com
+        </Typography>
+      </footer>
       <NotificationGreen
         open={openSnackbar}
         message={snackbarMessage}

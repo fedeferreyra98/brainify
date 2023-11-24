@@ -14,8 +14,11 @@ import {
   MenuItem,
   Grid,
   Pagination,
+  Avatar,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AddIcon from '@mui/icons-material/Add';
 import mockServices from '../../data/mockServices';
 import NotificationGreen from '../../components/ui/NotificationGreen';
@@ -49,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: theme.spacing(2),
+  },
+  footer: {
+    marginTop: theme.spacing(5),
+    padding: theme.spacing(3),
+    backgroundColor: '#f5f5f5',
   },
 }));
 
@@ -140,6 +148,18 @@ function MyServices() {
     setDialogOpen(false);
   };
 
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
   return (
     <div>
       <Container className={classes.mainContent}>
@@ -203,6 +223,20 @@ function MyServices() {
               onChange={(event, value) => setCurrentPage(value)}
             />
           </div>
+
+          <footer className={classes.footer}>
+            <Typography variant="h6" align="center" gutterBottom>
+              Brainify
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              align="center"
+              color="textSecondary"
+            >
+              Contacto: info@brainify.com
+            </Typography>
+          </footer>
+
           <Dialog
             open={dialogOpen}
             onClose={() => {
@@ -214,6 +248,34 @@ function MyServices() {
               {currentService ? 'Modificar Servicio' : 'Agregar Servicio'}
             </DialogTitle>
             <DialogContent>
+              <Grid item xs={12} sm={4} md={3}>
+                <Grid
+                  container
+                  spacing={2}
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Grid item xs={12}>
+                    <Avatar
+                      alt="Class"
+                      src="https://masqueclases.es/wp-content/uploads/2021/08/Global-Online-Education.jpg"
+                      sx={{ width: 200, height: 200 }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Button
+                      component="label"
+                      variant="contained"
+                      startIcon={<CloudUploadIcon />}
+                    >
+                      Subir Foto
+                      <VisuallyHiddenInput type="file" />
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
               <TextField
                 fullWidth
                 margin="normal"

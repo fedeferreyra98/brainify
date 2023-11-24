@@ -18,7 +18,9 @@ function ServiceCard({ service, onEdit, onDelete, onViewComments, classes }) {
     <Card className={classes.card}>
       <CardContent>
         <Typography variant="h6">{service.nombre}</Typography>
-        <Typography variant="body2">Duración: {service.duracion}</Typography>
+        <Typography variant="body2">
+          Duración: {service.duracion} minutos
+        </Typography>
         <Typography variant="body2">Costo: $ {service.costo}</Typography>
       </CardContent>
       <CardActions>

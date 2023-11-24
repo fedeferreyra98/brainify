@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff',
     },
   },
+  footer: {
+    marginTop: theme.spacing(5),
+    padding: theme.spacing(3),
+    backgroundColor: '#f5f5f5',
+  },
 }));
 
 function Hirings() {
@@ -130,6 +135,14 @@ function Hirings() {
             />
           </Box>
         )}
+        <footer className={classes.footer}>
+          <Typography variant="h6" align="center" gutterBottom>
+            Brainify
+          </Typography>
+          <Typography variant="subtitle1" align="center" color="textSecondary">
+            Contacto: info@brainify.com
+          </Typography>
+        </footer>
       </Container>
     </div>
   );
