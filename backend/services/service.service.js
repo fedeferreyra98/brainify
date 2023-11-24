@@ -17,13 +17,17 @@ class ServiceService {
         return ServiceRepository.create(service);
     };
 
-    async update(serviceId, service) {
-        return ServiceRepository.update(serviceId, service);
+    async update(serviceId, userId, service) {
+        return ServiceRepository.update(serviceId, userId, service);
     };
 
-    async delete(serviceId) {
-        return ServiceRepository.delete(serviceId);
+    async delete(serviceId, userId) {
+        return ServiceRepository.delete(serviceId, userId);
     };
+
+    async validateCategory(category) {
+        return ServiceRepository.validateCategory(category);
+    }
 }
 
 export default ServiceService;

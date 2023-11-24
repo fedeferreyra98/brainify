@@ -1,21 +1,27 @@
 import express from "express";
 
-import { getAll, getById, create, update, remove } from "../controllers/service.controller.js";
+import {GetAllServices, GetServiceById, GetServicesByUserId, Create, Update, Delete} from "../controllers/service.controller.js";
 
 const router = express.Router();
 
-// GetAll
-router.get("/", getAll);
+//GetAll
+router.get("/", GetAllServices);
 
-// GetById
-router.get("/:id", getById);
+//GetById
+router.get("/:serviceId", GetServiceById);
 
-// Create
-router.post("/", create);
-// Update
-router.put("/:id", update);
+//GetByUserId
+router.get("/user/:userId", GetServicesByUserId);
 
-// Delete
-router.delete("/:id", remove);
+//Create
+router.post("/", Create);
+
+//Update
+router.patch("/:serviceId", Update);
+
+//Delete
+router.delete("/:serviceId", Delete);
+
+
 
 export default router;

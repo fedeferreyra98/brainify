@@ -30,7 +30,7 @@ class ServiceRepository{
       } 
     };
     
-    async remove(id, userId){
+    async delete(id, userId){
       try {
         const Service = await findServiceAndCheckOwnership(id, userId);
         await Service.deleteOne();

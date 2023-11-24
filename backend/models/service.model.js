@@ -48,7 +48,7 @@ const ServiceSchema = new mongoose.Schema({
         type : Boolean,
         default : true,
     },
-    amountOfRatings:{
+    totalRatings:{
         type: Number,
         default: 0,
     },
