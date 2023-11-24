@@ -1,19 +1,58 @@
-export const getAll = (req, res) => {
-    res.send({ "TODO: Get All Hirings": "TODO: Get All Hirings" });
+import hiringService from "../services/hiring.service.js"
+
+export const getByServiceId = async (req, res) => {
+    try {
+        const serviceId = req.params.serviceId;
+        const hiring = await hiringService.getByServiceId(serviceId);
+        if (!hiring) {
+            return res.status(404).json({ message: "Contratación no encontrada" });
+        }
+        return res.status(200).json({ hiring });
+    } catch (error) {
+        return handleError(res, error);
+    };
 };
 
-export const getById = (req, res) => {
-    res.send({ "TODO: Get Hiring By Id": "TODO: Get Hiring By Id" });
+export const getByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const hiring = await hiringService.getByUserId(userId);
+        if (!hiring) {
+            return res.status(404).json({ message: "Contratación no encontrada" });
+        }
+        return res.status(200).json({ hiring });
+    } catch (error) {
+        return handleError(res, error);
+    };
 };
 
-export const create = (req, res) => {
-    res.send({"TODO: Create Hiring": "TODO: Create Hiring"});
+export const create = async (req, res) => {
+    try {
+        const hiringData = req.body;
+        const hiring = await hiringService.create(hiringData);
+        return res.status(201).json({ hiring });
+    } catch (error) {
+        return handleError(res, error);
+    };
 };
 
-export const update = (req, res) => {
-    res.send({"TODO: Update Hiring": "TODO: Update Hiring"});
+export const updateHiring = async (req, res) => {
+    try {
+        const hiringId = req.params.hiringId;
+        const updateData = req.body;
+        const hiring = await hiringService.updateHiring(hiringId, updateData);
+        return res.status(204).json({ hiring });
+    } catch (error) {
+        return handleError(res, error);
+    };
 };
 
-export const remove = (req, res) => {
-    res.send({"TODO: Delete Hiring": "TODO: Delete Hiring"});
-};
+export const attachServiceNameToHiring = async (req, res) => {
+    try {
+        const hiring = req.body;
+        const hiringWithServiceName = await hiringService.attachServiceNameToHiring(hiring);
+        return res.status(200).json({ hiringWithServiceName });
+    } catch (error) {
+        return handleError(res, error);
+    };
+}

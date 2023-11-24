@@ -1,5 +1,5 @@
-import Hiring from '../models/hiring.model';
-import Service from '../models/service.model';
+import Hiring from '../models/hiring.model.js';
+import Service from '../models/service.model.js';
 
 class HiringRepository{
 

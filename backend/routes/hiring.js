@@ -1,21 +1,21 @@
 import express from "express";
-import { getAll, getById, create, update, remove } from "../controllers/hiring.controller.js";
+import {getByServiceId, getByUserId, create, updateHiring, attachServiceNameToHiring } from "../controllers/hiring.controller.js";
 
 const router = express.Router();
 
-// GetAll
-router.get("/", getAll);
+// GetByServiceId
+router.get("/:serviceId", getByServiceId);
 
-// GetById
-router.get("/:id", getById);
+// GetByUserId
+router.get("/:userId", getByUserId);
 
 // Create
 router.post("/", create);
 
 // Update
-router.put("/:id", update);
+router.put("/:hiringId", updateHiring);
 
-// Delete
-router.delete("/:id", remove);
+//AttachServiceNameToHiring todo: Buscar una mejor forma de hacer esto
+router.post("/attachServiceNameToHiring", attachServiceNameToHiring);
 
 export default router;
