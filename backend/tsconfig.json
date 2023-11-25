@@ -1,11 +1,12 @@
 {
-    "compilerOptions": {
-      "allowJs": true,
-      "checkJs": true
-    },
-    "include": [
-      "./src/**/*"
-    ]
-  }
-
-  
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true, // Importante para evitar la compilación
+    "strict": false, // Opcional, para controlar la estrictura del chequeo de tipos
+    // otras opciones...
+  },
+  "include": [
+    "src/**/*" // Ajusta esta ruta según la estructura de tu proyecto
+  ]
+}

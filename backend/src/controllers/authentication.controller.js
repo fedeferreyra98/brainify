@@ -1,6 +1,7 @@
 import AuthenticationService from "../services/authentication.service.js";
 import { verifyToken } from "../utils/tokenManager.js";
 import {handleError} from "../utils/web/error.js";
+import {sendPasswordResetEmail} from "../services/sendGrid.service.js";
 // @ts-ignore
 import jwt from "jsonwebtoken";
 
@@ -65,7 +66,7 @@ export const requestPasswordReset = async (req, res) => {
 
         const user = await AuthenticationService.findUserByEmail(email);
         if (user){
-            await sendPasswordResetEmail(user); //TODO: Implement this function with sendGrid
+            await sendPasswordResetEmail(user);
         }
         return res.json({
             message: "If the email exists, a password reset link will be sent to it shortly",
