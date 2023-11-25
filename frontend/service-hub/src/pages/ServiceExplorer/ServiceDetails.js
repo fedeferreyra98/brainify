@@ -72,14 +72,17 @@ function ServiceDetails({ service, onClose, onHire }) {
             <ListItemIcon>
               <TimerIcon />
             </ListItemIcon>
-            <ListItemText primary="Duración" secondary={service?.duracion} />
+            <ListItemText
+              primary="Duración"
+              secondary={`${service?.duracion} minutos`}
+            />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
             <ListItemIcon>
               <AttachMoneyIcon />
             </ListItemIcon>
-            <ListItemText primary="Costo" secondary={service?.costo} />
+            <ListItemText primary="Costo" secondary={`$ ${service?.costo}`} />
           </ListItem>
         </List>
 

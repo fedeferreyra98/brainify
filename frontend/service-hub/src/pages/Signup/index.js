@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: '#DDEBF8',
   },
   button: {
     margin: theme.spacing(1),
@@ -68,7 +69,7 @@ function SignUpPage() {
         color="primary"
         className={classes.button}
         component={Link}
-        to="/login"
+        to="/perfil-proveedor"
       >
         Registrarse
       </Button>

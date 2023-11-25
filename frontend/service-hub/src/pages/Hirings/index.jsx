@@ -15,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: '#DDEBF8',
+  },
+  mainContent: {
+    padding: theme.spacing(5),
+    textAlign: 'left',
+    backgroundColor: '#DDEBF8',
   },
   list: {
     width: '100%',
@@ -24,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: '#ffffff',
     },
+  },
+  footer: {
+    marginTop: theme.spacing(5),
+    padding: theme.spacing(3),
+    backgroundColor: '#f5f5f5',
   },
 }));
 
@@ -61,30 +72,48 @@ function Hirings() {
 
   return (
     <div>
-      <Container className={classes.root}>
+      <Container className={classes.mainContent}>
         <Typography variant="h4" gutterBottom>
           Contrataciones
         </Typography>
 
         <Tabs
-          variant="fullWidth"
-          size="small"
           value={currentTab}
           onChange={handleChangeTab}
-          centered
-          className={classes.tabs}
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
+          aria-label="scrollable force tabs example"
         >
-          <Tab label="General" value="General" className={classes.tabHover} />
           <Tab
-            label="Solicitada"
+            label="Todas"
+            value="General"
+            className={classes.tabHover}
+            wrapped
+          />
+          <Tab
+            label="Solicitadas"
             value="solicitada"
             className={classes.tabHover}
+            wrapped
           />
-          <Tab label="Aceptada" value="aceptada" className={classes.tabHover} />
           <Tab
-            label="Finalizada"
+            label="Aceptadas"
+            value="aceptada"
+            className={classes.tabHover}
+            wrapped
+          />
+          <Tab
+            label="Canceladas"
+            value="cancelada"
+            className={classes.tabHover}
+            wrapped
+          />
+          <Tab
+            label="Finalizadas"
             value="finalizada"
             className={classes.tabHover}
+            wrapped
           />
         </Tabs>
 
@@ -106,6 +135,14 @@ function Hirings() {
             />
           </Box>
         )}
+        <footer className={classes.footer}>
+          <Typography variant="h6" align="center" gutterBottom>
+            Brainify
+          </Typography>
+          <Typography variant="subtitle1" align="center" color="textSecondary">
+            Contacto: info@brainify.com
+          </Typography>
+        </footer>
       </Container>
     </div>
   );

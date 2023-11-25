@@ -142,91 +142,101 @@ function ServiceExplorer() {
 
   return (
     <div>
-      <Container className={classes.root}>
-        <Typography variant="h4" gutterBottom>
-          Explorar Servicios
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <DynamicSelect
-              label="Categoría"
-              value={categoriaFiltro}
-              onChange={(e) => setCategoriaFiltro(e.target.value)}
-              className={classes.formControl}
-              options={[
-                { value: 'tutorias', label: 'Tutorías escolares' },
-                { value: 'idioma', label: 'Clases de idioma' },
-              ]}
-            />
+      <Container className={classes.mainContent}>
+        <Container className={classes.root}>
+          <Typography variant="h4" gutterBottom>
+            Explorar Servicios
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <DynamicSelect
+                label="Categoría"
+                value={categoriaFiltro}
+                onChange={(e) => setCategoriaFiltro(e.target.value)}
+                className={classes.formControl}
+                options={[
+                  { value: 'tutorias', label: 'Tutorías escolares' },
+                  { value: 'idioma', label: 'Clases de idioma' },
+                ]}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <DynamicSelect
+                label="Tipo de clase"
+                value={tipoFiltro}
+                onChange={(e) => setTipoFiltro(e.target.value)}
+                className={classes.formControl}
+                options={[
+                  { value: 'individual', label: 'Individual' },
+                  { value: 'grupal', label: 'Grupal' },
+                ]}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <DynamicSelect
+                label="Frecuencia"
+                value={frecuenciaFiltro}
+                onChange={(e) => setFrecuenciaFiltro(e.target.value)}
+                className={classes.formControl}
+                options={[
+                  { value: 'única', label: 'Única' },
+                  { value: 'semanal', label: 'Semanal' },
+                  { value: 'mensual', label: 'Mensual' },
+                ]}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={filtrarServicios}
+          >
+            Filtrar
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            className={classes.button}
+            onClick={limpiarFiltros}
+          >
+            Limpiar Filtros
+          </Button>
+          <Grid container spacing={3}>
+            {currentServices.map((servicio) => (
+              <ServiceCard
+                key={servicio.id}
+                service={servicio}
+                onClick={setSelectedService}
+                onHire={handleHire}
+              />
+            ))}
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <DynamicSelect
-              label="Tipo de clase"
-              value={tipoFiltro}
-              onChange={(e) => setTipoFiltro(e.target.value)}
-              className={classes.formControl}
-              options={[
-                { value: 'individual', label: 'Individual' },
-                { value: 'grupal', label: 'Grupal' },
-              ]}
+          <div className={classes.pagination}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={(event, value) => setCurrentPage(value)}
             />
-          </Grid>
+          </div>
 
-          <Grid item xs={12} sm={6}>
-            <DynamicSelect
-              label="Frecuencia"
-              value={frecuenciaFiltro}
-              onChange={(e) => setFrecuenciaFiltro(e.target.value)}
-              className={classes.formControl}
-              options={[
-                { value: 'única', label: 'Única' },
-                { value: 'semanal', label: 'Semanal' },
-                { value: 'mensual', label: 'Mensual' },
-              ]}
-            />
-          </Grid>
-        </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={filtrarServicios}
-        >
-          Filtrar
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.button}
-          onClick={limpiarFiltros}
-        >
-          Limpiar Filtros
-        </Button>
-        <Grid container spacing={3}>
-          {currentServices.map((servicio) => (
-            <ServiceCard
-              key={servicio.id}
-              service={servicio}
-              onClick={setSelectedService}
-              onHire={handleHire}
-            />
-          ))}
-        </Grid>
-
-        <div className={classes.pagination}>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={(event, value) => setCurrentPage(value)}
+          <ServiceDetails
+            service={selectedService}
+            onClose={() => setSelectedService(null)}
+            onHire={handleHire}
           />
-        </div>
-
-        <ServiceDetails
-          service={selectedService}
-          onClose={() => setSelectedService(null)}
-          onHire={handleHire}
-        />
+        </Container>
+        <footer className={classes.footer}>
+          <Typography variant="h6" align="center" gutterBottom>
+            Brainify
+          </Typography>
+          <Typography variant="subtitle1" align="center" color="textSecondary">
+            Contacto: info@brainify.com
+          </Typography>
+        </footer>
       </Container>
       <ContratacionForm
         dialogOpen={dialogOpen}

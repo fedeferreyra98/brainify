@@ -10,7 +10,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from '@mui/material';
 import useStyles from '../../styles/styles';
 
@@ -25,7 +24,6 @@ function ContratacionForm({
   setHorario,
   mensaje,
   setMensaje,
-  generateTimeOptions,
   CheckTime,
   isFormComplete,
   resetFormContratacion,
@@ -50,41 +48,20 @@ function ContratacionForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Typography variant="h7" gutterBottom>
-          Franja horaria de contacto
-        </Typography>
         <FormControl className={classes.formControl} fullWidth>
-          <InputLabel>Hora de inicio</InputLabel>
+          <InputLabel>Horario de contacto</InputLabel>
           <Select
             value={horario.inicio}
             onChange={(e) => setHorario({ ...horario, inicio: e.target.value })}
           >
-            <MenuItem value="Seleccionar">Seleccionar</MenuItem>
-            {generateTimeOptions().map((time) => (
-              <MenuItem key={time} value={time}>
-                {time}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl} fullWidth>
-          <InputLabel>Hora de finalización</InputLabel>
-          <Select
-            value={horario.fin}
-            onChange={(e) => setHorario({ ...horario, fin: e.target.value })}
-          >
-            <MenuItem value="Seleccionar">Seleccionar</MenuItem>
-            {generateTimeOptions().map((time) => (
-              <MenuItem key={time} value={time}>
-                {time}
-              </MenuItem>
-            ))}
+            <MenuItem value="Mañana">Mañana</MenuItem>
+            <MenuItem value="Tarde">Tarde</MenuItem>
           </Select>
         </FormControl>
         <TextField
           fullWidth
           margin="normal"
-          label="Mensaje al proveedor"
+          label="Mensaje"
           value={mensaje}
           onChange={(e) => setMensaje(e.target.value)}
           multiline

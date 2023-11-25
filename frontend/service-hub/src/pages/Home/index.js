@@ -29,10 +29,12 @@ import NotificationGreen from '../../components/ui/NotificationGreen';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    backgroundColor: '#DDEBF8',
   },
   mainContent: {
     padding: theme.spacing(5),
     textAlign: 'center',
+    backgroundColor: '#DDEBF8',
   },
   footer: {
     marginTop: theme.spacing(5),
