@@ -5,13 +5,13 @@ class ServiceRepository{
     async getAll(category){
         const query = category === "all" ? {} : {category};
         return await Service.find(query).lean();
-    };
+    }
 
     async getByUserId(userId){
         return await Service.find({userId}).lean();
-    };
+    }
 
-    async create(serviceData){;
+    async create(serviceData){
         return await Service.create(serviceData);
     }
 
@@ -20,23 +20,15 @@ class ServiceRepository{
     }
 
     async update(id, userId, update){
-      try {
         const Service = await findServiceAndCheckOwnership(id, userId);
         Object.keys(update).forEach((key) => (Service[key] = update[key]));
         await Service.save();
         return Service;
-      } catch (error) {
-        throw error;
-      } 
-    };
+    }
     
     async delete(id, userId){
-      try {
         const Service = await findServiceAndCheckOwnership(id, userId);
         await Service.deleteOne();
-      } catch (error) {
-        throw error;
-      };
     }
 
     async validateCategory(category){

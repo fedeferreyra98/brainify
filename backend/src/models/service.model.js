@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Comment from "./comment.model.js";
+import Hiring from "./hiring.model.js";
 
 const ServiceSchema = new mongoose.Schema({
     userId: {

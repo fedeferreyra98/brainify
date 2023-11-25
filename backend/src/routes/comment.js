@@ -1,3 +1,4 @@
+// @ts-ignore
 import express from "express";
 import {getCommentsByServiceId, create, update} from "../controllers/comment.controller.js";
 

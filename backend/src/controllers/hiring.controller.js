@@ -1,4 +1,5 @@
 import hiringService from "../services/hiring.service.js"
+import {handleError} from "../utils/web/error.js";
 
 export const getByServiceId = async (req, res) => {
     try {
@@ -10,7 +11,7 @@ export const getByServiceId = async (req, res) => {
         return res.status(200).json({ hiring });
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 };
 
 export const getByUserId = async (req, res) => {
@@ -23,7 +24,7 @@ export const getByUserId = async (req, res) => {
         return res.status(200).json({ hiring });
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 };
 
 export const create = async (req, res) => {
@@ -33,7 +34,7 @@ export const create = async (req, res) => {
         return res.status(201).json({ hiring });
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 };
 
 export const updateHiring = async (req, res) => {
@@ -44,7 +45,7 @@ export const updateHiring = async (req, res) => {
         return res.status(204).json({ hiring });
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 };
 
 export const attachServiceNameToHiring = async (req, res) => {
@@ -54,5 +55,5 @@ export const attachServiceNameToHiring = async (req, res) => {
         return res.status(200).json({ hiringWithServiceName });
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 }

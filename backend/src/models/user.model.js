@@ -6,7 +6,7 @@ var UserSchema = new mongoose.Schema({
     lastName: String,
     email: {
         type : String,
-        unique : [true, 'Email already exists'],
+        unique : true,
         required : [true, 'Email is required'],
         trim : true,
     },

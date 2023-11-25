@@ -8,7 +8,7 @@ export const  getCommentsByServiceId = async (req, res) => {
         res.status(200).send(comments);
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 };
 
 export const  create = async (req, res) => {
@@ -22,7 +22,7 @@ export const  create = async (req, res) => {
         return res.status(201).json({comment});
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 };
 
 export const  update = async (req, res) => {
@@ -35,12 +35,12 @@ export const  update = async (req, res) => {
         if (!CommentService.checkUserAuthorization(service.userId, req.user.id)) {
             return res.status(403).json({ message: "No tienes permiso para editar este comentario" });
         }
-        const updatedComment = await CommentService.update(
+        const updatedComment = await CommentService.updateCommentStatus(
             req.params.commentId,
             req.body.isBlocked
         );
         return res.status(204).json({ updatedComment });
     } catch (error) {
         return handleError(res, error);
-    };
+    }
 }

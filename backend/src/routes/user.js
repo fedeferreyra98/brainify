@@ -1,3 +1,4 @@
+// @ts-ignore
 import  express  from 'express';
 import {getUser, getUserPublicData, updateUser, updateUserProfileImg} from '../controllers/user.controller.js';
 

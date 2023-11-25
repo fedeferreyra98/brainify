@@ -1,3 +1,4 @@
+// @ts-ignore
 import express from "express";
 
 import {GetAllServices, GetServiceById, GetServicesByUserId, Create, Update, Delete} from "../controllers/service.controller.js";

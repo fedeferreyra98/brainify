@@ -1,6 +1,7 @@
 import AuthenticationService from "../services/authentication.service.js";
 import { verifyToken } from "../utils/tokenManager.js";
-import {handleError} from "../utils/errorHandler.js";
+import {handleError} from "../utils/web/error.js";
+// @ts-ignore
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
@@ -18,7 +19,7 @@ export const register = async (req, res) => {
         return res.status(201).json({user: leanUser, jwt: {token, expiresIn}});
     } catch (error) {
         if (error.code === 11000) {
-            return res.status(409).json(errors[{value: email, message: "Email already exists"}]);
+            return res.status(409).json({ message: "Email already exists"});
         }
         return handleError(res, error);
     }
@@ -77,6 +78,7 @@ export const requestPasswordReset = async (req, res) => {
 export const resetPassword = async (req, res) => {
     try {
         const {token, password} = req.body;
+        // eslint-disable-next-line no-undef
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decoded.userId;
         const user = await AuthenticationService.findUserById(userId);

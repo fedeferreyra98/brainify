@@ -26,18 +26,18 @@ class CommentService {
 
     async create(serviceId, content, rating){
         return commentRepository.create(serviceId, content, rating);
-    };
+    }
 
     async getCommentById(commentId) {
         return commentRepository.getCommentById(commentId);
-    };
+    }
 
     async updateCommentStatus(commentId, isBlocked){
         return commentRepository.updateCommentStatus(commentId, isBlocked);
-    };
+    }
 
     checkUserAuthorization(serviceUserId, userId){
         return serviceUserId.toString() === userId.toString();
-    };
+    }
 }
-export default CommentService
+export default new CommentService()

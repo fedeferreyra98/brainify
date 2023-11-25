@@ -1,3 +1,4 @@
+// @ts-ignore
 import express from "express";
 import {getByServiceId, getByUserId, create, updateHiring, attachServiceNameToHiring } from "../controllers/hiring.controller.js";
 

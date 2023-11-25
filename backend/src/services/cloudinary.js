@@ -1,4 +1,5 @@
 import {v2 as cloudinary} from 'cloudinary';
+// @ts-ignore
 import  process from "process";
 
 cloudinary.config({

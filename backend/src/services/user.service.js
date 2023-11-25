@@ -10,7 +10,11 @@ class UserService {
     }
 
     async update(id, userData) {
-        return await userRepository.update(id, userData).lean();
+        return await userRepository.update(id, userData);
+    }
+
+    async getPublicProfile(user) {
+        return await userRepository.getPublicProfile(user);
     }
 }
 

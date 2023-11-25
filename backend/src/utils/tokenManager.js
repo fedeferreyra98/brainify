@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+// @ts-ignore
 import jwt from "jsonwebtoken";
 
 export const generateToken = (userId) => {
