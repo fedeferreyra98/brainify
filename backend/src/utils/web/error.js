@@ -10,6 +10,7 @@ export const handleError = (response, error) => {
         return response.status(400).json({message: "Id Format not valid"});
         }
     else {
+        console.log(error);
         return response.status(500).json({message: "Internal Server Error"});
     }
 }
