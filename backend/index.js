@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./src/routes/user.js";
+import authRoutes from "./src/routes/auth.js";
 import serviceRoutes from "./src/routes/service.js";
 import commentRoutes from "./src/routes/comment.js";
 import hiringRoutes from "./src/routes/hiring.js";
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/hiring", hiringRoutes);
