@@ -30,8 +30,17 @@ export const login = async (req, res) => {
     try {
         const {email, password} = req.body;
         const user = await AuthenticationService.findUserByEmail(email);
+        if (user === null) {
+            return res.status(404).json({ errors: [
+                {
+                message: "User does not exist",
+                },
+            ]
+        })
+
+    }
         const isMatch = await AuthenticationService.comparePassword(user, password);
-        if (!user || !isMatch) {
+        if (!isMatch) {
             return res.status(404).json({ errors: [
                 {
                 message: "Invalid credentials",
