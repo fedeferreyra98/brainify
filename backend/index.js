@@ -1,13 +1,13 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import userRoutes from "./routes/user.js";
-import serviceRoutes from "./routes/service.js";
-import commentRoutes from "./routes/comment.js";
-import hiringRoutes from "./routes/hiring.js";
+import userRoutes from "./src/routes/user.js";
+import serviceRoutes from "./src/routes/service.js";
+import commentRoutes from "./src/routes/comment.js";
+import hiringRoutes from "./src/routes/hiring.js";
 import process from "process";
 import "dotenv/config";
-import "./database/connection.js";
+import "./src/database/connection.js";
 import cookieParser from "cookie-parser";
 
 // Initialize express application and configure it
