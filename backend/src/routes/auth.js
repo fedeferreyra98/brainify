@@ -1,6 +1,6 @@
 // @ts-ignore
 import express from "express";
-import { register, login, requestPasswordReset, resetPassword } from "../controllers/authentication.controller.js"; 
+import { register, login, requestPasswordReset, resetPassword, validateToken } from "../controllers/authentication.controller.js"; 
 
 const router = express.Router();
 
@@ -17,5 +17,8 @@ router.post('/request-password-reset', requestPasswordReset);
 
 //Reset password
 router.post('/reset-password', resetPassword);
+
+//Validate Token
+router.post('/validate-token', validateToken);
 
 export default router;
