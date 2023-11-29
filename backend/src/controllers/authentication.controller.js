@@ -89,7 +89,7 @@ export const resetPassword = async (req, res) => {
     try {
         const {token, password} = req.body;
         // eslint-disable-next-line no-undef
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, 'mySuperSecretKey12345!');
         const userId = decoded.userId;
         const user = await AuthenticationService.findUserById(userId);
         if (!user) {

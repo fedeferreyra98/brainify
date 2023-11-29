@@ -42,8 +42,9 @@ export const GetServicesByUserId = async (req, res) => {
 
 export const Create = async (req, res) => {
     try {
+        console.log(req.body)
         const serviceData = {...req.body, 
-            userId: req.user._id, 
+            userId: req.body.id, 
             averageRating: 0,
             totalRating: 0,
             sumOfRatings: 0,

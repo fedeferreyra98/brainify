@@ -6,7 +6,7 @@ export const requireToken = async (req, res, next) => {
     if (!token) {
       throw new Error("No se proveyó el token");
     }
-    const  userId  = jwt.verify(token, process.env.JWT_SECRET);
+    const  userId  = jwt.verify(token, 'mySuperSecretKey12345!');
     req.userId = userId;
     next();
   } catch (error) {

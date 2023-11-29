@@ -3,7 +3,7 @@
 import jwt from "jsonwebtoken";
 import sgMail from "@sendgrid/mail";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey('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');
 
 export const sendMail = async (email, subject, text, html) => {
   const msg = {
