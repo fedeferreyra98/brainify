@@ -48,13 +48,10 @@ function LoginPage({ onLogin }) {
         'http://localhost:4000/api/auth/login',
         credentials
       );
-      console.log(response.data);
-      // Aquí puedes manejar cómo almacenar el token de autenticación, por ejemplo en localStorage
-      // localStorage.setItem('token', response.data.token);
-      navigate('/'); // Redirigir a la página de inicio o donde quieras después del login
+      localStorage.setItem('token', response.data.jwt.token);
+      navigate('/');
       onLogin();
     } catch (error) {
-      console.error('Error al iniciar sesión:', error.response || error);
       setNotificationRedMessage(error.response.data.errors[0].message);
       setNotificationRedOpen(true);
     }
