@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export const generateToken = (userId) => {
   const expiresIn = 60 * 60 * 24 * 7; 
   try {
-    const token = jwt.sign({ userId }, 'mySuperSecretKey12345!', { expiresIn });
+    const token = jwt.sign({ userId }, process.env.MONGO_URI, { expiresIn });
     return { token, expiresIn };
   } catch (error) {
     console.log(error);
@@ -14,7 +14,7 @@ export const generateToken = (userId) => {
 
 export const verifyToken = (token) => {
   try {
-    const decoded = jwt.verify(token, 'mySuperSecretKey12345!');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     return { valid: true, userId: decoded.userId };
   } catch (error) {
     console.log("Error al verificar el token:", error.message);
