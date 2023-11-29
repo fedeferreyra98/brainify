@@ -1,7 +1,9 @@
 // @ts-ignore
 import express from "express";
 
-import {GetAllServices, GetServiceById, GetServicesByUserId, Create, Update, Delete} from "../controllers/service.controller.js";
+import {GetAllServices, GetServiceById, GetServicesByUser, Create, Update, Delete} from "../controllers/service.controller.js";
+import { requireToken } from "../middlewares/requireToken.js";
+import { createServiceBodyValidator } from "../middlewares/validationResultExpress.js";
 
 const router = express.Router();
 
@@ -12,16 +14,16 @@ router.get("/", GetAllServices);
 router.get("/:serviceId", GetServiceById);
 
 //GetByUserId
-router.get("/user/:userId", GetServicesByUserId);
+router.get("/user/:userId", requireToken, GetServicesByUser);
 
 //Create
-router.post("/", Create);
+router.post("/", requireToken, createServiceBodyValidator, Create);
 
 //Update
-router.patch("/:serviceId", Update);
+router.patch("/:serviceId", requireToken, createServiceBodyValidator, Update);
 
 //Delete
-router.delete("/:serviceId", Delete);
+router.delete("/:serviceId", requireToken, Delete);
 
 
 

@@ -27,10 +27,9 @@ export const GetServiceById = async (req, res) => {
     }
 };
 
-export const GetServicesByUserId = async (req, res) => {
+export const GetServicesByUser = async (req, res) => {
     try {
-        const userId = req.params.userId;
-        const services = await ServiceService.getByUserId(userId);
+        const services = await ServiceService.getByUserId(req.user._id);
         if (!services) {
             return res.status(404).json({message: "Servicios no encontrados"});
         }
@@ -42,9 +41,16 @@ export const GetServicesByUserId = async (req, res) => {
 
 export const Create = async (req, res) => {
     try {
-        console.log(req.body)
-        const serviceData = {...req.body, 
-            userId: req.body.id, 
+        const {name, description, category, frequency, cost, type, duration} = req.body;
+        const serviceData = {
+            name: name,
+            description: description,
+            category: category,
+            frequency: frequency,
+            cost: cost,
+            type: type,
+            duration: duration,
+            userId: req.userId,
             averageRating: 0,
             totalRating: 0,
             sumOfRatings: 0,
