@@ -161,7 +161,7 @@ export const apiUpdateUser = (data) => {
     });
 }
 
-//Hiring endpoints /api/hiring
+// Hiring endpoints /api/hiring
 
 export const apiGetHiringsByServiceId = (serviceId) => {
     return axiosInstance
@@ -193,6 +193,44 @@ export const apiCreateHiring = (serviceId, hiringData) => {
 export const apiUpdateHiring = (hiringId, hiringData) => {
     return axiosInstance
     .patch(`/hiring/${hiringId}`, hiringData)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+// Comment endpoints /api/comment
+
+export const apiCreateComment = (serviceId, commentData) => {
+    return axiosInstance
+    .post(`/comment/${serviceId}`, commentData)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiGetCommentsByServiceId = (serviceId) => {
+    return axiosInstance
+    .get(`/comment/${serviceId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiGetAllCommentsByServiceId = (serviceId) => {
+  return axiosInstance
+  .get(`/comment/${serviceId}/all`)
+  .then((response) => response.data)
+  .catch((error) => {
+      throw error;
+  });
+};
+
+export const apiUpdateComment = (commentId, commentData) => {
+    return axiosInstance
+    .patch(`/comment/${commentId}`, commentData)
     .then((response) => response.data)
     .catch((error) => {
         throw error;
