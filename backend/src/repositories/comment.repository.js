@@ -4,7 +4,14 @@ import Service from '../models/service.model.js';
 class CommentRepository{
 
     async getCommentsByServiceId(serviceId){
-        return await Comment.findById({serviceId}).lean();
+        try {
+            const comments = await Comment.find({ serviceId }).lean().exec();
+            return comments;
+          } catch (error) {
+            // Handle any errors here
+            console.error(error);
+            throw error; // Optional: Rethrow the error to propagate it to the caller
+          }    
     }
 
     async create(serviceId, content, rating){

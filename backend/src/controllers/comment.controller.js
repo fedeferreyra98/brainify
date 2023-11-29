@@ -11,6 +11,23 @@ export const  getCommentsByServiceId = async (req, res) => {
     }
 };
 
+export const getAllCommentsByServiceId = async (req, res) => {
+    try {
+        const service = await ServiceService.getById(req.params.serviceId);
+        if (!service) {
+            return res.status(404).json({ message: "Servicio no encontrado" });
+        }
+        if (!CommentService.checkUserAuthorization(service.userId, req.user.id)) {
+            return res.status(403).json({ message: "No tienes permiso para ver estos comentarios" });
+        }
+
+        const comments = await CommentService.getAllCommentsByServiceId(req.params.serviceId);
+        return res.status(200).json({ comments });
+    } catch (error) {
+        return handleError(res, error);
+    }
+};
+
 export const  create = async (req, res) => {
     try {
         const {content, rating} = req.body;
