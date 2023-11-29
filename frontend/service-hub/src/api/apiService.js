@@ -122,3 +122,41 @@ export const apiUpdateService = (serviceId, data) => {
     });
 };
 
+
+// User endpoints /api/user
+export const apiGetPublicUserData = (userId) => {
+    return axiosInstance
+    .get(`/user/${userId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+}
+
+export const apiUploadImage = (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return axiosInstance
+    .patch('/user/profileImg' , formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+    },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+
+export const apiUpdateUser = (data) => {
+    return axiosInstance
+    .patch('/user', data)
+    .then((response) => {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        return response.data;
+    })
+    .catch((error) => {
+        throw error.response.data;
+    });
+}
