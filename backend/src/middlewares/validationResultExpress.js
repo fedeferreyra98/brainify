@@ -1,4 +1,5 @@
 import { validationResult, body } from "express-validator";
+import { categories } from "../database/categories.hardcode.js";
 
 export const validationResultExpress = (req, res, next) => {
   const errors = validationResult(req);
@@ -56,18 +57,13 @@ export const createServiceBodyValidator = [
     "La descripción no puede tener más de 255 caracteres"
   ).isLength({ max: 255 }),
   body("category", "La categoría es requerida").trim().notEmpty(),
-  body("category", "Categoría inválida").isIn([
-    "programacion",
-    "idiomas",
-    "musica",
-    "matematica",
-  ]),
+  body("category", "Categoría inválida").isIn(categories),
   body("frequency", "La frecuencia es requerida.").trim().notEmpty(),
-  body("frequency", "Frecuencia inválida").isIn(["unique", "weekly", "monthly"]),
+  body("frequency", "Frecuencia inválida").isIn(['One-time', 'Weekly', 'Monthly']),
   body("cost", "El costo es requerido").trim().notEmpty(),
   body("cost", "El costo debe ser al menos de $0.99").isFloat({ min: 0.99 }),
   body("type", "El tipo es requerido").trim().notEmpty(),
-  body("type", "Tipo inválido").isIn(["individual", "group"]),
+  body("type", "Tipo inválido").isIn(["Individual", "Group"]),
   body("duration", "La duración es requerida").trim().notEmpty(),
   body("duration", "Duración inválida").isFloat({ min: 0.5, max: 4 }).toFloat(),
   validationResultExpress,

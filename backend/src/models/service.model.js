@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Comment from "./comment.model.js";
 import Hiring from "./hiring.model.js";
+import { categories } from "../database/categories.hardcode.js";
 
 const ServiceSchema = new mongoose.Schema({
     userId: {
@@ -22,7 +23,7 @@ const ServiceSchema = new mongoose.Schema({
     },
     category : {
         type : String,
-        enum : ['Plumbing', 'Electrical', 'Carpentry', 'Cleaning', 'Mechanic', 'Other'],
+        enum : categories,
         required : true,
     },
     frequency: {
@@ -37,7 +38,7 @@ const ServiceSchema = new mongoose.Schema({
     },
     type : {
         type : String,
-        enum : ['Individual', 'Group Session'],
+        enum : ['Individual', 'Group'],
         required : true,
     },
     duration :{
