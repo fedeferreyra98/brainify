@@ -160,3 +160,41 @@ export const apiUpdateUser = (data) => {
         throw error.response.data;
     });
 }
+
+//Hiring endpoints /api/hiring
+
+export const apiGetHiringsByServiceId = (serviceId) => {
+    return axiosInstance
+    .get(`/hiring/${serviceId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiGetHiringsByUser = () => {
+    return axiosInstance
+    .get(`/hiring/user`)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiCreateHiring = (serviceId, hiringData) => {
+    return axiosInstance
+    .post(`/hiring/${serviceId}`, hiringData)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiUpdateHiring = (hiringId, hiringData) => {
+    return axiosInstance
+    .patch(`/hiring/${hiringId}`, hiringData)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};

@@ -11,7 +11,7 @@ router.get("/:serviceId", getByServiceId);
 router.get("/:userId", getByUserId);
 
 // Create
-router.post("/", create);
+router.post("/:serviceId", create);
 
 // Update
 router.put("/:hiringId", updateHiring);

@@ -1,4 +1,5 @@
 import hiringService from "../services/hiring.service.js"
+import serviceRepository from "../repositories/service.repository.js";
 import {handleError} from "../utils/web/error.js";
 
 export const getByServiceId = async (req, res) => {
@@ -29,9 +30,17 @@ export const getByUserId = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
+        const service = await serviceRepository.getById(req.params.serviceId);
+        if (!service) {
+            return res.status(404).json({ message: "Servicio no encontrado" });
+        }
         const hiringData = req.body;
-        const hiring = await hiringService.create(hiringData);
-        return res.status(201).json({ hiring });
+        const hiring = await hiringService.create({
+            ...hiringData,
+            userId : service.userId.toString(),
+            serviceId : service._id.toString(),
+        });
+        return res.status(201).location(`/hiring/${hiring._id}`).json({ hiring });
     } catch (error) {
         return handleError(res, error);
     }
