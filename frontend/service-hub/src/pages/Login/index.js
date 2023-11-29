@@ -34,12 +34,6 @@ function LoginPage({ onLogin }) {
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
 
-  /*   const handleLoginClick = () => {
-    // Aquí puedes agregar la lógica de autenticación si la tienes.
-    // Por ahora, simplemente llamaremos a onLogin para cambiar el estado.
-    onLogin();
-  }; */
-
   // Maneja el click para iniciar sesión
   const handleLoginClick = async (event) => {
     event.preventDefault();
@@ -49,8 +43,9 @@ function LoginPage({ onLogin }) {
         credentials
       );
       localStorage.setItem('token', response.data.jwt.token);
-      navigate('/');
+      localStorage.setItem('user', response.data.user.id);
       onLogin();
+      navigate('/');
     } catch (error) {
       setNotificationRedMessage(error.response.data.errors[0].message);
       setNotificationRedOpen(true);

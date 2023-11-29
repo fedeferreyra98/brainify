@@ -12,6 +12,7 @@ import ResponsiveAppBar from './components/ui/NavBar';
 import './assets/stylesheets/styles.css';
 import { ROUTE_LOGIN, routesConfig } from './config/routes';
 import LoginPage from './pages/Login/index';
+import { AuthProvider } from './AuthContext';
 
 const theme = createTheme();
 
@@ -23,47 +24,51 @@ function App() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     setIsAuthenticated(false);
   };
 
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <div>
-            <CssBaseline />
-            <ResponsiveAppBar
-              isAuthenticated={isAuthenticated}
-              onLogout={handleLogout}
-              position="fixed"
-            />
+    <AuthProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <div>
+              <CssBaseline />
+              <ResponsiveAppBar
+                isAuthenticated={isAuthenticated}
+                onLogout={handleLogout}
+                position="fixed"
+              />
 
-            <Container style={{ paddingTop: '64px' }}>
-              <Routes>
-                {routesConfig.map((route, index) => {
-                  if (route.path === ROUTE_LOGIN) {
+              <Container style={{ paddingTop: '64px' }}>
+                <Routes>
+                  {routesConfig.map((route, index) => {
+                    if (route.path === ROUTE_LOGIN) {
+                      return (
+                        <Route
+                          key={index}
+                          path={route.path}
+                          element={<LoginPage onLogin={handleLogin} />}
+                        />
+                      );
+                    }
                     return (
                       <Route
                         key={index}
                         path={route.path}
-                        element={<LoginPage onLogin={handleLogin} />}
+                        element={route.element}
                       />
                     );
-                  }
-                  return (
-                    <Route
-                      key={index}
-                      path={route.path}
-                      element={route.element}
-                    />
-                  );
-                })}
-              </Routes>
-            </Container>
-          </div>
-        </Router>
-      </ThemeProvider>
-    </StyledEngineProvider>
+                  })}
+                </Routes>
+              </Container>
+            </div>
+          </Router>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </AuthProvider>
   );
 }
 

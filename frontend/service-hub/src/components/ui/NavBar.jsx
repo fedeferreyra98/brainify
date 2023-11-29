@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,13 +13,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import ServiceExplorer from '../../pages/ServiceExplorer/index';
 import MyServices from '../../pages/MyServices';
 import Comments from '../../pages/Comments';
 import Hirings from '../../pages/Hirings';
 import SignUpPage from '../../pages/Signup';
 import LoginPage from '../../pages/Login';
-import mockProvider from '../../data/mockProvider';
 import logo from '../../assets/Logos/company-logo.ico';
 
 const pages = [
@@ -45,7 +45,7 @@ const homePage = { path: '/' };
 const settings = ['Perfil', 'Cambiar contraseña', 'Salir'];
 
 function ResponsiveAppBar({ isAuthenticated, onLogout }) {
-  const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
+  const [providerInfo, setProviderInfo] = useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -68,6 +68,31 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
     handleCloseUserMenu();
     onLogout();
   };
+
+  const storedUser = localStorage.getItem('user');
+  useEffect(() => {
+    // Función para cargar los datos privados del usuario
+    const loadPrivateUserData = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:4000/api/users/${storedUser}`
+        );
+        console.log(response.data);
+        setProviderInfo(response.data.user); // Actualiza el estado con la información privada del usuario
+      } catch (error) {
+        console.error('Error al cargar la información del usuario:', error);
+      }
+    };
+
+    if (storedUser) {
+      loadPrivateUserData();
+    }
+  }, [storedUser]); // Dependencia: storedUser
+
+  if (!providerInfo) {
+    // Loading state, or return null, or a spinner etc.
+    return <div>Loading...</div>;
+  }
 
   return (
     <AppBar position="fixed">

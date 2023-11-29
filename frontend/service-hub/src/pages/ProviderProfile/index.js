@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Button,
   Container,
@@ -20,7 +21,6 @@ import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import mockProvider from '../../data/mockProvider';
 import mockComments from '../../data/mockComments';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 
@@ -59,8 +59,9 @@ const useStyles = makeStyles((theme) => ({
 function ProviderProfile() {
   const classes = useStyles();
   const [isEditing, setIsEditing] = useState(false);
-  const [providerInfo, setProviderInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
-  const [updatedProvider, setUpdatedProvider] = useState(mockProvider);
+  const [providerInfo, setProviderInfo] = useState(null); // Variable de estado para la información del proveedor
+  const [updatedProvider, setUpdatedProvider] = useState(null);
+  const storedUser = localStorage.getItem('user');
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -69,10 +70,28 @@ function ProviderProfile() {
 
   const [notificationOpen, setNotificationOpen] = useState(false);
 
-  const handleSave = () => {
-    setProviderInfo(updatedProvider); // Actualizar la información del proveedor
-    setIsEditing(false);
-    setNotificationOpen(true); // Mostrar la notificación
+  const handleSave = async () => {
+    // ... other code
+
+    try {
+      const response = await axios.patch(
+        `http://127.0.0.1:4000/api/users/${storedUser}`,
+        {
+          firstName: updatedProvider.firstName,
+          lastName: updatedProvider.lastName,
+          email: updatedProvider.email,
+          phoneNumber: updatedProvider.phoneNumber,
+          degree: updatedProvider.degree,
+          experience: updatedProvider.experience,
+        }
+      );
+      setProviderInfo(response.data.user); // Assuming the response has the updated user data
+      setIsEditing(false);
+      setNotificationOpen(true); // Mostrar la notificación
+    } catch (error) {
+      console.error('Error al actualizar la información del usuario:', error);
+      // ... handle errors appropriately
+    }
   };
 
   const VisuallyHiddenInput = styled('input')({
@@ -90,6 +109,31 @@ function ProviderProfile() {
   const topComments = [...mockComments]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 6);
+
+  useEffect(() => {
+    // Función para cargar los datos privados del usuario
+    const loadPrivateUserData = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:4000/api/users/${storedUser}`
+        );
+        console.log(response.data);
+        setProviderInfo(response.data.user); // Actualiza el estado con la información privada del usuario
+        setUpdatedProvider(response.data.user);
+      } catch (error) {
+        console.error('Error al cargar la información del usuario:', error);
+      }
+    };
+
+    if (storedUser) {
+      loadPrivateUserData();
+    }
+  }, [storedUser, notificationOpen]); // Dependencia: storedUser
+
+  if (!providerInfo) {
+    // Loading state, or return null, or a spinner etc.
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container className={classes.root}>
@@ -130,7 +174,7 @@ function ProviderProfile() {
         </Grid>
         <Grid item xs={12} sm={8} md={9}>
           <Typography variant="h5">{`${providerInfo.firstName} ${providerInfo.lastName}`}</Typography>
-          <Typography variant="subtitle1">{providerInfo.title}</Typography>
+          <Typography variant="subtitle1">{providerInfo.degree}</Typography>
           <Typography variant="subtitle2">{`E-mail: ${providerInfo.email}`}</Typography>
           <Typography variant="string">{`Tel: ${providerInfo.phoneNumber}`}</Typography>
         </Grid>
@@ -247,8 +291,8 @@ function ProviderProfile() {
             type="text"
             fullWidth
             variant="outlined"
-            value={updatedProvider.title}
-            name="title"
+            value={updatedProvider.degree}
+            name="degree"
             onChange={handleInputChange}
           />
           <TextField
