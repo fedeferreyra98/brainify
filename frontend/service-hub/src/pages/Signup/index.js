@@ -3,6 +3,7 @@ import { Button, Container, Typography, Grid, TextField } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import NotificationRed from '../../components/ui/NotificationRed';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
 function SignUpPage() {
   const classes = useStyles();
   const navigate = useNavigate(); // Para redirigir después de un registro exitoso
+  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
+  const [notificationRedMessage, setNotificationRedMessage] = useState('');
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -50,6 +54,8 @@ function SignUpPage() {
       navigate('/perfil-proveedor');
     } catch (error) {
       console.error('Hubo un error al registrarse', error.response || error);
+      setNotificationRedMessage(error.response.data.message);
+      setNotificationRedOpen(true);
     }
   };
 
@@ -118,6 +124,11 @@ function SignUpPage() {
           Registrarse
         </Button>
       </form>
+      <NotificationRed
+        open={notificationRedOpen}
+        message={notificationRedMessage}
+        onClose={() => setNotificationRedOpen(false)}
+      />
     </Container>
   );
 }
