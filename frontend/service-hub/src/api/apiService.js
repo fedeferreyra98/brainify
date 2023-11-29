@@ -2,7 +2,7 @@ import axiosInstance from "./axiosConfig";
 
 export const apiLogin = (data) => {
     return axiosInstance
-    .post('auth/login', data)
+    .post('/auth/login', data)
     .then((response) => {
         localStorage.setItem('jwt', JSON.stringify(response.data));
         localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -15,7 +15,7 @@ export const apiLogin = (data) => {
 
 export const apiRegister = (data) => {
     return axiosInstance
-    .post('auth/register', data)
+    .post('/auth/register', data)
     .then((response) => {
         localStorage.setItem('jwt', JSON.stringify(response.data));
         localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -28,16 +28,16 @@ export const apiRegister = (data) => {
 
 export const apiRequestPasswordReset = (email) => {
     return axiosInstance
-    .post('auth/request-password-reset', { email })
+    .post('/auth/request-password-reset', { email })
     .then((response) => response.data)
     .catch((error) => {
         throw error;
     });
-}
+};
 
 export const apiResetPassword = ({token, password}) => {
     return axiosInstance
-    .post('auth/reset-password', { token, password })
+    .post('/auth/reset-password', { token, password })
     .then((response) => response.data)
     .catch((error) => {
         throw error;
@@ -46,7 +46,7 @@ export const apiResetPassword = ({token, password}) => {
 
 export const validateToken = (token) => {
     return axiosInstance
-    .post('auth/validate-token', { token })
+    .post('/auth/validate-token', { token })
     .then((response) => response.data)
     .catch((error) => {
         throw error;
@@ -56,7 +56,7 @@ export const validateToken = (token) => {
 //TODO: Implement this method in backend
 export const refreshToken = () => {
     return axiosInstance
-    .post('auth/refresh-token')
+    .post('/auth/refresh-token')
     .then((response) => {
         localStorage.setItem('jwt', JSON.stringify(response.data));
         return response.data;
@@ -64,4 +64,61 @@ export const refreshToken = () => {
     .catch((error) => {
         throw error;
     });
-}
+};
+
+//Service Endpoints: /api/service
+
+export const apiGetServices = (category) => {
+    return axiosInstance
+    .get(`/service/${category}`)
+    .then((response) => response.data.services)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiGetServicesByUser = () => {
+    return axiosInstance
+    .get(`/service/user`)
+    .then((response) => response.data.services)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiGetServiceById = (serviceId) => {
+    return axiosInstance
+    .get(`/service/${serviceId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiDeleteService = (serviceId) => {
+    return axiosInstance
+    .delete(`/service/${serviceId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiCreateService = (data) => {
+    return axiosInstance
+    .post('/service', data)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
+export const apiUpdateService = (serviceId, data) => {
+    return axiosInstance
+    .patch(`/service/${serviceId}`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw error;
+    });
+};
+
