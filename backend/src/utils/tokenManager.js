@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export const generateToken = (userId) => {
   const expiresIn = 60 * 60 * 24 * 7; 
   try {
-    const token = jwt.sign({ userId }, process.env.MONGO_URI, { expiresIn });
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn });
     return { token, expiresIn };
   } catch (error) {
     console.log(error);
