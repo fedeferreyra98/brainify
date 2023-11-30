@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Container, Typography, Grid, TextField } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import SimplePasswordField from '../../components/form/SimplePasswordField';
 import NotificationRed from '../../components/ui/NotificationRed';
+import { AuthContext } from '../../components/auth/AuthContext';
+import { ROUTE_MY_SERVICES } from '../../config/routePaths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,38 +25,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginPage({ onLogin }) {
-  const classes = useStyles();
+function LoginPage() {
+  const { handleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
+  const classes = useStyles();
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
   });
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
-
-  /*   const handleLoginClick = () => {
-    // Aquí puedes agregar la lógica de autenticación si la tienes.
-    // Por ahora, simplemente llamaremos a onLogin para cambiar el estado.
-    onLogin();
-  }; */
-
-  // Maneja el click para iniciar sesión
-  const handleLoginClick = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post(
-        'http://localhost:4000/api/auth/login',
-        credentials
-      );
-      localStorage.setItem('token', response.data.jwt.token);
-      navigate('/');
-      onLogin();
-    } catch (error) {
-      setNotificationRedMessage(error.response.data.errors[0].message);
-      setNotificationRedOpen(true);
-    }
-  };
 
   // Actualiza el estado de las credenciales
   const handleChange = (event) => {
@@ -66,12 +45,30 @@ function LoginPage({ onLogin }) {
     }));
   };
 
+  const onLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await handleLogin(
+        credentials.email,
+        credentials.password
+      );
+      if (response) {
+        navigate(ROUTE_MY_SERVICES);
+      }
+    } catch (error) {
+      setNotificationRedMessage(
+        error.response.data.errors[0].message || 'Error al iniciar sesión'
+      );
+      setNotificationRedOpen(true);
+    }
+  };
+
   return (
     <Container className={classes.root}>
       <Typography variant="h4" gutterBottom>
         Iniciar Sesión
       </Typography>
-      <form onSubmit={handleLoginClick}>
+      <form onSubmit={onLogin}>
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12}>
             <TextField
@@ -96,7 +93,7 @@ function LoginPage({ onLogin }) {
           variant="submit"
           color="primary"
           className={classes.button}
-          onClick={handleLoginClick}
+          onClick={onLogin}
         >
           Iniciar Sesión
         </Button>

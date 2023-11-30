@@ -21,6 +21,7 @@ import SignUpPage from '../../pages/Signup';
 import LoginPage from '../../pages/Login';
 import mockProvider from '../../data/mockProvider';
 import logo from '../../assets/Logos/company-logo.ico';
+import { AuthContext } from '../auth/AuthContext';
 
 const pages = [
   'Explorar Servicios',
@@ -44,7 +45,8 @@ const homePage = { path: '/' };
 
 const settings = ['Perfil', 'Cambiar contraseña', 'Salir'];
 
-function ResponsiveAppBar({ isAuthenticated, onLogout }) {
+function ResponsiveAppBar() {
+  const { isAuthenticated, handleLogout } = React.useContext(AuthContext); // Variable de estado para la autenticación
   const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -66,7 +68,7 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
 
   const handleLogoutClick = () => {
     handleCloseUserMenu();
-    onLogout();
+    handleLogout();
   };
 
   return (
