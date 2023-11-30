@@ -54,17 +54,17 @@ export const validateToken = (token) => {
 };
 
 // TODO: Implement this method in backend
-export const refreshToken = () => {
-  return axiosInstance
-    .post('/auth/refresh-token')
-    .then((response) => {
-      localStorage.setItem('jwt', JSON.stringify(response.data));
-      return response.data;
-    })
-    .catch((error) => {
-      throw error;
-    });
-};
+// export const refreshToken = () => {
+//   return axiosInstance
+//     .post('/auth/refresh-token')
+//     .then((response) => {
+//       localStorage.setItem('jwt', JSON.stringify(response.data));
+//       return response.data;
+//     })
+//     .catch((error) => {
+//       throw error;
+//     });
+// };
 
 // Service Endpoints: /api/service
 

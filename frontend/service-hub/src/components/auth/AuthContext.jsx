@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    const checkTockenValidity = async () => {
+    const checkTokenValidity = async () => {
       const storedUser = localStorage.getItem('user');
       const storedToken = localStorage.getItem('jwt');
       if (storedUser && storedToken) {
@@ -18,6 +18,7 @@ export function AuthProvider({ children }) {
           const isValid = await validateToken(JSON.parse(storedToken).token);
           if (isValid) {
             setSession(JSON.parse(storedUser));
+            setIsAuthenticated(true);
           } else {
             handleLogout();
           }
@@ -27,7 +28,7 @@ export function AuthProvider({ children }) {
         }
       }
     };
-    checkTockenValidity();
+    checkTokenValidity();
   }, []);
 
   const handleLogin = async (email, password) => {

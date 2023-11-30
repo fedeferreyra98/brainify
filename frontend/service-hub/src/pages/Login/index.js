@@ -36,23 +36,6 @@ function LoginPage() {
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
 
-  // Maneja el click para iniciar sesión
-  // const handleLoginClick = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await axios.post(
-  //       'http://localhost:4000/api/auth/login',
-  //       credentials
-  //     );
-  //     localStorage.setItem('token', response.data.jwt.token);
-  //     navigate('/');
-  //     onLogin();
-  //   } catch (error) {
-  //     setNotificationRedMessage(error.response.data.errors[0].message);
-  //     setNotificationRedOpen(true);
-  //   }
-  // };
-
   // Actualiza el estado de las credenciales
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -69,7 +52,6 @@ function LoginPage() {
         credentials.email,
         credentials.password
       );
-      console.log(response);
       if (response) {
         navigate(ROUTE_MY_SERVICES);
       }
