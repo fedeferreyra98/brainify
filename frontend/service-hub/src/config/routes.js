@@ -63,13 +63,36 @@ export const ROUTE_NOT_FOUND = '*';
 
 // Route elements
 export const routesConfig = [
-  { path: ROUTE_HOME, element: <LandingPage /> },
-  { path: ROUTE_FORGOT_PASSWORD, element: <ForgotPassword /> },
-  { path: ROUTE_CHANGE_PASSWORD, element: <ChangePassword /> },
-  { path: ROUTE_RESTORE_PASSWORD, element: <RestorePassword /> },
-  { path: ROUTE_LOGIN, element: <LoginPage /> },
-  { path: ROUTE_EXPLORE_SERVICES, element: <ServiceExplorer /> },
-  { path: ROUTE_SIGNUP, element: <SignupPage /> },
+  { path: ROUTE_HOME, element: <LandingPage />, requireAuth: false },
+
+  {
+    path: ROUTE_FORGOT_PASSWORD,
+    element: <ForgotPassword />,
+    requireAuth: false,
+  },
+
+  {
+    path: ROUTE_CHANGE_PASSWORD,
+    element: <ChangePassword />,
+    requireAuth: false,
+  },
+
+  {
+    path: ROUTE_RESTORE_PASSWORD,
+    element: <RestorePassword />,
+    requireAuth: false,
+  },
+
+  { path: ROUTE_LOGIN, element: <LoginPage />, requireAuth: false },
+
+  {
+    path: ROUTE_EXPLORE_SERVICES,
+    element: <ServiceExplorer />,
+    requireAuth: false,
+  },
+
+  { path: ROUTE_SIGNUP, element: <SignupPage />, requireAuth: false },
+
   {
     path: ROUTE_MY_SERVICES,
     element: (
@@ -77,7 +100,9 @@ export const routesConfig = [
         <MyServices />
       </ProtectedRoute>
     ),
+    requireAuth: true,
   },
+
   {
     path: ROUTE_PROVIDER_PROFILE,
     element: (
@@ -85,7 +110,9 @@ export const routesConfig = [
         <ProviderProfile />
       </ProtectedRoute>
     ),
+    requireAuth: true,
   },
+
   {
     path: ROUTE_COMMENTS,
     element: (
@@ -101,6 +128,8 @@ export const routesConfig = [
         <Hirings />
       </ProtectedRoute>
     ),
+    requireAuth: true,
   },
-  { path: ROUTE_NOT_FOUND, element: <NotFoundPage /> },
+
+  { path: ROUTE_NOT_FOUND, element: <NotFoundPage />, requireAuth: false },
 ];
