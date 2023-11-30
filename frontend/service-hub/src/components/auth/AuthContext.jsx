@@ -44,6 +44,8 @@ export function AuthProvider({ children }) {
 
   const handleLogout = () => {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('user');
+    setSession(null);
     setIsAuthenticated(false);
   };
 
