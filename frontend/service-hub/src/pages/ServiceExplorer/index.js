@@ -139,9 +139,9 @@ function ServiceExplorer() {
   const filtrarServicios = () => {
     const filtrados = servicios.filter((servicio) => {
       return (
-        (!categoriaFiltro || servicio.categoria === categoriaFiltro) &&
-        (!tipoFiltro || servicio.tipo === tipoFiltro) &&
-        (!frecuenciaFiltro || servicio.frecuencia === frecuenciaFiltro)
+        (!categoriaFiltro || servicio.category === categoriaFiltro) &&
+        (!tipoFiltro || servicio.type === tipoFiltro) &&
+        (!frecuenciaFiltro || servicio.frequency === frecuenciaFiltro)
       );
     });
     setServiciosFiltrados(filtrados);
@@ -171,8 +171,10 @@ function ServiceExplorer() {
                 onChange={(e) => setCategoriaFiltro(e.target.value)}
                 className={classes.formControl}
                 options={[
-                  { value: 'tutorias', label: 'Tutorías escolares' },
-                  { value: 'idioma', label: 'Clases de idioma' },
+                  { value: 'programacion', label: 'Clases de Programación' },
+                  { value: 'idiomas', label: 'Clases de Idiomas' },
+                  { value: 'musica', label: 'Clases de Musica' },
+                  { value: 'matematica', label: 'Clases de Matemáticas' },
                 ]}
               />
             </Grid>
@@ -184,8 +186,8 @@ function ServiceExplorer() {
                 onChange={(e) => setTipoFiltro(e.target.value)}
                 className={classes.formControl}
                 options={[
-                  { value: 'individual', label: 'Individual' },
-                  { value: 'grupal', label: 'Grupal' },
+                  { value: 'Individual', label: 'Individual' },
+                  { value: 'Group', label: 'Grupal' },
                 ]}
               />
             </Grid>
@@ -197,9 +199,9 @@ function ServiceExplorer() {
                 onChange={(e) => setFrecuenciaFiltro(e.target.value)}
                 className={classes.formControl}
                 options={[
-                  { value: 'única', label: 'Única' },
-                  { value: 'semanal', label: 'Semanal' },
-                  { value: 'mensual', label: 'Mensual' },
+                  { value: 'One-time', label: 'Única' },
+                  { value: 'Weekly', label: 'Semanal' },
+                  { value: 'Monthly', label: 'Mensual' },
                 ]}
               />
             </Grid>
