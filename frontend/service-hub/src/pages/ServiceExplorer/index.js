@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Container, Typography, Grid, Pagination } from '@mui/material';
+import axios from 'axios';
 import DynamicSelect from '../../components/form/DynamicSelect';
-import mockServices from '../../data/mockServices';
 import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails';
 import useStyles from '../../styles/styles';
@@ -13,8 +13,23 @@ function ServiceExplorer() {
   const classes = useStyles();
 
   // Estados lista de servicios y filtrada
-  const [servicios] = useState(mockServices);
-  const [serviciosFiltrados, setServiciosFiltrados] = useState(servicios);
+  const [servicios, setServicios] = useState([]);
+  const [serviciosFiltrados, setServiciosFiltrados] = useState([]);
+
+  useEffect(() => {
+    // Función para cargar los servicios del backend
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:4000/api/service/');
+        setServicios(response.data.services); // Suponiendo que el backend devuelve un array de servicios
+        setServiciosFiltrados(response.data.services); // Inicialmente, todos los servicios están "filtrados"
+      } catch (error) {
+        console.error('Error al cargar los servicios:', error);
+      }
+    };
+
+    fetchServices();
+  }, []); // El array vacío asegura que esto se ejecute solo una vez al montar el componente
 
   // Estados para los filtros
   const [categoriaFiltro, setCategoriaFiltro] = useState('');
@@ -138,6 +153,7 @@ function ServiceExplorer() {
     setTipoFiltro('');
     setFrecuenciaFiltro('');
     setServiciosFiltrados(servicios);
+    console.log(currentServices);
   };
 
   return (

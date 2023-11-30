@@ -19,7 +19,7 @@ import NotificationGreen from '../../components/ui/NotificationGreen';
 function ServiceCard({ service, onClick, onHire }) {
   // Calculate average rating for the service
   const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service.nombre
+    (comment) => comment.serviceName === service.name
   );
   const averageRating =
     serviceComments.reduce((acc, comment) => acc + comment.rating, 0) /
@@ -30,6 +30,7 @@ function ServiceCard({ service, onClick, onHire }) {
 
   const handleCommentClick = () => {
     setOpenCommentForm(true);
+    console.log(service);
   };
 
   const handleCloseCommentForm = () => {
@@ -55,10 +56,12 @@ function ServiceCard({ service, onClick, onHire }) {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h5" marginBottom={1} marginTop={1}>
-                {service.nombre}
+                {service.name}
               </Typography>
               <Rating value={averageRating} readOnly precision={0.5} />
-              <Typography color="textSecondary">{service.proveedor}</Typography>
+              <Typography variant="body2" marginBottom={1} marginTop={1}>
+                {`(${service.totalRatings})`}
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <img

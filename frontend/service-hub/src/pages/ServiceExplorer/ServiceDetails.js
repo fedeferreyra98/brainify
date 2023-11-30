@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Dialog,
   List,
@@ -26,46 +27,69 @@ import mockComments from '../../data/mockComments';
 
 function ServiceDetails({ service, onClose, onHire }) {
   const classes = useStyles();
+  const [providerInfo, setProviderInfo] = useState(null);
+
+  useEffect(() => {
+    // Cuando el servicio se establece o cambia, buscar la información del proveedor
+    if (service) {
+      const fetchProviderInfo = async () => {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:4000/api/users/${service.userId}`
+          );
+          setProviderInfo(response.data.user); // Asumiendo que la respuesta tiene la forma { user: { ... } }
+        } catch (error) {
+          console.error('Error al cargar la información del proveedor:', error);
+        }
+      };
+
+      fetchProviderInfo();
+    }
+  }, [service]);
 
   // Filter comments for the selected service
   const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service?.nombre
+    (comment) => comment.serviceName === service?.name
   );
 
   return (
     <Dialog open={!!service} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>{service?.nombre}</DialogTitle>
+      <DialogTitle>{service?.name}</DialogTitle>
       <DialogContent>
         <List>
           <ListItem>
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
-            <ListItemText primary="Proveedor" secondary={service?.proveedor} />
+            <ListItemText
+              primary="Proveedor"
+              secondary={
+                providerInfo
+                  ? `${providerInfo.firstName} ${providerInfo.lastName}`
+                  : 'Cargando...'
+              }
+            />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
             <ListItemIcon>
               <CategoryIcon />
             </ListItemIcon>
-            <ListItemText primary="Categoría" secondary={service?.categoria} />
+            <ListItemText primary="Categoría" secondary={service?.category} />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
             <ListItemIcon>
               <ClassIcon />
             </ListItemIcon>
-            <ListItemText primary="Tipo" secondary={service?.tipo} />
+            <ListItemText primary="Tipo" secondary={service?.type} />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
             <ListItemIcon>
               <ScheduleIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Frecuencia"
-              secondary={service?.frecuencia}
-            />
+            <ListItemText primary="Frecuencia" secondary={service?.frequency} />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
@@ -74,7 +98,7 @@ function ServiceDetails({ service, onClose, onHire }) {
             </ListItemIcon>
             <ListItemText
               primary="Duración"
-              secondary={`${service?.duracion} minutos`}
+              secondary={`${service?.duration} horas`}
             />
           </ListItem>
           <Divider variant="inset" component="li" />
@@ -82,7 +106,7 @@ function ServiceDetails({ service, onClose, onHire }) {
             <ListItemIcon>
               <AttachMoneyIcon />
             </ListItemIcon>
-            <ListItemText primary="Costo" secondary={`$ ${service?.costo}`} />
+            <ListItemText primary="Costo" secondary={`$ ${service?.cost}`} />
           </ListItem>
         </List>
 
