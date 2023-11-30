@@ -87,11 +87,10 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
     if (storedUser) {
       loadPrivateUserData();
     }
-  }, [storedUser]); // Dependencia: storedUser
+  }, [storedUser, isAuthenticated]); // Dependencia: storedUser
 
-  if (!providerInfo) {
-    // Loading state, or return null, or a spinner etc.
-    return <div>Loading...</div>;
+  if (!providerInfo && isAuthenticated) {
+    return <div>Loading NavBar...</div>;
   }
 
   return (

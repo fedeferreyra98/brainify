@@ -51,7 +51,7 @@ function SignUpPage() {
         formData
       );
       console.log(response.data);
-      navigate('/perfil-proveedor');
+      navigate('/login');
     } catch (error) {
       console.error('Hubo un error al registrarse', error.response || error);
       setNotificationRedMessage(error.response.data.message);

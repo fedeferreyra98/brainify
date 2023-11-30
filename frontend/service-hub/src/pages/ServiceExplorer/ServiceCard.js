@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import mockComments from '../../data/mockComments';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import { createComment } from '../../api/apiService';
 
 function ServiceCard({ service, onClick, onHire }) {
   // Calculate average rating for the service
@@ -37,15 +38,21 @@ function ServiceCard({ service, onClick, onHire }) {
     setOpenCommentForm(false);
   };
 
-  const handleSendComment = () => {
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [mainComment, setMainComment] = useState('');
+
+  const handleSendComment = async () => {
+    const response = await createComment({
+      serviceId: service.id,
+      content: mainComment,
+      rating: 5,
+    });
+    console.log(response);
     // Here, you can handle the submission of the comment, e.g., save it to a database.
     setOpenCommentForm(false);
     setNotificationOpen(true);
   };
-
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [mainComment, setMainComment] = useState('');
 
   const canSubmit = name && lastName;
 

@@ -44,6 +44,7 @@ function LoginPage({ onLogin }) {
       );
       localStorage.setItem('token', response.data.jwt.token);
       localStorage.setItem('user', response.data.user.id);
+      console.log(response.data.jwt);
       onLogin();
       navigate('/');
     } catch (error) {

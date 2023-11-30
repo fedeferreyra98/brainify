@@ -37,7 +37,7 @@ function ServiceDetails({ service, onClose, onHire }) {
           const response = await axios.get(
             `http://127.0.0.1:4000/api/users/${service.userId}`
           );
-          setProviderInfo(response.data.user); // Asumiendo que la respuesta tiene la forma { user: { ... } }
+          setProviderInfo(response.data.user);
         } catch (error) {
           console.error('Error al cargar la información del proveedor:', error);
         }
