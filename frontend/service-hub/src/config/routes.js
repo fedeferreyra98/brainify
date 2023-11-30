@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 // Components and pages
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,20 @@ import ForgotPassword from '../pages/ForgotPassword/index';
 import ChangePassword from '../pages/ChangePassword/index';
 import RestorePassword from '../pages/RestorePassword/index';
 import notFoundImage from '../assets/Logos/notFound.jpg';
+import {
+  ROUTE_HOME,
+  ROUTE_FORGOT_PASSWORD,
+  ROUTE_CHANGE_PASSWORD,
+  ROUTE_RESTORE_PASSWORD,
+  ROUTE_LOGIN,
+  ROUTE_EXPLORE_SERVICES,
+  ROUTE_SIGNUP,
+  ROUTE_MY_SERVICES,
+  ROUTE_PROVIDER_PROFILE,
+  ROUTE_COMMENTS,
+  ROUTE_HIRINGS,
+  ROUTE_NOT_FOUND,
+} from './routePaths';
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = true; // Aquí puedes verificar si el usuario está autenticado (el que vale es el de dentro de app)
@@ -47,19 +62,6 @@ function NotFoundPage() {
     </div>
   );
 }
-// Route paths
-export const ROUTE_HOME = '/';
-export const ROUTE_FORGOT_PASSWORD = '/forgot-password';
-export const ROUTE_CHANGE_PASSWORD = '/change-password';
-export const ROUTE_RESTORE_PASSWORD = '/restore-password';
-export const ROUTE_LOGIN = '/login';
-export const ROUTE_EXPLORE_SERVICES = '/explorar-servicios';
-export const ROUTE_SIGNUP = '/registro';
-export const ROUTE_MY_SERVICES = '/mis-servicios';
-export const ROUTE_PROVIDER_PROFILE = '/perfil-proveedor';
-export const ROUTE_COMMENTS = '/comentarios';
-export const ROUTE_HIRINGS = '/contrataciones';
-export const ROUTE_NOT_FOUND = '*';
 
 // Route elements
 export const routesConfig = [
