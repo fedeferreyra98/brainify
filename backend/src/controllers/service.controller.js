@@ -57,7 +57,7 @@ export const Create = async (req, res) => {
             sumOfRatings: 0,
         };
         const service = await ServiceService.create(serviceData);
-        return res.status(201).location(`/services/${service._id}`).json({service});
+        return res.status(201).json({service});
     } catch (error) {
         return handleError(res, error);
     }
