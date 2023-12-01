@@ -3,7 +3,7 @@ import { Container, Typography, List, ListItem, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import CommentCard from './CommentCard';
-import { apiGetAllCommentsByServiceId } from '../../api/apiService';
+import { apiGetAllCommentsByUser } from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -32,10 +32,14 @@ function Comments() {
     const getComments = async () => {
       try {
         if (user) {
-          const response = await apiGetAllCommentsByServiceId(
-            JSON.parse(user).id
+          const obj = JSON.parse(user);
+          const response = await apiGetAllCommentsByUser(obj.id);
+          // Filter comments to only include those where 'isBlocked' is true
+          const blockedComments = response.comments.filter(
+            (comment) => comment.isBlocked
           );
-          setComments(response);
+          setComments(blockedComments);
+          console.log(blockedComments);
         }
       } catch (error) {
         console.log('Error getting comments info:', error);

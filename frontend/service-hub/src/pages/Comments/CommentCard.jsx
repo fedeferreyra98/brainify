@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -8,8 +8,23 @@ import {
 } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import CommentActions from './CommentActions';
+import { apiGetServiceById } from '../../api/apiService';
 
 function CommentCard({ comment, onPublish, onDelete }) {
+  const [serviceName, setServiceName] = useState('');
+
+  const getServiceName = async () => {
+    try {
+      if (comment) {
+        const response = await apiGetServiceById(comment.serviceId);
+        setServiceName(response.service.name);
+        console.log(response.service.name);
+      }
+    } catch (error) {
+      console.log('Error getting comments info:', error);
+    }
+  };
+  getServiceName();
   return (
     <Card sx={{ width: '100%', mb: 2 }}>
       <CardContent>
@@ -23,7 +38,7 @@ function CommentCard({ comment, onPublish, onDelete }) {
                 color="textPrimary"
                 sx={{ display: 'block', fontWeight: 'bold' }}
               >
-                {comment.serviceName}
+                {serviceName}
               </Typography>
               <Rating value={comment.rating} readOnly />
               <Typography
@@ -32,7 +47,7 @@ function CommentCard({ comment, onPublish, onDelete }) {
                 color="textPrimary"
                 sx={{ display: 'block' }}
               >
-                {comment.comment}
+                {comment.content}
               </Typography>
               {comment.secondaryComment}
             </>

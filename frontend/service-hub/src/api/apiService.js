@@ -227,9 +227,10 @@ export const apiGetAllCommentsByServiceId = (_id) => {
     });
 };
 
-export const apiGetAllCommentsByUser = () => {
+export const apiGetAllCommentsByUser = (_id) => {
+  console.log(_id);
   return axiosInstance
-    .get(`/comment/my/comments`)
+    .get(`/comment/my/${_id}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
