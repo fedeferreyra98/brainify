@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography, List, ListItem, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import CommentCard from './CommentCard';
-import mockComments from '../../data/mockComments';
+import { apiGetAllCommentsByServiceId } from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -20,10 +20,29 @@ const useStyles = makeStyles((theme) => ({
 
 function Comments() {
   const classes = useStyles();
-  const [comments, setComments] = useState(mockComments);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  // Filter comments for the selected service
+  const [comments, setComments] = useState([]);
+  const user = localStorage.getItem('user');
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        if (user) {
+          const response = await apiGetAllCommentsByServiceId(
+            JSON.parse(user).id
+          );
+          setComments(response);
+        }
+      } catch (error) {
+        console.log('Error getting comments info:', error);
+      }
+    };
+    getComments();
+  }, [user]);
 
   const handlePublish = (commentId) => {
     const updatedComments = comments.filter(

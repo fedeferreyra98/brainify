@@ -16,7 +16,7 @@ import {
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import { apiCreateComment } from '../../api/apiService';
 
-function ServiceCard({ service, onClick, onHire }) {
+function ServiceCard({ service, onClick, onHire, validation, send }) {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [mainComment, setMainComment] = useState('');
@@ -33,6 +33,14 @@ function ServiceCard({ service, onClick, onHire }) {
     setOpenCommentForm(false);
   };
 
+  // Función para resetear el formulario de comentario
+  const resetFormCmment = () => {
+    setName('');
+    setLastName('');
+    setMainComment('');
+    setRating(5);
+  };
+
   const handleSendComment = async () => {
     try {
       console.log(service);
@@ -43,7 +51,12 @@ function ServiceCard({ service, onClick, onHire }) {
         rating: commentRating,
       });
       if (response) {
-        console.log(response);
+        if (validation) {
+          send(false);
+        } else {
+          send(true);
+        }
+        resetFormCmment();
         setOpenCommentForm(false);
         setNotificationOpen(true);
       }
@@ -66,9 +79,6 @@ function ServiceCard({ service, onClick, onHire }) {
                 {service.name}
               </Typography>
               <Rating value={service.averageRating} readOnly precision={0.5} />
-              <Typography variant="body2" marginBottom={1} marginTop={1}>
-                {`(${service.sumOfRatings})`}
-              </Typography>
             </Grid>
             <Grid item xs={12}>
               <img

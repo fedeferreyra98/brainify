@@ -28,11 +28,13 @@ function ServiceExplorer() {
   // Estados para los campos del formulario de contratación
   const [telefono, setTelefono] = useState('');
   const [email, setEmail] = useState('');
-  const [horario, setHorario] = useState({ inicio: '', fin: '' });
+  const [horario, setHorario] = useState('');
   const [mensaje, setMensaje] = useState('');
 
   const [selectedService, setSelectedService] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [newComment, setNewComment] = useState(false);
 
   const servicesPerPage = 6;
   const totalPages = Math.ceil(filteredServices.length / servicesPerPage);
@@ -47,14 +49,17 @@ function ServiceExplorer() {
     const fetchServices = async () => {
       try {
         const response = await apiGetServices();
-        setServices(response);
-        setFilteredServices(response); // En principio, todos los servicios están filtrados
+        const publishedServices = response.filter(
+          (service) => service.isPublished
+        );
+        setServices(publishedServices);
+        setFilteredServices(publishedServices); // En principio, todos los servicios están filtrados
       } catch (error) {
         console.log('Error getting services:', error);
       }
     };
     fetchServices();
-  }, []);
+  }, [newComment]);
 
   // Obtener categorías de los servicios
   useEffect(() => {
@@ -81,13 +86,13 @@ function ServiceExplorer() {
   const resetFormContratacion = () => {
     setTelefono('');
     setEmail('');
-    setHorario({ inicio: '', fin: '' });
+    setHorario('');
     setMensaje('');
   };
 
   // Función para verificar si todos los campos del formulario están completos
   const isFormComplete = () => {
-    return telefono && email && horario.inicio && horario.fin && mensaje;
+    return telefono && email && horario && mensaje;
   };
 
   // Función para validar un número de teléfono
@@ -133,10 +138,8 @@ function ServiceExplorer() {
       return;
     }
 
-    if (horario.fin <= horario.inicio) {
-      setNotificationRedMessage(
-        'La hora de finalización debe ser mayor que la hora de inicio'
-      );
+    if (!horario) {
+      setNotificationRedMessage('Se debe establecer un horario de contacto');
       setNotificationRedOpen(true);
       return;
     }
@@ -236,6 +239,8 @@ function ServiceExplorer() {
                 service={servicio}
                 onClick={setSelectedService}
                 onHire={handleHire}
+                validation={newComment}
+                send={setNewComment}
               />
             ))}
           </Grid>
