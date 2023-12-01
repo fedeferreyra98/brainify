@@ -227,6 +227,15 @@ export const apiGetAllCommentsByServiceId = (_id) => {
     });
 };
 
+export const apiGetAllCommentsByUser = () => {
+  return axiosInstance
+    .get(`/comment/my/comments`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const apiUpdateComment = (commentId, commentData) => {
   return axiosInstance
     .patch(`/comment/${commentId}`, commentData)

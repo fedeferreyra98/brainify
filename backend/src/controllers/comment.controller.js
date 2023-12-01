@@ -28,6 +28,16 @@ export const getAllCommentsByServiceId = async (req, res) => {
     }
 };
 
+export const getAllCommentsByUser = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const comments = await CommentService.getAllCommentsByUserId(userId);
+        return res.status(200).json({ comments });
+    } catch (error) {
+        return handleError(res, error);
+    }
+}
+
 export const  create = async (req, res) => {
     try {
         const {content, rating} = req.body;
