@@ -55,8 +55,12 @@ class CommentService {
         return commentRepository.getCommentById(commentId);
     }
 
-    async updateCommentStatus(commentId, isBlocked){
-        return commentRepository.updateCommentStatus(commentId, isBlocked);
+    async updateCommentStatus(commentId){
+        return commentRepository.updateCommentStatus(commentId);
+    }
+
+    async delete(commentId) {
+        return commentRepository.delete(commentId);
     }
 
     checkUserAuthorization(serviceUserId, userId){
