@@ -29,7 +29,7 @@ export const GetServiceById = async (req, res) => {
 
 export const GetServicesByUser = async (req, res) => {
     try {
-        const services = await ServiceService.getByUserId(req.user._id);
+        const services = await ServiceService.getByUserId(req.userId);
         if (!services) {
             return res.status(404).json({message: "Servicios no encontrados"});
         }
