@@ -35,6 +35,7 @@ export const GetServicesByUser = async (req, res) => {
         }
         return res.status(200).json({services});
     } catch (error) {
+        console.log(req.user)
         return handleError(res, error);
     }
 };

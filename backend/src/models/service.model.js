@@ -38,7 +38,7 @@ const ServiceSchema = new mongoose.Schema({
     },
     type : {
         type : String,
-        enum : ['Individual', 'Group'],
+        enum : ['Individual', 'Group Session'],
         required : true,
     },
     duration :{

@@ -32,7 +32,7 @@ export const  create = async (req, res) => {
     try {
         const {content, rating} = req.body;
         const comment = await CommentService.create(
-            req.params.serviceId,
+            req.body.serviceId,
             content,
             rating
         );

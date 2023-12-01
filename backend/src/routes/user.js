@@ -7,10 +7,10 @@ const router = express.Router();
 // Define routes
 
 //GetById
-router.get('/', getUser);
+router.get('/:id', getUser);
 
 //Get public profile
-router.get('/:id', getUserPublicData);
+router.get('/', getUserPublicData);
 
 
 //Update
