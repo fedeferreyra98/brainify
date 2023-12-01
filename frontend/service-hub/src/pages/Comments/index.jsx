@@ -74,17 +74,21 @@ function Comments() {
         <Typography variant="h4" gutterBottom>
           Comentarios
         </Typography>
-        <List>
-          {comments.map((comment) => (
-            <ListItem key={comment.id} disablePadding>
-              <CommentCard
-                comment={comment}
-                onPublish={handlePublish}
-                onDelete={handleDelete}
-              />
-            </ListItem>
-          ))}
-        </List>
+        {comments.length > 0 ? (
+          <List>
+            {comments.map((comment) => (
+              <ListItem key={comment.id} disablePadding>
+                <CommentCard
+                  comment={comment}
+                  onPublish={handlePublish}
+                  onDelete={handleDelete}
+                />
+              </ListItem>
+            ))}
+          </List>
+        ) : (
+          <Typography>No hay comentarios para mostrar</Typography>
+        )}
       </Box>
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
