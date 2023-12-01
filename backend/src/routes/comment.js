@@ -1,6 +1,6 @@
 // @ts-ignore
 import express from "express";
-import {getCommentsByServiceId, getAllCommentsByServiceId, create, update} from "../controllers/comment.controller.js";
+import {getCommentsByServiceId, getAllCommentsByServiceId, getAllCommentsByUser, create, update} from "../controllers/comment.controller.js";
 
 const router = express.Router();
 
@@ -9,6 +9,11 @@ router.get("/:serviceId", getCommentsByServiceId);
 
 // GetAllCommentsByServiceId
 router.get("/:serviceId/all", getAllCommentsByServiceId);
+
+
+// GetAllCommentsByUser
+router.get("/my/comments", getAllCommentsByUser);
+
 
 // Create
 router.post("/", create);
