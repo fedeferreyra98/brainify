@@ -44,6 +44,7 @@ export const Create = async (req, res) => {
     try {
         const {name, description, category, frequency, cost, type, duration} = req.body;
         const serviceData = {
+            userId: req.userId,
             name: name,
             description: description,
             category: category,
@@ -51,7 +52,6 @@ export const Create = async (req, res) => {
             cost: cost,
             type: type,
             duration: duration,
-            userId: req.userId,
             averageRating: 0,
             totalRating: 0,
             sumOfRatings: 0,
