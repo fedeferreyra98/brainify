@@ -57,7 +57,7 @@ function LoginPage() {
       }
     } catch (error) {
       setNotificationRedMessage(
-        error.response.data.errors[0].message || 'Error al iniciar sesión'
+        error.errors[0].message || 'Error al iniciar sesión'
       );
       setNotificationRedOpen(true);
     }

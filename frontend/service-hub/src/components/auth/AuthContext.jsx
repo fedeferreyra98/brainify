@@ -15,7 +15,8 @@ export function AuthProvider({ children }) {
       const storedToken = localStorage.getItem('jwt');
       if (storedUser && storedToken) {
         try {
-          const isValid = await validateToken(JSON.parse(storedToken).token);
+          const obj = JSON.parse(storedToken);
+          const isValid = await validateToken(obj.jwt.token);
           if (isValid) {
             setSession(JSON.parse(storedUser));
             setIsAuthenticated(true);
