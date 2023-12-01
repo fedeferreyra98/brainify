@@ -20,20 +20,16 @@ const whitelist = [process.env.ORIGIN]
 app.use(cookieParser());
 app.use(
     cors({
-      origin: function (origin, callback) {
-        if (!origin || whitelist.includes(origin)) {
-          return callback(null, true);
-        }
-        return callback("Not allowed by CORS");
-      },
-      credentials: true, 
+      origin: whitelist,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // los métodos que quieres permitir
+      credentials: true // si necesitas manejar cookies
     })
   );
 // This module allow us to parse request body
 app.use(bodyParser.json());
 
 // Routes
-app.use("/api/users", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/comment", commentRoutes);
