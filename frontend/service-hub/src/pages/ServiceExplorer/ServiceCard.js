@@ -43,7 +43,6 @@ function ServiceCard({ service, onClick, onHire, validation, send }) {
 
   const handleSendComment = async () => {
     try {
-      console.log(service);
       const response = await apiCreateComment({
         // eslint-disable-next-line no-underscore-dangle
         serviceId: service._id,

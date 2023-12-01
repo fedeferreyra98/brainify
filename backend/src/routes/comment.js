@@ -1,6 +1,7 @@
 // @ts-ignore
 import express from "express";
-import {getCommentsByServiceId, getAllCommentsByServiceId, getAllCommentsByUser, create, update} from "../controllers/comment.controller.js";
+import {getCommentsByServiceId, getAllCommentsByServiceId, getAllCommentsByUser, create, publish, Delete} from "../controllers/comment.controller.js";
+
 
 const router = express.Router();
 
@@ -12,13 +13,16 @@ router.get("/:serviceId/all", getAllCommentsByServiceId);
 
 
 // GetAllCommentsByUser
-router.get("/my/comments", getAllCommentsByUser);
+router.get("/my/:_id", getAllCommentsByUser);
 
 
 // Create
 router.post("/", create);
 
-// Update
-router.put("/:id", update);
+// publish
+router.put("/publish/:id", publish);
+
+//Delete
+router.delete("/rm/:_id", Delete);
 
 export default router;

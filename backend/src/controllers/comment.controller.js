@@ -30,7 +30,7 @@ export const getAllCommentsByServiceId = async (req, res) => {
 
 export const getAllCommentsByUser = async (req, res) => {
     try {
-        const userId = req.userId;
+        const userId = req.params._id;
         const comments = await CommentService.getAllCommentsByUserId(userId);
         return res.status(200).json({ comments });
     } catch (error) {
@@ -52,22 +52,25 @@ export const  create = async (req, res) => {
     }
 };
 
-export const  update = async (req, res) => {
+export const  publish = async (req, res) => {
     try {
-        const comment = await CommentService.getCommentById(req.params.commentId);
+        const comment = await CommentService.getCommentById(req.params.id);
         if (!comment) {
             return res.status(404).json({ message: "Comentario no encontrado" });
         }
-        const service = await ServiceService.getById(comment.serviceId);
-        if (!CommentService.checkUserAuthorization(service.userId, req.user.id)) {
-            return res.status(403).json({ message: "No tienes permiso para editar este comentario" });
-        }
-        const updatedComment = await CommentService.updateCommentStatus(
-            req.params.commentId,
-            req.body.isBlocked
-        );
+        const updatedComment = await CommentService.updateCommentStatus( req.params.id );
         return res.status(204).json({ updatedComment });
     } catch (error) {
         return handleError(res, error);
     }
 }
+
+export const Delete = async (req, res) => {
+    try {
+        const commentId = req.params._id;
+        const comment = await CommentService.delete(commentId);
+        return res.status(200).json({comment});
+    } catch (error) {
+        return handleError(res, error);
+    }
+};
