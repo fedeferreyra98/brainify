@@ -253,3 +253,12 @@ export const apiDeleteComment = (commentId) => {
       throw error;
     });
 };
+
+export const apiPublishComment = (_id) => {
+  return axiosInstance
+    .put(`/comment/publish/${_id}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};

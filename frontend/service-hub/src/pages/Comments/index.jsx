@@ -6,6 +6,7 @@ import CommentCard from './CommentCard';
 import {
   apiGetAllCommentsByUser,
   apiDeleteComment,
+  apiPublishComment,
 } from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +43,6 @@ function Comments() {
             (comment) => comment.isBlocked
           );
           setComments(blockedComments);
-          console.log(blockedComments);
         }
       } catch (error) {
         console.log('Error getting comments info:', error);
@@ -52,17 +52,13 @@ function Comments() {
   }, [user, openSnackbar]);
 
   const handlePublish = (commentId) => {
-    const updatedComments = comments.filter(
-      (comment) => comment.id !== commentId
-    );
-    setComments(updatedComments);
+    apiPublishComment(commentId);
     setSnackbarMessage('Comentario publicado');
     setOpenSnackbar(true);
     // Despues hay que agregar la logica de publicar el comentario, ahora solo desaparce de la pag (leido)
   };
 
   const handleDelete = (commentId) => {
-    console.log(commentId);
     apiDeleteComment(commentId);
     setSnackbarMessage('Comentario borrado');
     setOpenSnackbar(true);
