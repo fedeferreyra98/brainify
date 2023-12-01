@@ -23,7 +23,7 @@ const ServiceSchema = new mongoose.Schema({
     },
     category : {
         type : String,
-        enum : categories,
+        enum : categories.map((c) => c.toLowerCase()),
         required : true,
     },
     frequency: {

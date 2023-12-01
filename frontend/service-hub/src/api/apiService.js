@@ -148,9 +148,9 @@ export const apiUploadImage = (file) => {
     });
 };
 
-export const apiUpdateUser = (data) => {
+export const apiUpdateUser = (userId, data) => {
   return axiosInstance
-    .patch('/user', data)
+    .patch(`/user/${userId}`, data)
     .then((response) => {
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;

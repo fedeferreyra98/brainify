@@ -25,6 +25,7 @@ function ServiceCard({ service, onClick, onHire, validation, send }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const handleCommentClick = () => {
+    console.log();
     setOpenCommentForm(true);
   };
 
