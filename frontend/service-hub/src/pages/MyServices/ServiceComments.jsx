@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Typography } from '@mui/material';
 import CommentCard from './CommentCard';
-// import mockComments from '../../data/mockComments';
 
 function ServiceComments({ open, serviceName, comments, onClose, onDelete }) {
   return (

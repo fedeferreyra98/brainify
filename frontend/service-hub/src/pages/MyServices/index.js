@@ -15,16 +15,18 @@ import {
   Grid,
   Pagination,
   Avatar,
+  Slider,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AddIcon from '@mui/icons-material/Add';
-import mockServices from '../../data/mockServices';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import ServiceCard from './ServiceCard';
 import ServiceComments from './ServiceComments';
 import mockComments from '../../data/mockComments';
+import { apiGetServicesByUser } from '../../api/apiService';
+import { categories } from '../../data/mockCategory';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,16 +64,16 @@ const useStyles = makeStyles((theme) => ({
 
 function MyServices() {
   const classes = useStyles();
-  const [services, setServices] = useState(mockServices);
+  const [services, setServices] = useState([]);
   const [currentService, setCurrentService] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
-    nombre: '',
-    categoria: '',
-    tipo: '',
-    duracion: '',
-    frecuencia: '',
-    costo: '',
+    name: '',
+    category: '',
+    type: '',
+    duration: 0.0,
+    frequency: '',
+    cost: 0,
   });
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
@@ -91,6 +93,19 @@ function MyServices() {
   const [currentServiceComments, setCurrentServiceComments] = useState([]);
   const [currentServiceName, setCurrentServiceName] = useState('');
 
+  // Fetch services from API
+  const createService = async (values) => {
+    try {
+      const response = await apiGetServicesByUser(values);
+      console.log(response);
+      setNotificationMessage('Servicio agregado correctamente');
+      setNotificationOpen(true);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage('Error al agregar el servicio');
+    }
+  };
+
   // Function to handle viewing comments
   const handleViewComments = (serviceName) => {
     const serviceComments = mockComments.filter(
@@ -101,9 +116,14 @@ function MyServices() {
     setCommentsDialogOpen(true);
   };
 
+  // Function to handle changes on form inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    setFormData({ ...formData, duration: newValue });
   };
 
   // Function to delete a comment
@@ -113,39 +133,13 @@ function MyServices() {
     );
   };
 
+  // Guardar servicio
   const handleSave = () => {
     if (Object.values(formData).some((value) => !value)) {
       setErrorMessage('Por favor, completa todos los campos del formulario.');
       return;
     }
-
-    const newService = {
-      id: currentService ? currentService.id : Date.now(),
-      ...formData,
-    };
-    if (currentService) {
-      setServices((prevServices) =>
-        prevServices.map((service) =>
-          service.id === currentService.id ? newService : service
-        )
-      );
-      setNotificationMessage('Información actualizada correctamente');
-    } else {
-      setServices((prevServices) => [...prevServices, newService]);
-      setNotificationMessage('Servicio agregado correctamente');
-    }
-
-    setCurrentService(null);
-    setNotificationOpen(true);
-    setFormData({
-      nombre: '',
-      categoria: '',
-      tipo: '',
-      duracion: '',
-      frecuencia: '',
-      costo: '',
-    });
-    setDialogOpen(false);
+    createService(formData);
   };
 
   const VisuallyHiddenInput = styled('input')({
@@ -174,12 +168,12 @@ function MyServices() {
             onClick={() => {
               setCurrentService(null);
               setFormData({
-                nombre: '',
-                categoria: '',
-                tipo: '',
-                duracion: '',
-                frecuencia: '',
-                costo: '',
+                name: '',
+                category: '',
+                type: '',
+                duration: 0.0,
+                frequency: '',
+                cost: 0,
               });
               setDialogOpen(true);
             }}
@@ -194,12 +188,12 @@ function MyServices() {
                   onEdit={() => {
                     setCurrentService(service);
                     setFormData({
-                      nombre: service.nombre,
-                      categoria: service.categoria,
-                      tipo: service.tipo,
-                      duracion: service.duracion,
-                      frecuencia: service.frecuencia,
-                      costo: service.costo,
+                      name: service.name,
+                      category: service.category,
+                      type: service.type,
+                      duration: service.duration,
+                      frequency: service.frequency,
+                      cost: service.cost,
                     });
                     setDialogOpen(true);
                   }}
@@ -280,58 +274,68 @@ function MyServices() {
                 fullWidth
                 margin="normal"
                 label="Nombre"
-                name="nombre"
-                value={formData.nombre}
+                name="name"
+                value={formData.name}
                 onChange={handleInputChange}
               />
               <FormControl className={classes.formControl}>
                 <InputLabel>Categoría</InputLabel>
                 <Select
-                  name="categoria"
-                  value={formData.categoria}
+                  name="category"
+                  value={formData.category}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="tutorias">Tutorías escolares</MenuItem>
-                  <MenuItem value="idioma">Clases de idioma</MenuItem>
+                  {categories.map((category) => (
+                    <MenuItem key={category} value={category}>
+                      {category}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel>Tipo de clase</InputLabel>
                 <Select
-                  name="tipo"
-                  value={formData.tipo}
+                  name="type"
+                  value={formData.type}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="individual">Individual</MenuItem>
-                  <MenuItem value="grupal">Grupal</MenuItem>
+                  <MenuItem value="Individual">Individual</MenuItem>
+                  <MenuItem value="Group">Grupal</MenuItem>
                 </Select>
               </FormControl>
-              <TextField
+              <Typography id="discrete-slider" gutterBottom>
+                Duración (horas)
+              </Typography>
+              <Slider
+                name="duration"
                 fullWidth
-                margin="normal"
-                label="Duración (Minutos)"
-                name="duracion"
-                value={formData.duracion}
-                onChange={handleInputChange}
+                value={formData.duration}
+                onChange={handleSliderChange}
+                aria-labelledby="discrete-slider"
+                valueLabelDisplay="auto"
+                step={0.5}
+                marks
+                min={0}
+                max={4} // Puedes ajustar el máximo según tus necesidades
               />
               <FormControl className={classes.formControl}>
                 <InputLabel>Frecuencia</InputLabel>
                 <Select
-                  name="frecuencia"
-                  value={formData.frecuencia}
+                  name="frequency"
+                  value={formData.frequency}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="única">Única</MenuItem>
-                  <MenuItem value="semanal">Semanal</MenuItem>
-                  <MenuItem value="mensual">Mensual</MenuItem>
+                  <MenuItem value="One-time">Única</MenuItem>
+                  <MenuItem value="Weekly">Semanal</MenuItem>
+                  <MenuItem value="Monthly">Mensual</MenuItem>
                 </Select>
               </FormControl>
               <TextField
                 fullWidth
                 margin="normal"
-                label="Costo"
-                name="costo"
-                value={formData.costo}
+                label="Precio"
+                name="cost"
+                value={formData.cost}
                 onChange={handleInputChange}
               />
               {errorMessage && (
@@ -352,7 +356,7 @@ function MyServices() {
               <Button
                 onClick={handleSave}
                 color="primary"
-                disabled={formData.duracion < 1 || formData.costo < 0}
+                disabled={formData.duration < 1 || formData.cost < 0}
               >
                 Guardar
               </Button>
