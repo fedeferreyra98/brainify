@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Typography,
@@ -25,7 +25,7 @@ import NotificationGreen from '../../components/ui/NotificationGreen';
 import ServiceCard from './ServiceCard';
 import ServiceComments from './ServiceComments';
 import mockComments from '../../data/mockComments';
-import { apiGetServicesByUser } from '../../api/apiService';
+import { apiCreateService, apiGetServicesByUser } from '../../api/apiService';
 import { categories } from '../../data/mockCategory';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +69,7 @@ function MyServices() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
+    description: '',
     category: '',
     type: '',
     duration: 0.0,
@@ -94,11 +95,26 @@ function MyServices() {
   const [currentServiceName, setCurrentServiceName] = useState('');
 
   // Fetch services from API
+  useEffect(() => {
+    const fetchMyServices = async () => {
+      try {
+        const myServicesData = await apiGetServicesByUser();
+        setServices(myServicesData);
+      } catch (error) {
+        console.log('Error while fetching my services:', error);
+      }
+    };
+    fetchMyServices();
+  }, []);
+
+  // Create service function
   const createService = async (values) => {
     try {
-      const response = await apiGetServicesByUser(values);
-      console.log(response);
+      const newService = await apiCreateService(values);
+      console.log(newService);
+      setServices((prevServices) => [...prevServices, newService]);
       setNotificationMessage('Servicio agregado correctamente');
+      setDialogOpen(false);
       setNotificationOpen(true);
     } catch (error) {
       console.log(error);
@@ -169,6 +185,7 @@ function MyServices() {
               setCurrentService(null);
               setFormData({
                 name: '',
+                description: '',
                 category: '',
                 type: '',
                 duration: 0.0,
@@ -189,6 +206,7 @@ function MyServices() {
                     setCurrentService(service);
                     setFormData({
                       name: service.name,
+                      description: service.description,
                       category: service.category,
                       type: service.type,
                       duration: service.duration,
@@ -276,6 +294,14 @@ function MyServices() {
                 label="Nombre"
                 name="name"
                 value={formData.name}
+                onChange={handleInputChange}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Descripción"
+                name="description"
+                value={formData.description}
                 onChange={handleInputChange}
               />
               <FormControl className={classes.formControl}>
