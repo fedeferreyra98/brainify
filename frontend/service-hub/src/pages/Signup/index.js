@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Container, Typography, Grid, TextField } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import NotificationRed from '../../components/ui/NotificationRed';
+import { AuthContext } from '../../components/auth/AuthContext';
+import { ROUTE_PROVIDER_PROFILE } from '../../config/routePaths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +25,9 @@ function SignUpPage() {
   const classes = useStyles();
   const navigate = useNavigate(); // Para redirigir después de un registro exitoso
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
+  const { register } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -46,15 +49,13 @@ function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:4000/api/auth/register',
-        formData
-      );
-      console.log(response.data);
-      navigate('/perfil-proveedor');
+      const response = await register(formData);
+      if (response) {
+        navigate(ROUTE_PROVIDER_PROFILE);
+      }
     } catch (error) {
-      console.error('Hubo un error al registrarse', error.response || error);
-      setNotificationRedMessage(error.response.data.message);
+      console.error('Hubo un error al registrarse', error.message || error);
+      setNotificationRedMessage(error.message);
       setNotificationRedOpen(true);
     }
   };

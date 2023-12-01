@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { createContext, useState, useEffect } from 'react';
-import { validateToken, apiLogin } from '../../api/apiService';
+import { validateToken, apiLogin, apiRegister } from '../../api/apiService';
 
 export const AuthContext = createContext();
 
@@ -51,6 +51,18 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(false);
   };
 
+  const register = async (userData) => {
+    try {
+      const response = await apiRegister(userData);
+      setSession(response.user);
+      setIsAuthenticated(true);
+      return response;
+    } catch (error) {
+      console.error('Error al registrarse:', error);
+      throw error;
+    }
+  };
+
   const contextValue = {
     isAuthenticated,
     setIsAuthenticated,
@@ -58,6 +70,7 @@ export function AuthProvider({ children }) {
     handleLogin,
     session,
     setSession,
+    register,
   };
 
   return (
