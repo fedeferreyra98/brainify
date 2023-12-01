@@ -3,7 +3,10 @@ import { Container, Typography, List, ListItem, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import CommentCard from './CommentCard';
-import { apiGetAllCommentsByUser } from '../../api/apiService';
+import {
+  apiGetAllCommentsByUser,
+  apiDeleteComment,
+} from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -46,7 +49,7 @@ function Comments() {
       }
     };
     getComments();
-  }, [user]);
+  }, [user, openSnackbar]);
 
   const handlePublish = (commentId) => {
     const updatedComments = comments.filter(
@@ -59,10 +62,8 @@ function Comments() {
   };
 
   const handleDelete = (commentId) => {
-    const updatedComments = comments.filter(
-      (comment) => comment.id !== commentId
-    );
-    setComments(updatedComments);
+    console.log(commentId);
+    apiDeleteComment(commentId);
     setSnackbarMessage('Comentario borrado');
     setOpenSnackbar(true);
   };

@@ -228,7 +228,6 @@ export const apiGetAllCommentsByServiceId = (_id) => {
 };
 
 export const apiGetAllCommentsByUser = (_id) => {
-  console.log(_id);
   return axiosInstance
     .get(`/comment/my/${_id}`)
     .then((response) => response.data)
@@ -240,6 +239,15 @@ export const apiGetAllCommentsByUser = (_id) => {
 export const apiUpdateComment = (commentId, commentData) => {
   return axiosInstance
     .patch(`/comment/${commentId}`, commentData)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const apiDeleteComment = (commentId) => {
+  return axiosInstance
+    .delete(`/comment/rm/${commentId}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

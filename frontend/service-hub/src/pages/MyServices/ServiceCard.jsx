@@ -13,7 +13,6 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 function ServiceCard({ service, onEdit, onDelete, classes }) {
-  console.log(service);
   return (
     <Card className={classes.card}>
       <CardContent>

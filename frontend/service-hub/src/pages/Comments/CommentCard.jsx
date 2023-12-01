@@ -18,7 +18,6 @@ function CommentCard({ comment, onPublish, onDelete }) {
       if (comment) {
         const response = await apiGetServiceById(comment.serviceId);
         setServiceName(response.service.name);
-        console.log(response.service.name);
       }
     } catch (error) {
       console.log('Error getting comments info:', error);
@@ -56,8 +55,10 @@ function CommentCard({ comment, onPublish, onDelete }) {
       </CardContent>
       <CardActions>
         <CommentActions
-          onPublish={() => onPublish(comment.id)}
-          onDelete={() => onDelete(comment.id)}
+          // eslint-disable-next-line no-underscore-dangle
+          onPublish={() => onPublish(comment._id)}
+          // eslint-disable-next-line no-underscore-dangle
+          onDelete={() => onDelete(comment._id)}
         />
       </CardActions>
     </Card>
