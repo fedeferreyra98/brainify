@@ -4,7 +4,7 @@ export const apiLogin = (data) => {
   return axiosInstance
     .post('/auth/login', data)
     .then((response) => {
-      localStorage.setItem('jwt', JSON.stringify(response.data));
+      localStorage.setItem('jwt', JSON.stringify(response.data.jwt));
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
     })
@@ -17,7 +17,7 @@ export const apiRegister = (data) => {
   return axiosInstance
     .post('/auth/register', data)
     .then((response) => {
-      localStorage.setItem('jwt', JSON.stringify(response.data));
+      localStorage.setItem('jwt', JSON.stringify(response.data.jwt));
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
     })
