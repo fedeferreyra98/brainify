@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Dialog,
   List,
@@ -23,49 +23,69 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ClassIcon from '@mui/icons-material/Class';
 import useStyles from '../../styles/styles';
 import mockComments from '../../data/mockComments';
+import { apiGetPublicUserData } from '../../api/apiService';
 
 function ServiceDetails({ service, onClose, onHire }) {
   const classes = useStyles();
+  const [providerInfo, setProviderInfo] = React.useState(null);
+
+  useEffect(() => {
+    if (service) {
+      const fetchProviderInfo = async () => {
+        try {
+          const response = await apiGetPublicUserData(service.providerId);
+          setProviderInfo(response.data);
+        } catch (error) {
+          console.log('Error getting provider info:', error);
+        }
+      };
+      fetchProviderInfo();
+    }
+  }, [service]);
 
   // Filter comments for the selected service
   const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service?.nombre
+    (comment) => comment.serviceName === service?.name
   );
 
   return (
     <Dialog open={!!service} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>{service?.nombre}</DialogTitle>
+      <DialogTitle>{service?.name}</DialogTitle>
       <DialogContent>
         <List>
           <ListItem>
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
-            <ListItemText primary="Proveedor" secondary={service?.proveedor} />
+            <ListItemText
+              primary="Proveedor"
+              secondary={
+                providerInfo
+                  ? `${providerInfo.name} ${providerInfo.lastName}`
+                  : 'Cargando ...'
+              }
+            />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
             <ListItemIcon>
               <CategoryIcon />
             </ListItemIcon>
-            <ListItemText primary="Categoría" secondary={service?.categoria} />
+            <ListItemText primary="Categoría" secondary={service?.category} />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
             <ListItemIcon>
               <ClassIcon />
             </ListItemIcon>
-            <ListItemText primary="Tipo" secondary={service?.tipo} />
+            <ListItemText primary="Tipo" secondary={service?.type} />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
             <ListItemIcon>
               <ScheduleIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Frecuencia"
-              secondary={service?.frecuencia}
-            />
+            <ListItemText primary="Frecuencia" secondary={service?.frequency} />
           </ListItem>
           <Divider variant="inset" component="li" />
           <ListItem>
@@ -74,7 +94,7 @@ function ServiceDetails({ service, onClose, onHire }) {
             </ListItemIcon>
             <ListItemText
               primary="Duración"
-              secondary={`${service?.duracion} minutos`}
+              secondary={`${service?.duration} minutos`}
             />
           </ListItem>
           <Divider variant="inset" component="li" />
@@ -82,7 +102,7 @@ function ServiceDetails({ service, onClose, onHire }) {
             <ListItemIcon>
               <AttachMoneyIcon />
             </ListItemIcon>
-            <ListItemText primary="Costo" secondary={`$ ${service?.costo}`} />
+            <ListItemText primary="Costo" secondary={`$ ${service?.cost}`} />
           </ListItem>
         </List>
 

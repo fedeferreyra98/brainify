@@ -15,16 +15,21 @@ import {
 } from '@mui/material';
 import mockComments from '../../data/mockComments';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import { apiCreateComment } from '../../api/apiService';
 
 function ServiceCard({ service, onClick, onHire }) {
   // Calculate average rating for the service
   const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service.nombre
+    (comment) => comment.serviceName === service.name
   );
   const averageRating =
     serviceComments.reduce((acc, comment) => acc + comment.rating, 0) /
     serviceComments.length;
 
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [mainComment, setMainComment] = useState('');
+  const [commentRating, setRating] = useState(5); // [1, 5]
   const [openCommentForm, setOpenCommentForm] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
@@ -36,15 +41,16 @@ function ServiceCard({ service, onClick, onHire }) {
     setOpenCommentForm(false);
   };
 
-  const handleSendComment = () => {
-    // Here, you can handle the submission of the comment, e.g., save it to a database.
+  const handleSendComment = async () => {
+    const response = await apiCreateComment({
+      serviceId: service.id,
+      content: mainComment,
+      rating: commentRating,
+    });
+    console.log(response);
     setOpenCommentForm(false);
     setNotificationOpen(true);
   };
-
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [mainComment, setMainComment] = useState('');
 
   const canSubmit = name && lastName;
 
@@ -55,10 +61,12 @@ function ServiceCard({ service, onClick, onHire }) {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h5" marginBottom={1} marginTop={1}>
-                {service.nombre}
+                {service.name}
               </Typography>
               <Rating value={averageRating} readOnly precision={0.5} />
-              <Typography color="textSecondary">{service.proveedor}</Typography>
+              <Typography variant="body2" marginBottom={1} marginTop={1}>
+                {`(${service.totalRatings})`}
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <img
@@ -116,7 +124,11 @@ function ServiceCard({ service, onClick, onHire }) {
               onChange={(e) => setLastName(e.target.value)}
             />
             <Typography>Rating:</Typography>
-            <Rating name="comment-rating" />
+            <Rating
+              name="comment-rating"
+              value={commentRating}
+              onChange={(e) => setRating(e.target.value)}
+            />
             <TextField
               margin="dense"
               label="Comentario Principal"

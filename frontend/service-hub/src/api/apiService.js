@@ -68,9 +68,10 @@ export const validateToken = (token) => {
 
 // Service Endpoints: /api/service
 
+// eslint-disable-next-line no-unused-vars
 export const apiGetServices = (category) => {
   return axiosInstance
-    .get(`/service/${category}`)
+    .get(`/service`)
     .then((response) => response.data.services)
     .catch((error) => {
       throw error;

@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Typography, Grid, Pagination } from '@mui/material';
 import DynamicSelect from '../../components/form/DynamicSelect';
-import mockServices from '../../data/mockServices';
 import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails';
 import useStyles from '../../styles/styles';
 import NotificationRed from '../../components/ui/NotificationRed';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import ContratacionForm from './ContratacionForm';
+import { apiGetServices } from '../../api/apiService';
 
 function ServiceExplorer() {
   const classes = useStyles();
 
   // Estados lista de servicios y filtrada
-  const [servicios] = useState(mockServices);
-  const [serviciosFiltrados, setServiciosFiltrados] = useState(servicios);
+  const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
 
   // Estados para los filtros
   const [categoriaFiltro, setCategoriaFiltro] = useState('');
+  const [categoryOptions, setCategoryOptions] = useState([]);
   const [tipoFiltro, setTipoFiltro] = useState('');
   const [frecuenciaFiltro, setFrecuenciaFiltro] = useState('');
 
@@ -34,12 +35,38 @@ function ServiceExplorer() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const servicesPerPage = 6;
-  const totalPages = Math.ceil(serviciosFiltrados.length / servicesPerPage);
+  const totalPages = Math.ceil(filteredServices.length / servicesPerPage);
 
-  const currentServices = serviciosFiltrados.slice(
+  const currentServices = filteredServices.slice(
     (currentPage - 1) * servicesPerPage,
     currentPage * servicesPerPage
   );
+
+  // Obtener servicios de la API
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await apiGetServices();
+        setServices(response);
+        setFilteredServices(response); // En principio, todos los servicios están filtrados
+      } catch (error) {
+        console.log('Error getting services:', error);
+      }
+    };
+    fetchServices();
+  }, []);
+
+  // Obtener categorías de los servicios
+  useEffect(() => {
+    const uniqueCategories = Array.from(
+      new Set(services.map((service) => service.category))
+    );
+    const formattedOptions = uniqueCategories.map((category) => ({
+      value: category,
+      label: category.charAt(0).toUpperCase() + category.slice(1),
+    }));
+    setCategoryOptions(formattedOptions);
+  }, [services]);
 
   const handleHire = () => {
     setDialogOpen(true);
@@ -122,14 +149,14 @@ function ServiceExplorer() {
 
   // Funcion de filtrado
   const filtrarServicios = () => {
-    const filtrados = servicios.filter((servicio) => {
+    const filtrados = services.filter((servicio) => {
       return (
-        (!categoriaFiltro || servicio.categoria === categoriaFiltro) &&
-        (!tipoFiltro || servicio.tipo === tipoFiltro) &&
-        (!frecuenciaFiltro || servicio.frecuencia === frecuenciaFiltro)
+        (!categoriaFiltro || servicio.category === categoriaFiltro) &&
+        (!tipoFiltro || servicio.type === tipoFiltro) &&
+        (!frecuenciaFiltro || servicio.frequency === frecuenciaFiltro)
       );
     });
-    setServiciosFiltrados(filtrados);
+    setFilteredServices(filtrados);
   };
 
   // Funcion para limpiar filtros
@@ -137,7 +164,7 @@ function ServiceExplorer() {
     setCategoriaFiltro('');
     setTipoFiltro('');
     setFrecuenciaFiltro('');
-    setServiciosFiltrados(servicios);
+    setFilteredServices(services);
   };
 
   return (
@@ -154,10 +181,7 @@ function ServiceExplorer() {
                 value={categoriaFiltro}
                 onChange={(e) => setCategoriaFiltro(e.target.value)}
                 className={classes.formControl}
-                options={[
-                  { value: 'tutorias', label: 'Tutorías escolares' },
-                  { value: 'idioma', label: 'Clases de idioma' },
-                ]}
+                options={categoryOptions}
               />
             </Grid>
 
@@ -168,8 +192,8 @@ function ServiceExplorer() {
                 onChange={(e) => setTipoFiltro(e.target.value)}
                 className={classes.formControl}
                 options={[
-                  { value: 'individual', label: 'Individual' },
-                  { value: 'grupal', label: 'Grupal' },
+                  { value: 'Individual', label: 'Individual' },
+                  { value: 'Group', label: 'Grupal' },
                 ]}
               />
             </Grid>
@@ -181,9 +205,9 @@ function ServiceExplorer() {
                 onChange={(e) => setFrecuenciaFiltro(e.target.value)}
                 className={classes.formControl}
                 options={[
-                  { value: 'única', label: 'Única' },
-                  { value: 'semanal', label: 'Semanal' },
-                  { value: 'mensual', label: 'Mensual' },
+                  { value: 'One-time', label: 'Única' },
+                  { value: 'Weekly', label: 'Semanal' },
+                  { value: 'Monthly', label: 'Mensual' },
                 ]}
               />
             </Grid>
