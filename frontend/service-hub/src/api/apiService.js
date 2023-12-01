@@ -68,7 +68,7 @@ export const refreshToken = () => {
 
 // Service Endpoints: /api/service
 
-export const apiGetServices = (category) => {
+export const apiGetServicesByCategory = (category) => {
   return axiosInstance
     .get(`/service/${category}`)
     .then((response) => response.data.services)
@@ -200,6 +200,15 @@ export const apiUpdateHiring = (hiringId, hiringData) => {
 export const createComment = (data) => {
   return axiosInstance
     .post(`/comment/`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const apiGetServices = () => {
+  return axiosInstance
+    .get(`/service/`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
