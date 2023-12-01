@@ -9,9 +9,9 @@ export const requireToken = async (req, res, next) => {
     }
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
-          throw err;  // Or handle the error as you see fit
+          throw err;  
       }
-      req.userId = decoded.id;  // Assuming your payload contains the user ID as 'id'
+      req.userId = decoded.userId;  
       next();
     });
   } catch (error) {

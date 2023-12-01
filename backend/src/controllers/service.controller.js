@@ -29,12 +29,13 @@ export const GetServiceById = async (req, res) => {
 
 export const GetServicesByUser = async (req, res) => {
     try {
-        const services = await ServiceService.getByUserId(req.user._id);
+        const services = await ServiceService.getByUserId(req.userId);
         if (!services) {
             return res.status(404).json({message: "Servicios no encontrados"});
         }
         return res.status(200).json({services});
     } catch (error) {
+        console.log(req.user)
         return handleError(res, error);
     }
 };
@@ -43,6 +44,7 @@ export const Create = async (req, res) => {
     try {
         const {name, description, category, frequency, cost, type, duration} = req.body;
         const serviceData = {
+            userId: req.userId,
             name: name,
             description: description,
             category: category,
@@ -50,13 +52,12 @@ export const Create = async (req, res) => {
             cost: cost,
             type: type,
             duration: duration,
-            userId: req.userId,
             averageRating: 0,
             totalRating: 0,
             sumOfRatings: 0,
         };
         const service = await ServiceService.create(serviceData);
-        return res.status(201).location(`/services/${service._id}`).json({service});
+        return res.status(201).json({service});
     } catch (error) {
         return handleError(res, error);
     }
@@ -83,9 +84,9 @@ export const Update = async (req, res) => {
 export const Delete = async (req, res) => {
     try {
         const serviceId = req.params.serviceId;
-        const userId = req.user._id;
+        const userId = req.userId;
         const service = await ServiceService.delete(serviceId, userId);
-        return res.status(200).json({service});
+        return res.status(204).json({service});
     } catch (error) {
         return handleError(res, error);
     }

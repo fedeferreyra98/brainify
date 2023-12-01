@@ -4,7 +4,7 @@ export const apiLogin = (data) => {
   return axiosInstance
     .post('/auth/login', data)
     .then((response) => {
-      localStorage.setItem('jwt', JSON.stringify(response.data));
+      localStorage.setItem('jwt', JSON.stringify(response.data.jwt));
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
     })
@@ -17,7 +17,7 @@ export const apiRegister = (data) => {
   return axiosInstance
     .post('/auth/register', data)
     .then((response) => {
-      localStorage.setItem('jwt', JSON.stringify(response.data));
+      localStorage.setItem('jwt', JSON.stringify(response.data.jwt));
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
     })
@@ -68,9 +68,10 @@ export const validateToken = (token) => {
 
 // Service Endpoints: /api/service
 
+// eslint-disable-next-line no-unused-vars
 export const apiGetServices = (category) => {
   return axiosInstance
-    .get(`/service/${category}`)
+    .get(`/service`)
     .then((response) => response.data.services)
     .catch((error) => {
       throw error;
@@ -199,9 +200,9 @@ export const apiUpdateHiring = (hiringId, hiringData) => {
 
 // Comment endpoints /api/comment
 
-export const apiCreateComment = (serviceId, commentData) => {
+export const apiCreateComment = (commentData) => {
   return axiosInstance
-    .post(`/comment/${serviceId}`, commentData)
+    .post(`/comment/`, commentData)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -217,9 +218,18 @@ export const apiGetCommentsByServiceId = (serviceId) => {
     });
 };
 
-export const apiGetAllCommentsByServiceId = (serviceId) => {
+export const apiGetAllCommentsByServiceId = (_id) => {
   return axiosInstance
-    .get(`/comment/${serviceId}/all`)
+    .get(`/comment/${_id}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const apiGetAllCommentsByUser = () => {
+  return axiosInstance
+    .get(`/comment/my/comments`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

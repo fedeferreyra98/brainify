@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import {
   Card,
@@ -9,19 +10,19 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CommentIcon from '@mui/icons-material/Comment';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-function ServiceCard({ service, onEdit, onDelete, onViewComments, classes }) {
+function ServiceCard({ service, onEdit, onDelete, classes }) {
+  console.log(service);
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography variant="h6">{service.nombre}</Typography>
+        <Typography variant="h6">{service.name}</Typography>
         <Typography variant="body2">
-          Duración: {service.duracion} minutos
+          Duración: {service.duration} horas
         </Typography>
-        <Typography variant="body2">Costo: $ {service.costo}</Typography>
+        <Typography variant="body2">Costo: $ {service.cost}</Typography>
       </CardContent>
       <CardActions>
         <Grid container spacing={2} justifyContent="center" margin-left={16}>
@@ -43,13 +44,13 @@ function ServiceCard({ service, onEdit, onDelete, onViewComments, classes }) {
           </Grid>
 
           <Grid item xs={4}>
-            <IconButton onClick={() => onViewComments(service.nombre)}>
-              <CommentIcon />
-            </IconButton>
-          </Grid>
-
-          <Grid item xs={4}>
-            <IconButton onClick={() => onDelete(service.id)}>
+            {/*             eslint-disable-next-line no-underscore-dangle
+             */}{' '}
+            <IconButton
+              onClick={() => {
+                onDelete(service._id);
+              }}
+            >
               <DeleteIcon />
             </IconButton>
           </Grid>
