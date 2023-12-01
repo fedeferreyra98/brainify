@@ -200,9 +200,9 @@ export const apiUpdateHiring = (hiringId, hiringData) => {
 
 // Comment endpoints /api/comment
 
-export const apiCreateComment = (serviceId, commentData) => {
+export const apiCreateComment = (commentData) => {
   return axiosInstance
-    .post(`/comment/${serviceId}`, commentData)
+    .post(`/comment/`, commentData)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -218,9 +218,9 @@ export const apiGetCommentsByServiceId = (serviceId) => {
     });
 };
 
-export const apiGetAllCommentsByServiceId = (serviceId) => {
+export const apiGetAllCommentsByServiceId = (_id) => {
   return axiosInstance
-    .get(`/comment/${serviceId}/all`)
+    .get(`/comment/${_id}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

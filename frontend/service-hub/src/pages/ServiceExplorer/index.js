@@ -193,7 +193,7 @@ function ServiceExplorer() {
                 className={classes.formControl}
                 options={[
                   { value: 'Individual', label: 'Individual' },
-                  { value: 'Group', label: 'Grupal' },
+                  { value: 'Group Session', label: 'Grupal' },
                 ]}
               />
             </Grid>
@@ -231,7 +231,8 @@ function ServiceExplorer() {
           <Grid container spacing={3}>
             {currentServices.map((servicio) => (
               <ServiceCard
-                key={servicio.id}
+                // eslint-disable-next-line no-underscore-dangle
+                key={servicio._id}
                 service={servicio}
                 onClick={setSelectedService}
                 onHire={handleHire}
