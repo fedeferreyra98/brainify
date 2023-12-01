@@ -3,7 +3,11 @@ import { Container, Typography, List, ListItem, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import CommentCard from './CommentCard';
-import { apiGetAllCommentsByServiceId } from '../../api/apiService';
+import {
+  apiGetAllCommentsByUser,
+  apiDeleteComment,
+  apiPublishComment,
+} from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -32,33 +36,30 @@ function Comments() {
     const getComments = async () => {
       try {
         if (user) {
-          const response = await apiGetAllCommentsByServiceId(
-            JSON.parse(user).id
+          const obj = JSON.parse(user);
+          const response = await apiGetAllCommentsByUser(obj.id);
+          // Filter comments to only include those where 'isBlocked' is true
+          const blockedComments = response.comments.filter(
+            (comment) => comment.isBlocked
           );
-          setComments(response);
+          setComments(blockedComments);
         }
       } catch (error) {
         console.log('Error getting comments info:', error);
       }
     };
     getComments();
-  }, [user]);
+  }, [user, openSnackbar]);
 
   const handlePublish = (commentId) => {
-    const updatedComments = comments.filter(
-      (comment) => comment.id !== commentId
-    );
-    setComments(updatedComments);
+    apiPublishComment(commentId);
     setSnackbarMessage('Comentario publicado');
     setOpenSnackbar(true);
     // Despues hay que agregar la logica de publicar el comentario, ahora solo desaparce de la pag (leido)
   };
 
   const handleDelete = (commentId) => {
-    const updatedComments = comments.filter(
-      (comment) => comment.id !== commentId
-    );
-    setComments(updatedComments);
+    apiDeleteComment(commentId);
     setSnackbarMessage('Comentario borrado');
     setOpenSnackbar(true);
   };
@@ -73,17 +74,21 @@ function Comments() {
         <Typography variant="h4" gutterBottom>
           Comentarios
         </Typography>
-        <List>
-          {comments.map((comment) => (
-            <ListItem key={comment.id} disablePadding>
-              <CommentCard
-                comment={comment}
-                onPublish={handlePublish}
-                onDelete={handleDelete}
-              />
-            </ListItem>
-          ))}
-        </List>
+        {comments.length > 0 ? (
+          <List>
+            {comments.map((comment) => (
+              <ListItem key={comment.id} disablePadding>
+                <CommentCard
+                  comment={comment}
+                  onPublish={handlePublish}
+                  onDelete={handleDelete}
+                />
+              </ListItem>
+            ))}
+          </List>
+        ) : (
+          <Typography>No hay comentarios para mostrar</Typography>
+        )}
       </Box>
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>

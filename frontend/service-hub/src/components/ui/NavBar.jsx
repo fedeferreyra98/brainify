@@ -77,10 +77,8 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
     // Función para cargar los datos privados del usuario
     const loadPrivateUserData = async () => {
       const obj = JSON.parse(storedUser);
-      console.log(obj.id);
       try {
         const response = await apiGetPublicUserData(obj.id);
-        console.log(response);
         setProviderInfo(response.user); // Actualiza el estado con la información privada del usuario
       } catch (error) {
         console.error('Error al cargar la información del usuario:', error);
