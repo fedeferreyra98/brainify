@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import {
   Card,
@@ -45,7 +46,11 @@ function ServiceCard({ service, onEdit, onDelete, classes }) {
           <Grid item xs={4}>
             {/*             eslint-disable-next-line no-underscore-dangle
              */}{' '}
-            <IconButton onClick={() => onDelete(service._id)}>
+            <IconButton
+              onClick={() => {
+                onDelete(service._id);
+              }}
+            >
               <DeleteIcon />
             </IconButton>
           </Grid>

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 import {
   Container,
@@ -25,7 +26,11 @@ import NotificationGreen from '../../components/ui/NotificationGreen';
 import ServiceCard from './ServiceCard';
 import ServiceComments from './ServiceComments';
 import mockComments from '../../data/mockComments';
-import { apiCreateService, apiGetServicesByUser } from '../../api/apiService';
+import {
+  apiCreateService,
+  apiGetServicesByUser,
+  apiDeleteService,
+} from '../../api/apiService';
 import { categories } from '../../data/mockCategory';
 
 const useStyles = makeStyles((theme) => ({
@@ -122,6 +127,22 @@ function MyServices() {
     }
   };
 
+  // Delete a service
+  const deleteService = async (serviceId) => {
+    try {
+      await apiDeleteService(serviceId);
+      setServices((prevServices) =>
+        prevServices.filter((service) => service.id !== serviceId)
+      );
+      setNotificationMessage('Servicio eliminado correctamente');
+      setNotificationMessage(serviceId);
+      setNotificationOpen(true);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage('Error al eliminar el servicio');
+    }
+  };
+
   // Function to handle viewing comments
   const handleViewComments = (serviceName) => {
     const serviceComments = mockComments.filter(
@@ -215,13 +236,7 @@ function MyServices() {
                     });
                     setDialogOpen(true);
                   }}
-                  onDelete={() => {
-                    setServices((prevServices) =>
-                      prevServices.filter((s) => s.id !== service.id)
-                    );
-                    setNotificationMessage('Servicio eliminado correctamente');
-                    setNotificationOpen(true);
-                  }}
+                  onDelete={() => deleteService(service._id)}
                   onViewComments={handleViewComments}
                   classes={classes}
                 />

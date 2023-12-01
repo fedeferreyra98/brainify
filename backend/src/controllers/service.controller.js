@@ -84,9 +84,9 @@ export const Update = async (req, res) => {
 export const Delete = async (req, res) => {
     try {
         const serviceId = req.params.serviceId;
-        const userId = req.user._id;
+        const userId = req.userId;
         const service = await ServiceService.delete(serviceId, userId);
-        return res.status(200).json({service});
+        return res.status(204).json({service});
     } catch (error) {
         return handleError(res, error);
     }
