@@ -13,19 +13,10 @@ import {
   DialogActions,
   TextField,
 } from '@mui/material';
-import mockComments from '../../data/mockComments';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import { apiCreateComment } from '../../api/apiService';
 
 function ServiceCard({ service, onClick, onHire }) {
-  // Calculate average rating for the service
-  const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service.name
-  );
-  const averageRating =
-    serviceComments.reduce((acc, comment) => acc + comment.rating, 0) /
-    serviceComments.length;
-
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [mainComment, setMainComment] = useState('');
@@ -34,6 +25,7 @@ function ServiceCard({ service, onClick, onHire }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const handleCommentClick = () => {
+    console.log();
     setOpenCommentForm(true);
   };
 
@@ -42,14 +34,24 @@ function ServiceCard({ service, onClick, onHire }) {
   };
 
   const handleSendComment = async () => {
-    const response = await apiCreateComment({
-      serviceId: service.id,
-      content: mainComment,
-      rating: commentRating,
-    });
-    console.log(response);
-    setOpenCommentForm(false);
-    setNotificationOpen(true);
+    try {
+      console.log(service);
+      const response = await apiCreateComment({
+        // eslint-disable-next-line no-underscore-dangle
+        serviceId: service._id,
+        content: mainComment,
+        rating: commentRating,
+      });
+      if (response) {
+        console.log(response);
+        setOpenCommentForm(false);
+        setNotificationOpen(true);
+      }
+    } catch (error) {
+      console.error(error);
+      setOpenCommentForm(false);
+      setNotificationOpen(true);
+    }
   };
 
   const canSubmit = name && lastName;
@@ -63,9 +65,9 @@ function ServiceCard({ service, onClick, onHire }) {
               <Typography variant="h5" marginBottom={1} marginTop={1}>
                 {service.name}
               </Typography>
-              <Rating value={averageRating} readOnly precision={0.5} />
+              <Rating value={service.averageRating} readOnly precision={0.5} />
               <Typography variant="body2" marginBottom={1} marginTop={1}>
-                {`(${service.totalRatings})`}
+                {`(${service.sumOfRatings})`}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -125,8 +127,9 @@ function ServiceCard({ service, onClick, onHire }) {
             />
             <Typography>Rating:</Typography>
             <Rating
-              name="comment-rating"
+              name="hover-feedback"
               value={commentRating}
+              precision={0.5}
               onChange={(e) => setRating(e.target.value)}
             />
             <TextField

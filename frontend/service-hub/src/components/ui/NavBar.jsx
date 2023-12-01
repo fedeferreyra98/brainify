@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,9 +19,9 @@ import Comments from '../../pages/Comments';
 import Hirings from '../../pages/Hirings';
 import SignUpPage from '../../pages/Signup';
 import LoginPage from '../../pages/Login';
-import mockProvider from '../../data/mockProvider';
 import logo from '../../assets/Logos/company-logo.ico';
 import { AuthContext } from '../auth/AuthContext';
+import { apiGetPublicUserData } from '../../api/apiService';
 
 const pages = [
   'Explorar Servicios',
@@ -45,9 +45,9 @@ const homePage = { path: '/' };
 
 const settings = ['Perfil', 'Cambiar contraseña', 'Salir'];
 
-function ResponsiveAppBar() {
-  const { isAuthenticated, handleLogout } = React.useContext(AuthContext); // Variable de estado para la autenticación
-  const [providerInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
+function ResponsiveAppBar({ isAuthenticated, onLogout }) {
+  const { handleLogout } = useContext(AuthContext);
+  const [providerInfo, setProviderInfo] = useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -69,7 +69,32 @@ function ResponsiveAppBar() {
   const handleLogoutClick = () => {
     handleCloseUserMenu();
     handleLogout();
+    onLogout();
   };
+
+  const storedUser = localStorage.getItem('user');
+  useEffect(() => {
+    // Función para cargar los datos privados del usuario
+    const loadPrivateUserData = async () => {
+      const obj = JSON.parse(storedUser);
+      console.log(obj.id);
+      try {
+        const response = await apiGetPublicUserData(obj.id);
+        console.log(response);
+        setProviderInfo(response.user); // Actualiza el estado con la información privada del usuario
+      } catch (error) {
+        console.error('Error al cargar la información del usuario:', error);
+      }
+    };
+
+    if (storedUser) {
+      loadPrivateUserData();
+    }
+  }, [storedUser, isAuthenticated]); // Dependencia: storedUser
+
+  if (!providerInfo && isAuthenticated) {
+    return <div>Loading NavBar...</div>;
+  }
 
   return (
     <AppBar position="fixed">
@@ -136,7 +161,7 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => {
                 if (
-                  !isAuthenticated &&
+                  !providerInfo &&
                   (page === 'Mis Servicios' ||
                     page === 'Comentarios' ||
                     page === 'Contrataciones')
@@ -188,7 +213,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => {
               if (
-                !isAuthenticated &&
+                !providerInfo &&
                 (page === 'Mis Servicios' ||
                   page === 'Comentarios' ||
                   page === 'Contrataciones')
@@ -209,7 +234,7 @@ function ResponsiveAppBar() {
             })}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            {!isAuthenticated ? (
+            {!providerInfo ? (
               <Button component={Link} to="/login" sx={{ color: 'white' }}>
                 Proveedores
               </Button>

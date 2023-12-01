@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog,
   List,
@@ -22,8 +22,10 @@ import TimerIcon from '@mui/icons-material/Timer';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ClassIcon from '@mui/icons-material/Class';
 import useStyles from '../../styles/styles';
-import mockComments from '../../data/mockComments';
-import { apiGetPublicUserData } from '../../api/apiService';
+import {
+  apiGetPublicUserData,
+  apiGetAllCommentsByServiceId,
+} from '../../api/apiService';
 
 function ServiceDetails({ service, onClose, onHire }) {
   const classes = useStyles();
@@ -33,8 +35,8 @@ function ServiceDetails({ service, onClose, onHire }) {
     if (service) {
       const fetchProviderInfo = async () => {
         try {
-          const response = await apiGetPublicUserData(service.providerId);
-          setProviderInfo(response.data);
+          const response = await apiGetPublicUserData(service.userId);
+          setProviderInfo(response.user);
         } catch (error) {
           console.log('Error getting provider info:', error);
         }
@@ -44,9 +46,22 @@ function ServiceDetails({ service, onClose, onHire }) {
   }, [service]);
 
   // Filter comments for the selected service
-  const serviceComments = mockComments.filter(
-    (comment) => comment.serviceName === service?.name
-  );
+  const [serviceComments, setServiceComments] = useState([]);
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        if (service) {
+          // eslint-disable-next-line no-underscore-dangle
+          const response = await apiGetAllCommentsByServiceId(service._id);
+          setServiceComments(response);
+        }
+      } catch (error) {
+        console.log('Error getting comments info:', error);
+      }
+    };
+    getComments();
+  }, [service]);
 
   return (
     <Dialog open={!!service} onClose={onClose} fullWidth maxWidth="md">
@@ -61,7 +76,7 @@ function ServiceDetails({ service, onClose, onHire }) {
               primary="Proveedor"
               secondary={
                 providerInfo
-                  ? `${providerInfo.name} ${providerInfo.lastName}`
+                  ? `${providerInfo.firstName} ${providerInfo.lastName}`
                   : 'Cargando ...'
               }
             />
@@ -94,7 +109,7 @@ function ServiceDetails({ service, onClose, onHire }) {
             </ListItemIcon>
             <ListItemText
               primary="Duración"
-              secondary={`${service?.duration} minutos`}
+              secondary={`${service?.duration} horas`}
             />
           </ListItem>
           <Divider variant="inset" component="li" />
@@ -109,18 +124,21 @@ function ServiceDetails({ service, onClose, onHire }) {
         <Divider className={classes.commentCard} />
 
         {/* Display user comments and their ratings */}
-        {serviceComments.map((comment) => (
-          <Card key={comment.id} className={classes.commentCard}>
-            <CardContent>
-              <Typography variant="h6">{comment.user}</Typography>
-              <Rating value={comment.rating} readOnly />
-              <Typography variant="body1">{comment.comment}</Typography>
-              <Typography variant="body2">
-                {comment.secondaryComment}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
+        {serviceComments
+          .filter((comment) => !comment.isBlocked) // Filtrar para pasar solo comentarios no bloqueados
+          .map((comment) => (
+            // eslint-disable-next-line no-underscore-dangle
+            <Card key={comment._id} className={classes.commentCard}>
+              <CardContent>
+                <Typography variant="h6">{comment.user}</Typography>
+                <Rating value={comment.rating} readOnly />
+                <Typography variant="body1">{comment.content}</Typography>
+                <Typography variant="body2">
+                  {comment.secondaryComment}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
