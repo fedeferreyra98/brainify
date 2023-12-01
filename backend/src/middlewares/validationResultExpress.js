@@ -57,7 +57,7 @@ export const createServiceBodyValidator = [
     "La descripción no puede tener más de 255 caracteres"
   ).isLength({ max: 255 }),
   body("category", "La categoría es requerida").trim().notEmpty(),
-  body("category", "Categoría inválida").isIn(categories),
+  body("category", "Categoría inválida").toLowerCase().isIn(categories.map((c) => c.toLowerCase())),
   body("frequency", "La frecuencia es requerida.").trim().notEmpty(),
   body("frequency", "Frecuencia inválida").isIn(['One-time', 'Weekly', 'Monthly']),
   body("cost", "El costo es requerido").trim().notEmpty(),

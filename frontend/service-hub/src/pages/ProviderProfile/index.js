@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Container,
@@ -20,9 +20,10 @@ import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import mockProvider from '../../data/mockProvider';
 import mockComments from '../../data/mockComments';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+
+import { apiGetPublicUserData, apiUpdateUser } from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,8 +60,9 @@ const useStyles = makeStyles((theme) => ({
 function ProviderProfile() {
   const classes = useStyles();
   const [isEditing, setIsEditing] = useState(false);
-  const [providerInfo, setProviderInfo] = useState(mockProvider); // Variable de estado para la información del proveedor
-  const [updatedProvider, setUpdatedProvider] = useState(mockProvider);
+  const [providerInfo, setProviderInfo] = useState(null); // Variable de estado para la información del proveedor
+  const [updatedProvider, setUpdatedProvider] = useState(null);
+  const storedUser = localStorage.getItem('user');
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -69,10 +71,30 @@ function ProviderProfile() {
 
   const [notificationOpen, setNotificationOpen] = useState(false);
 
-  const handleSave = () => {
-    setProviderInfo(updatedProvider); // Actualizar la información del proveedor
-    setIsEditing(false);
-    setNotificationOpen(true); // Mostrar la notificación
+  const handleSave = async () => {
+    try {
+      const obj = JSON.parse(storedUser);
+      let newId = obj.id;
+      if (!obj.id) {
+        // eslint-disable-next-line no-underscore-dangle
+        newId = obj._id;
+      }
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await apiUpdateUser(newId, {
+        firstName: updatedProvider.firstName,
+        lastName: updatedProvider.lastName,
+        email: updatedProvider.email,
+        phoneNumber: updatedProvider.phoneNumber,
+        degree: updatedProvider.degree,
+        experience: updatedProvider.experience,
+      });
+      setProviderInfo(response.user); // Assuming the response has the updated user data
+      console.log(response.user);
+      setIsEditing(false);
+      setNotificationOpen(true); // Mostrar la notificación
+    } catch (error) {
+      console.error('Error al actualizar la información del usuario:', error);
+    }
   };
 
   const VisuallyHiddenInput = styled('input')({
@@ -90,6 +112,33 @@ function ProviderProfile() {
   const topComments = [...mockComments]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 6);
+
+  useEffect(() => {
+    // Función para cargar los datos privados del usuario
+    const loadPrivateUserData = async () => {
+      try {
+        const obj = JSON.parse(storedUser);
+        if (obj.id) {
+          const response = await apiGetPublicUserData(obj.id);
+          if (response) {
+            setProviderInfo(response.user); // Actualiza el estado con la información privada del usuario
+            setUpdatedProvider(response.user);
+          }
+        }
+      } catch (error) {
+        console.error('Error al cargar la información del usuario:', error);
+      }
+    };
+
+    if (storedUser) {
+      loadPrivateUserData();
+    }
+  }, [storedUser, notificationOpen]);
+
+  if (!providerInfo) {
+    // Loading state, or return null, or a spinner etc.
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container className={classes.root}>
@@ -130,7 +179,7 @@ function ProviderProfile() {
         </Grid>
         <Grid item xs={12} sm={8} md={9}>
           <Typography variant="h5">{`${providerInfo.firstName} ${providerInfo.lastName}`}</Typography>
-          <Typography variant="subtitle1">{providerInfo.title}</Typography>
+          <Typography variant="subtitle1">{providerInfo.degree}</Typography>
           <Typography variant="subtitle2">{`E-mail: ${providerInfo.email}`}</Typography>
           <Typography variant="string">{`Tel: ${providerInfo.phoneNumber}`}</Typography>
         </Grid>
@@ -247,8 +296,8 @@ function ProviderProfile() {
             type="text"
             fullWidth
             variant="outlined"
-            value={updatedProvider.title}
-            name="title"
+            value={updatedProvider.degree}
+            name="degree"
             onChange={handleInputChange}
           />
           <TextField

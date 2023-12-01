@@ -148,9 +148,9 @@ export const apiUploadImage = (file) => {
     });
 };
 
-export const apiUpdateUser = (data) => {
+export const apiUpdateUser = (userId, data) => {
   return axiosInstance
-    .patch('/user', data)
+    .patch(`/user/${userId}`, data)
     .then((response) => {
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
@@ -227,9 +227,9 @@ export const apiGetAllCommentsByServiceId = (_id) => {
     });
 };
 
-export const apiGetAllCommentsByUser = (_id) => {
+export const apiGetAllCommentsByUser = () => {
   return axiosInstance
-    .get(`/comment/my/${_id}`)
+    .get(`/comment/my/comments`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
