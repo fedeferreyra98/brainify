@@ -235,6 +235,7 @@ function MyServices() {
                     });
                     setDialogOpen(true);
                   }}
+                  // eslint-disable-next-line no-underscore-dangle
                   onDelete={() => deleteService(service._id)}
                   onViewComments={handleViewComments}
                   classes={classes}
