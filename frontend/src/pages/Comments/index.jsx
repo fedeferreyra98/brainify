@@ -5,8 +5,8 @@ import NotificationGreen from '../../components/ui/NotificationGreen';
 import CommentCard from './CommentCard';
 import {
   apiGetAllCommentsByUser,
+  apiUpdateComment,
   apiDeleteComment,
-  apiPublishComment,
 } from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +52,8 @@ function Comments() {
   }, [user, openSnackbar]);
 
   const handlePublish = (commentId) => {
-    apiPublishComment(commentId);
+    const newCommentStatus = true;
+    apiUpdateComment(commentId, newCommentStatus);
     setSnackbarMessage('Comentario publicado');
     setOpenSnackbar(true);
     // Despues hay que agregar la logica de publicar el comentario, ahora solo desaparce de la pag (leido)
