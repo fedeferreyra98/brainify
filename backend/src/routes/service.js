@@ -7,22 +7,12 @@ import { createServiceBodyValidator } from "../middlewares/validationResultExpre
 
 const router = express.Router();
 
-//GetAll
+
 router.get("/", GetAllServices);
-
-//GetByUser
 router.get("/user", requireToken, GetServicesByUser);
-
-//GetById
 router.get("/:serviceId", GetServiceById);
-
-//Create
 router.post("/", requireToken, createServiceBodyValidator, Create);
-
-//Update
 router.patch("/:serviceId", requireToken, createServiceBodyValidator, Update);
-
-//Delete
 router.delete("/:serviceId", requireToken , Delete);
 
 export default router;
