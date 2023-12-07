@@ -1,13 +1,16 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { createContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { validateToken, apiLogin, apiRegister } from '../../api/apiService';
+import { ROUTE_LOGIN } from '../../routes/routePaths';
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [session, setSession] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkTokenValidity = async () => {
@@ -49,6 +52,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('user');
     setSession(null);
     setIsAuthenticated(false);
+    navigate(ROUTE_LOGIN);
   };
 
   const register = async (userData) => {
