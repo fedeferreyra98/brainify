@@ -16,7 +16,7 @@ export const register = async (req, res) => {
             phoneNumber,
             degree: "",
             experience: "",});
-        const {token, expiresIn} = await AuthenticationService.authenticateUser(leanUser._id, res);
+        const {token, expiresIn} = await AuthenticationService.authenticateUser(leanUser._id);
         return res.status(201).json({user: leanUser, jwt: {token, expiresIn}});
     } catch (error) {
         if (error.code === 11000) {
@@ -48,7 +48,7 @@ export const login = async (req, res) => {
             ]
         });
     }
-        const {token, expiresIn} = await AuthenticationService.authenticateUser(user._id, res);
+        const {token, expiresIn} = await AuthenticationService.authenticateUser(user._id);
         return res.json({user: {
             id: user._id,
             firstName: user.firstName,
@@ -102,6 +102,23 @@ export const resetPassword = async (req, res) => {
         if (error instanceof jwt.TokenExpiredError) {
             return res.status(403).json({errors: [{message: "Token expired"}]});
         }
+        return handleError(res, error);
+    }
+};
+
+export const changePassword = async (req, res) => {
+    try {
+        console.log('AUTH CONTROLLER:', 'req.body:', req);
+        const {originalPass, newPass} = req.body;
+        console.log('AUTH CONTROLLER:', 'originalPass:', originalPass,'newPass:' , newPass);
+        const userId = req.userId
+        const user = await AuthenticationService.findUserById(userId);
+        if (!user) {
+            return res.status(404).json({errors: [{message: "User not found"}]});
+        }
+        await AuthenticationService.changePassword(userId, originalPass, newPass)
+        return res.json({message: "Password changed successfuly"});
+    } catch (error) {
         return handleError(res, error);
     }
 };

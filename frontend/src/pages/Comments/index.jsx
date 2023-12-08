@@ -38,7 +38,6 @@ function Comments() {
         if (user) {
           const obj = JSON.parse(user);
           const response = await apiGetAllCommentsByUser(obj.id);
-          // Filter comments to only include those where 'isBlocked' is true
           const blockedComments = response.comments.filter(
             (comment) => comment.isBlocked
           );

@@ -79,7 +79,7 @@ function ResponsiveAppBar() {
       const obj = JSON.parse(storedUser);
       try {
         const response = await apiGetPublicUserData(obj.id);
-        setProviderInfo(response.user); // Actualiza el estado con la información privada del usuario
+        setProviderInfo(response.publicProfile); // Actualiza el estado con la información privada del usuario
       } catch (error) {
         console.error('Error al cargar la información del usuario:', error);
       }
@@ -103,7 +103,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component={Link}
-            to={`${homePage.path}`}
+            to={`${homePage}`}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -171,7 +171,7 @@ function ResponsiveAppBar() {
                     key={page}
                     onClick={handleCloseNavMenu}
                     component={Link}
-                    to={`${pageRoutes[page].path}`}
+                    to={`${pageRoutes[page]}`}
                   >
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -183,7 +183,7 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component={Link}
-            to={`${homePage.path}`}
+            to={`${homePage}`}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -223,7 +223,7 @@ function ResponsiveAppBar() {
                   key={page}
                   onClick={handleCloseNavMenu}
                   component={Link}
-                  to={`${pageRoutes[page].path}`}
+                  to={`${pageRoutes[page]}`}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   {page}

@@ -19,10 +19,10 @@ const theme = createTheme();
 
 function App() {
   return (
-    <AuthProvider>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <Router>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <AuthProvider>
             <div>
               <CssBaseline />
               <ResponsiveAppBar position="fixed" />
@@ -36,7 +36,7 @@ function App() {
                         path={route.path}
                         element={
                           route.requireAuth ? (
-                            <PrivateRoute>{route.element} </PrivateRoute>
+                            <PrivateRoute>{route.element}</PrivateRoute>
                           ) : (
                             route.element
                           )
@@ -47,10 +47,10 @@ function App() {
                 </Routes>
               </Container>
             </div>
-          </Router>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </AuthProvider>
+          </AuthProvider>
+        </Router>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
 
