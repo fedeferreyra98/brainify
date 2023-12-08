@@ -10,7 +10,7 @@ export const getUser = async (req, res) => {
             return res.json({user})
         } catch (error) {
             console.error(error);
-            res.status(500).json({message: "Internal server error"});
+            return res.status(500).json({message: "Internal server error"});
         }
     }
 
@@ -24,17 +24,17 @@ export const getUser = async (req, res) => {
             return res.json({publicProfile})
         } catch (error) {
             console.error(error);
-            res.status(500).json({message: "Internal server error"});
+            return res.status(500).json({message: "Internal server error"});
         }
     }
 
     export const updateUser = async (req, res) => {
         try {
             const user = await userService.update(req.userId, req.body);
-            res.json({user});
+            return res.json({user});
         } catch (error) {
             console.log(error);
-            res.status(500).json({message: "Internal server error"});
+            return res.status(500).json({message: "Internal server error"});
         }
     }
 
@@ -46,6 +46,6 @@ export const getUser = async (req, res) => {
             return res.json({user: updatedUser});
         } catch (error) {
             console.error(error);
-            res.status(500).json({message: "Internal server error"});
+            return res.status(500).json({message: "Internal server error"});
         }
     }
