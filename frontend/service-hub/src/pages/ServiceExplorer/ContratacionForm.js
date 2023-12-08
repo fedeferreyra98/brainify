@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
-  Dialog,
   DialogActions,
+  Container,
   DialogContent,
-  DialogTitle,
   TextField,
   FormControl,
   InputLabel,
@@ -12,27 +11,99 @@ import {
   MenuItem,
 } from '@mui/material';
 import useStyles from '../../styles/styles';
+import { apiCreateHiring } from '../../api/apiService';
+import NotificationGreen from '../../components/ui/NotificationGreen';
+import NotificationRed from '../../components/ui/NotificationRed';
 
-function ContratacionForm({
-  dialogOpen,
-  setDialogOpen,
-  telefono,
-  setTelefono,
-  email,
-  setEmail,
-  horario,
-  setHorario,
-  mensaje,
-  setMensaje,
-  CheckAndSend,
-  isFormComplete,
-  resetFormContratacion,
-}) {
+function ContratacionForm({ selectedService, closeHiringForm }) {
   const classes = useStyles();
 
+  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
+  const [notificationRedMessage, setNotificationRedMessage] = useState('');
+  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
+  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
+
+  // Estados para los campos del formulario de contratación
+  const [telefono, setTelefono] = useState('');
+  const [email, setEmail] = useState('');
+  const [horario, setHorario] = useState('');
+  const [mensaje, setMensaje] = useState('');
+
+  // Create service function
+  const createHiring = async () => {
+    try {
+      await apiCreateHiring(selectedService, {
+        phoneNumber: telefono,
+        contactEmail: email,
+        message: mensaje,
+        preferredContactTime: horario,
+      });
+      setNotificationGreenMessage('Solicitud de contacto enviada');
+      setNotificationGreenOpen(true);
+    } catch (error) {
+      console.log(error);
+      setNotificationRedMessage('Error al agregar el servicio');
+      setNotificationRedOpen(true);
+    }
+  };
+
+  // Función para resetear el formulario de contratación
+  const resetFormContratacion = () => {
+    setTelefono('');
+    setEmail('');
+    setHorario('');
+    setMensaje('');
+  };
+
+  // Función para verificar si todos los campos del formulario están completos
+  const isFormComplete = () => {
+    return telefono && email && horario;
+  };
+
+  // Función para validar un número de teléfono
+  const isValidPhoneNumber = (phoneNumber) => {
+    const pattern = /^[0-9]{10}$/; // Asume un número de 10 dígitos
+    return pattern.test(phoneNumber);
+  };
+
+  // Función para validar un correo electrónico
+  const isValidEmail = () => {
+    const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return pattern.test(email);
+  };
+
+  // Función para validar campos y enviar formulario
+  const CheckAndSend = () => {
+    if (!isValidPhoneNumber(telefono)) {
+      setNotificationRedMessage(
+        'Por favor, ingrese un número de teléfono válido'
+      );
+      setNotificationRedOpen(true);
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setNotificationRedMessage(
+        'Por favor, ingrese un correo electrónico válido'
+      );
+      setNotificationRedOpen(true);
+      return;
+    }
+
+    if (!horario) {
+      setNotificationRedMessage('Se debe establecer un horario de contacto');
+      setNotificationRedOpen(true);
+      return;
+    }
+
+    // Si todas las validaciones pasan, se envia el formulario y se muestra notificación de éxito
+    createHiring();
+    closeHiringForm();
+    resetFormContratacion();
+  };
+
   return (
-    <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-      <DialogTitle>Contratar Servicio</DialogTitle>
+    <Container>
       <DialogContent>
         <TextField
           fullWidth
@@ -68,7 +139,7 @@ function ContratacionForm({
       <DialogActions>
         <Button
           onClick={() => {
-            setDialogOpen(false);
+            closeHiringForm();
             resetFormContratacion();
           }}
           color="primary"
@@ -83,7 +154,17 @@ function ContratacionForm({
           Enviar
         </Button>
       </DialogActions>
-    </Dialog>
+      <NotificationRed
+        open={notificationRedOpen}
+        message={notificationRedMessage}
+        onClose={() => setNotificationRedOpen(false)}
+      />
+      <NotificationGreen
+        open={notificationGreenOpen}
+        message={notificationGreenMessage}
+        onClose={() => setNotificationGreenOpen(false)}
+      />
+    </Container>
   );
 }
 

@@ -14,18 +14,37 @@ import {
   TextField,
 } from '@mui/material';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import NotificationRed from '../../components/ui/NotificationRed';
 import { apiCreateComment } from '../../api/apiService';
+import ContratacionForm from './ContratacionForm';
 
-function ServiceCard({ service, onClick, onHire, validation, send }) {
+function ServiceCard({ service, onClick, validation, send }) {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [mainComment, setMainComment] = useState('');
   const [commentRating, setRating] = useState(5); // [1, 5]
   const [openCommentForm, setOpenCommentForm] = useState(false);
-  const [notificationOpen, setNotificationOpen] = useState(false);
+
+  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [notificationRedMessage, setNotificationRedMessage] = useState('');
+  // eslint-disable-next-line no-unused-vars
+  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
+
+  // Estado para controlar el diálogo de contratación
+  const [openDialog, setDialogOpen] = useState(false);
+
+  const handleHireClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseHiringForm = () => {
+    setDialogOpen(false);
+  };
 
   const handleCommentClick = () => {
-    console.log();
     setOpenCommentForm(true);
   };
 
@@ -58,12 +77,12 @@ function ServiceCard({ service, onClick, onHire, validation, send }) {
         }
         resetFormCmment();
         setOpenCommentForm(false);
-        setNotificationOpen(true);
+        setNotificationRedOpen(true);
       }
     } catch (error) {
       console.error(error);
       setOpenCommentForm(false);
-      setNotificationOpen(true);
+      setNotificationRedOpen(true);
     }
   };
 
@@ -106,7 +125,7 @@ function ServiceCard({ service, onClick, onHire, validation, send }) {
               </Button>
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <Button size="small" color="secondary" onClick={onHire}>
+              <Button size="small" color="secondary" onClick={handleHireClick}>
                 Contratar
               </Button>
             </Grid>
@@ -171,10 +190,25 @@ function ServiceCard({ service, onClick, onHire, validation, send }) {
           </DialogActions>
         </Dialog>
 
+        <Dialog open={openDialog} onClose={handleCloseHiringForm}>
+          <DialogTitle>Contratar Servicio</DialogTitle>
+          <ContratacionForm
+            // eslint-disable-next-line no-underscore-dangle
+            selectedService={service._id}
+            dialogOpen={openDialog}
+            closeHiringForm={handleCloseHiringForm}
+          />
+        </Dialog>
+
+        <NotificationRed
+          open={notificationRedOpen}
+          message={notificationRedMessage}
+          onClose={() => setNotificationRedOpen(false)}
+        />
         <NotificationGreen
-          open={notificationOpen}
-          message="Comentario enviado"
-          onClose={() => setNotificationOpen(false)}
+          open={notificationGreenOpen}
+          message={notificationGreenMessage}
+          onClose={() => notificationGreenOpen(false)}
         />
       </Card>
     </Grid>
