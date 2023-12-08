@@ -1,5 +1,5 @@
-import { upload } from "../services/cloudinary";
-import { sendMail } from "../services/sendGrid.service";
+import { upload } from "../services/cloudinary.js";
+import { sendMail } from "../services/sendGrid.service.js";
 
 export const uploadImage = async (req, res) => {
     try {
