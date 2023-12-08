@@ -77,7 +77,8 @@ function ServiceCard({ service, onClick, validation, send }) {
         }
         resetFormCmment();
         setOpenCommentForm(false);
-        setNotificationRedOpen(true);
+        setNotificationGreenMessage('Comentario Enviado');
+        setNotificationGreenOpen(true);
       }
     } catch (error) {
       console.error(error);
@@ -158,22 +159,14 @@ function ServiceCard({ service, onClick, validation, send }) {
             <Rating
               name="hover-feedback"
               value={commentRating}
-              precision={0.5}
-              onChange={(e) => setRating(e.target.value)}
+              onChange={(e) => setRating(Number(e.target.value))}
             />
             <TextField
               margin="dense"
-              label="Comentario Principal"
+              label="Comentario"
               fullWidth
               value={mainComment}
               onChange={(e) => setMainComment(e.target.value)}
-            />
-            <TextField
-              margin="dense"
-              label="Comentario Secundario"
-              fullWidth
-              multiline
-              rows={4}
             />
           </DialogContent>
           <DialogActions>
