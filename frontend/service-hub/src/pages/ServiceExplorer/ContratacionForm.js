@@ -24,7 +24,7 @@ function ContratacionForm({
   setHorario,
   mensaje,
   setMensaje,
-  CheckTime,
+  CheckAndSend,
   isFormComplete,
   resetFormContratacion,
 }) {
@@ -50,10 +50,7 @@ function ContratacionForm({
         />
         <FormControl className={classes.formControl} fullWidth>
           <InputLabel>Horario de contacto</InputLabel>
-          <Select
-            value={horario.inicio}
-            onChange={(e) => setHorario({ ...horario, inicio: e.target.value })}
-          >
+          <Select value={horario} onChange={(e) => setHorario(e.target.value)}>
             <MenuItem value="Mañana">Mañana</MenuItem>
             <MenuItem value="Tarde">Tarde</MenuItem>
           </Select>
@@ -79,7 +76,7 @@ function ContratacionForm({
           Cancelar
         </Button>
         <Button
-          onClick={CheckTime}
+          onClick={CheckAndSend}
           color="primary"
           disabled={!isFormComplete()} // Deshabilita el botón si el formulario no está completo
         >

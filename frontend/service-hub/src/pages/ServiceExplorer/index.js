@@ -7,7 +7,7 @@ import useStyles from '../../styles/styles';
 import NotificationRed from '../../components/ui/NotificationRed';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import ContratacionForm from './ContratacionForm';
-import { apiGetServices } from '../../api/apiService';
+import { apiGetServices, apiCreateHiring } from '../../api/apiService';
 
 function ServiceExplorer() {
   const classes = useStyles();
@@ -81,6 +81,27 @@ function ServiceExplorer() {
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
   const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
+  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
+
+  // Create service function
+  const createHiring = async () => {
+    try {
+      console.log(selectedService);
+      const hiring = await apiCreateHiring('656a3e2a219b307f6768fffd', {
+        phoneNumber: telefono,
+        contactEmail: email,
+        message: mensaje,
+        preferredContactTime: horario,
+      });
+      console.log(hiring);
+      setNotificationGreenMessage('Solicitud de contacto enviada');
+      setNotificationGreenOpen(true);
+    } catch (error) {
+      console.log(error);
+      setNotificationRedMessage('Error al agregar el servicio');
+      setNotificationRedOpen(true);
+    }
+  };
 
   // Función para resetear el formulario de contratación
   const resetFormContratacion = () => {
@@ -92,7 +113,7 @@ function ServiceExplorer() {
 
   // Función para verificar si todos los campos del formulario están completos
   const isFormComplete = () => {
-    return telefono && email && horario && mensaje;
+    return telefono && email && horario;
   };
 
   // Función para validar un número de teléfono
@@ -107,21 +128,8 @@ function ServiceExplorer() {
     return pattern.test(email);
   };
 
-  // Generar las opciones de horario en intervalos de 30 minutos
-  const generateTimeOptions = () => {
-    const options = [];
-    for (let i = 0; i < 24; i += 1) {
-      for (let j = 0; j < 60; j += 30) {
-        const hour = i.toString().padStart(2, '0');
-        const minute = j.toString().padStart(2, '0');
-        options.push(`${hour}:${minute}hs`);
-      }
-    }
-    return options;
-  };
-
-  // Función para validar que la hora de finalización sea mayor que la hora de inicio y otras validaciones
-  const CheckTime = () => {
+  // Función para validar campos y enviar formulario
+  const CheckAndSend = () => {
     if (!isValidPhoneNumber(telefono)) {
       setNotificationRedMessage(
         'Por favor, ingrese un número de teléfono válido'
@@ -144,8 +152,8 @@ function ServiceExplorer() {
       return;
     }
 
-    // Si todas las validaciones pasan, mostrar notificación de éxito
-    setNotificationGreenOpen(true);
+    // Si todas las validaciones pasan, se envia el formulario y se muestra notificación de éxito
+    createHiring();
     setDialogOpen(false);
     resetFormContratacion();
   };
@@ -279,8 +287,7 @@ function ServiceExplorer() {
         setHorario={setHorario}
         mensaje={mensaje}
         setMensaje={setMensaje}
-        generateTimeOptions={generateTimeOptions}
-        CheckTime={CheckTime}
+        CheckAndSend={CheckAndSend}
         isFormComplete={isFormComplete}
         resetFormContratacion={resetFormContratacion}
       />
@@ -291,7 +298,7 @@ function ServiceExplorer() {
       />
       <NotificationGreen
         open={notificationGreenOpen}
-        message="Solicitud de contacto enviada"
+        message={notificationGreenMessage}
         onClose={() => setNotificationGreenOpen(false)}
       />
     </div>
