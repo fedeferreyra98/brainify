@@ -44,6 +44,18 @@ export const apiResetPassword = ({ token, password }) => {
     });
 };
 
+export const apiChangePassword = (originalPass, newPass) => {
+  return axiosInstance
+    .post('/auth/change-password', {
+      originalPass,
+      newPass,
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const validateToken = (token) => {
   return axiosInstance
     .post('/auth/validate-token', { token })

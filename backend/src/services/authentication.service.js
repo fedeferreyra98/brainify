@@ -7,7 +7,7 @@ class AuthenticationService{
         await newUser.save();
         return newUser.toObject();
     }
-    async authenticateUser(userId, res){
+    async authenticateUser(userId){
         const {token, expiresIn} = generateToken(userId);
         return {token, expiresIn};
     }
@@ -19,6 +19,16 @@ class AuthenticationService{
     }
     async comparePassword(user, password){
         return await user.comparePassword(password);
+    }
+
+    async changePassword(userId, originalPass, newPass){
+        const user = await this.findUserById(userId);
+        const isMatch = await this.comparePassword(user, originalPass);
+        if (!isMatch) {
+            throw new Error("Credenciales Invalidas.");
+        }
+        user.password = newPass;
+        await user.save();
     }
 }
 
