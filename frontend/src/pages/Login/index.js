@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SimplePasswordField from '../../components/form/SimplePasswordField';
 import NotificationRed from '../../components/ui/NotificationRed';
 import { AuthContext } from '../../components/auth/AuthContext';
-import { ROUTE_MY_SERVICES } from '../../config/routePaths';
+import { ROUTE_MY_SERVICES } from '../../routes/routePaths';
 
 const useStyles = makeStyles((theme) => ({
   root: {

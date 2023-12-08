@@ -4,7 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
 import NotificationRed from '../../components/ui/NotificationRed';
 import { AuthContext } from '../../components/auth/AuthContext';
-import { ROUTE_PROVIDER_PROFILE } from '../../config/routePaths';
+import { ROUTE_PROVIDER_PROFILE } from '../../routes/routePaths';
 
 const useStyles = makeStyles((theme) => ({
   root: {

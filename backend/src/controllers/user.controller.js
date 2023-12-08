@@ -3,7 +3,7 @@ import {upload} from '../services/cloudinary.js'
 
 export const getUser = async (req, res) => {
         try {
-            const user = await userService.findById(req.params.id);
+            const user = await userService.findById(req.userId);
             if (!user) {
                 return res.status(404).json({message: "User not found"});
             }
@@ -30,7 +30,7 @@ export const getUser = async (req, res) => {
 
     export const updateUser = async (req, res) => {
         try {
-            const user = await userService.update(req.params.id, req.body);
+            const user = await userService.update(req.userId, req.body);
             res.json({user});
         } catch (error) {
             console.log(error);
@@ -40,7 +40,7 @@ export const getUser = async (req, res) => {
 
     export const updateUserProfileImg = async (req, res) => {
         try {
-            const userId = req;
+            const {userId} = req;
             const imageUrl = await upload(req.file.buffer);
             const updatedUser = await userService.update(userId, {profileImgUrl: imageUrl});
             return res.json({user: updatedUser});

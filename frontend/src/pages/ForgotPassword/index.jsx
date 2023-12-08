@@ -7,7 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 import emailRegex from '../../data/emailRegex';
 import mockDatabaseMails from '../../data/mockDataBaseMails';
-import { ROUTE_RESTORE_PASSWORD } from '../../data/pageRoutes';
+import { ROUTE_RESTORE_PASSWORD } from '../../routes/routePaths';
 
 const useStyles = makeStyles((theme) => ({
   root: {

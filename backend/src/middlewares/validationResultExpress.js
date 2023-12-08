@@ -69,7 +69,7 @@ export const createServiceBodyValidator = [
   validationResultExpress,
 ];
 
-export const createServiceContractBodyValidator = [
+export const createHiringBodyValidator = [
   body("contactEmail", "El email de contacto es requerido").trim().notEmpty(),
   body("contactEmail", "Mail de contacto inválido").isEmail().normalizeEmail(),
   body("message", "El mensaje es requerido").trim().notEmpty(),
@@ -83,7 +83,7 @@ export const createServiceContractBodyValidator = [
   validationResultExpress,
 ];
 
-export const updateServiceContractBodyValidator = [
+export const updateHiringBodyValidator = [
   body("contractStatus", "Estado de contratación inválido").isIn([
     "requested",
     "completed",

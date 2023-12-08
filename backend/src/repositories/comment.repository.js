@@ -28,11 +28,11 @@ class CommentRepository{
         return await Comment.findById(commentId).lean();
     }
 
-    async updateCommentStatus(commentId){
+    async updateCommentStatus(commentId, status){
         const comment = await Comment.findById(commentId);
-        comment.isBlocked = false;
+        comment.isBlocked = status;
         await comment.save();
-        return comment;
+        return comment; 
     }
 
     async delete(id){

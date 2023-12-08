@@ -52,20 +52,25 @@ export const  create = async (req, res) => {
     }
 };
 
-export const  publish = async (req, res) => {
+export const updateCommentStatus = async (req, res) => {
     try {
-        const comment = await CommentService.getCommentById(req.params.id);
+        const comment = await CommentService.getCommentById(req.params.commentId);
         if (!comment) {
             return res.status(404).json({ message: "Comentario no encontrado" });
         }
-        const updatedComment = await CommentService.updateCommentStatus( req.params.id );
-        return res.status(204).json({ updatedComment });
+        const service = await ServiceService.getById(comment.serviceId);
+        const isUserAuthorized = CommentService.checkUserAuthorization(service.userId, req.userId);
+        if (!isUserAuthorized) {
+            return res.status(403).json({ message: "No tienes permiso para editar este comentario" });
+        }
+        const status = req.body.status;
+        const updatedComment = await CommentService.updateCommentStatus(req.params.commentId, status);
+        return res.status(200).json({ updatedComment });
     } catch (error) {
         return handleError(res, error);
     }
-}
-
-export const Delete = async (req, res) => {
+};
+export const deleteComment = async (req, res) => {
     try {
         const commentId = req.params._id;
         const comment = await CommentService.delete(commentId);

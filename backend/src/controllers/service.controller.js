@@ -70,7 +70,7 @@ export const Update = async (req, res) => {
     }
     try {
         const serviceId = req.params.serviceId;
-        const userId = req.user._id;
+        const userId = req.userId;
         const service = await ServiceService.update(serviceId, userId, req.body);
         if (!service) {
             return res.status(404).json({message: "Servicio no encontrado"});

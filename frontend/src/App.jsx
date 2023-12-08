@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import ResponsiveAppBar from './components/ui/NavBar';
 import './assets/stylesheets/styles.css';
-import { routesConfig } from './config/routes';
+import { routesConfig } from './routes/routes';
 
 import PrivateRoute from './routes/PrivateRoutes';
 import { AuthProvider } from './components/auth/AuthContext';

@@ -1,28 +1,16 @@
 // @ts-ignore
 import express from "express";
-import {getCommentsByServiceId, getAllCommentsByServiceId, getAllCommentsByUser, create, publish, Delete} from "../controllers/comment.controller.js";
+import {getCommentsByServiceId, getAllCommentsByServiceId, getAllCommentsByUser, create, updateCommentStatus, deleteComment} from "../controllers/comment.controller.js";
+import { requireToken } from "../middlewares/requireToken.js";
+import { createCommentBodyValidator } from "../middlewares/validationResultExpress.js";
 
 
 const router = express.Router();
 
-// GetByServiceId
 router.get("/:serviceId", getCommentsByServiceId);
-
-// GetAllCommentsByServiceId
 router.get("/:serviceId/all", getAllCommentsByServiceId);
-
-
-// GetAllCommentsByUser
-router.get("/my/:_id", getAllCommentsByUser);
-
-
-// Create
-router.post("/", create);
-
-// publish
-router.put("/publish/:id", publish);
-
-//Delete
-router.delete("/rm/:_id", Delete);
-
+router.get("/my/:_id", getAllCommentsByUser); // TODO: Integrar usando ambos controllers para el frontend.
+router.post("/:serviceId", createCommentBodyValidator, create);
+router.patch("/:commentId", requireToken, updateCommentStatus);
+router.delete("/:commentId", requireToken, deleteComment);
 export default router;

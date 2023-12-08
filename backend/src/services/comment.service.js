@@ -55,8 +55,8 @@ class CommentService {
         return commentRepository.getCommentById(commentId);
     }
 
-    async updateCommentStatus(commentId){
-        return commentRepository.updateCommentStatus(commentId);
+    async updateCommentStatus(commentId, status){
+        return commentRepository.updateCommentStatus(commentId, status);
     }
 
     async delete(commentId) {

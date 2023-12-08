@@ -236,9 +236,9 @@ export const apiGetAllCommentsByUser = (_id) => {
     });
 };
 
-export const apiUpdateComment = (commentId, commentData) => {
+export const apiUpdateComment = (commentId, status) => {
   return axiosInstance
-    .patch(`/comment/${commentId}`, commentData)
+    .patch(`/comment/${commentId}`, status)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -248,15 +248,6 @@ export const apiUpdateComment = (commentId, commentData) => {
 export const apiDeleteComment = (commentId) => {
   return axiosInstance
     .delete(`/comment/rm/${commentId}`)
-    .then((response) => response.data)
-    .catch((error) => {
-      throw error;
-    });
-};
-
-export const apiPublishComment = (_id) => {
-  return axiosInstance
-    .put(`/comment/publish/${_id}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

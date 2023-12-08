@@ -13,15 +13,19 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
-import ServiceExplorer from '../../pages/ServiceExplorer/index';
-import MyServices from '../../pages/MyServices';
-import Comments from '../../pages/Comments';
-import Hirings from '../../pages/Hirings';
-import SignUpPage from '../../pages/Signup';
-import LoginPage from '../../pages/Login';
 import logo from '../../assets/Logos/company-logo.ico';
 import { AuthContext } from '../auth/AuthContext';
 import { apiGetPublicUserData } from '../../api/apiService';
+import {
+  ROUTE_LOGIN,
+  ROUTE_SIGNUP,
+  ROUTE_COMMENTS,
+  ROUTE_EXPLORE_SERVICES,
+  ROUTE_MY_SERVICES,
+  ROUTE_HIRINGS,
+  ROUTE_HOME,
+  ROUTE_PROVIDER_PROFILE,
+} from '../../routes/routePaths';
 
 const pages = [
   'Explorar Servicios',
@@ -30,23 +34,20 @@ const pages = [
   'Contrataciones',
 ];
 const pageRoutes = {
-  'Explorar Servicios': {
-    path: '/explorar-servicios',
-    component: ServiceExplorer,
-  },
-  'Mis Servicios': { path: '/mis-servicios', component: MyServices },
-  Comentarios: { path: '/comentarios', component: Comments },
-  Contrataciones: { path: '/contrataciones', component: Hirings },
-  Login: { path: '/login', component: LoginPage },
-  Registro: { path: '/registro', component: SignUpPage },
-  ProviderProfile: { path: '/perfil-proveedor' },
+  'Explorar Servicios': ROUTE_EXPLORE_SERVICES,
+  'Mis Servicios': ROUTE_MY_SERVICES,
+  Comentarios: ROUTE_COMMENTS,
+  Contrataciones: ROUTE_HIRINGS,
+  Login: ROUTE_LOGIN,
+  Registro: ROUTE_SIGNUP,
+  ProviderProfile: ROUTE_PROVIDER_PROFILE,
 };
-const homePage = { path: '/' };
+const homePage = ROUTE_HOME;
 
 const settings = ['Perfil', 'Cambiar contraseña', 'Salir'];
 
-function ResponsiveAppBar({ isAuthenticated, onLogout }) {
-  const { handleLogout } = useContext(AuthContext);
+function ResponsiveAppBar() {
+  const { isAuthenticated, handleLogout } = useContext(AuthContext);
   const [providerInfo, setProviderInfo] = useState(null);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -69,7 +70,6 @@ function ResponsiveAppBar({ isAuthenticated, onLogout }) {
   const handleLogoutClick = () => {
     handleCloseUserMenu();
     handleLogout();
-    onLogout();
   };
 
   const storedUser = localStorage.getItem('user');
