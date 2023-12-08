@@ -73,14 +73,7 @@ function ProviderProfile() {
 
   const handleSave = async () => {
     try {
-      const obj = JSON.parse(storedUser);
-      let newId = obj.id;
-      if (!obj.id) {
-        // eslint-disable-next-line no-underscore-dangle
-        newId = obj._id;
-      }
-      // eslint-disable-next-line no-underscore-dangle
-      const response = await apiUpdateUser(newId, {
+      const response = await apiUpdateUser({
         firstName: updatedProvider.firstName,
         lastName: updatedProvider.lastName,
         email: updatedProvider.email,
@@ -121,8 +114,8 @@ function ProviderProfile() {
         if (obj.id) {
           const response = await apiGetPublicUserData(obj.id);
           if (response) {
-            setProviderInfo(response.user); // Actualiza el estado con la información privada del usuario
-            setUpdatedProvider(response.user);
+            setProviderInfo(response.publicProfile); // Actualiza el estado con la información privada del usuario
+            setUpdatedProvider(response.publicProfile);
           }
         }
       } catch (error) {

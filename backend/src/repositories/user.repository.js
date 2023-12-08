@@ -17,8 +17,8 @@ class UserRepository {
         }
     
     async getPublicProfile(user) {
-        const { firstName, lastName, degree, experience, profileImgUrl} = user;
-        return { firstName, lastName, degree, experience, profileImgUrl};
+        const { firstName, lastName, degree, experience, phoneNumber, email, profileImgUrl} = user;
+        return { firstName, lastName, degree, experience, phoneNumber, email, profileImgUrl};
     }
 }
 
