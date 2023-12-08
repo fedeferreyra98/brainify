@@ -103,7 +103,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component={Link}
-            to={`${homePage.path}`}
+            to={`${homePage}`}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -171,7 +171,7 @@ function ResponsiveAppBar() {
                     key={page}
                     onClick={handleCloseNavMenu}
                     component={Link}
-                    to={`${pageRoutes[page].path}`}
+                    to={`${pageRoutes[page]}`}
                   >
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -183,7 +183,7 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component={Link}
-            to={`${homePage.path}`}
+            to={`${homePage}`}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -223,7 +223,7 @@ function ResponsiveAppBar() {
                   key={page}
                   onClick={handleCloseNavMenu}
                   component={Link}
-                  to={`${pageRoutes[page].path}`}
+                  to={`${pageRoutes[page]}`}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   {page}
