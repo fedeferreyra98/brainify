@@ -19,16 +19,13 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
             <CardContent>
               <Typography variant="h6">{contratacion.servicio}</Typography>
               <Typography color="textSecondary">
-                {`Usuario: ${contratacion.usuario}`}
+                {`E-mail: ${contratacion.contactEmail}`}
               </Typography>
               <Typography color="textSecondary">
-                {`E-mail: ${contratacion.mail}`}
+                {`Tel: ${contratacion.phoneNumber}`}
               </Typography>
               <Typography color="textSecondary">
-                {`Tel: ${contratacion.numeroTelefonico}`}
-              </Typography>
-              <Typography color="textSecondary">
-                {`Horario de contacto: ${contratacion.horarioContacto}`}
+                {`Horario de contacto: ${contratacion.preferredContactTime}`}
               </Typography>
             </CardContent>
             <FormControl
@@ -37,21 +34,21 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
               size="small"
               style={{ marginTop: '10px' }}
             >
-              <InputLabel id={`select-label-${contratacion.id}`}>
+              <InputLabel id={`select-label-${contratacion.contractStatus}`}>
                 Estado
               </InputLabel>
               <Select
-                labelId={`select-label-${contratacion.id}`}
-                value={contratacion.estado}
+                labelId={`select-label-${contratacion.contractStatus}`}
+                value={contratacion.contractStatus}
                 onChange={(event) =>
                   handleEstadoChange(contratacion.id, event.target.value)
                 }
                 label="Estado"
               >
-                <MenuItem value="solicitada">Solicitada</MenuItem>
-                <MenuItem value="aceptada">Aceptada</MenuItem>
-                <MenuItem value="cancelada">Cancelada</MenuItem>
-                <MenuItem value="finalizada">Finalizada</MenuItem>
+                <MenuItem value="Solicitada">Solicitada</MenuItem>
+                <MenuItem value="Aceptada">Aceptada</MenuItem>
+                <MenuItem value="Cancelada">Cancelada</MenuItem>
+                <MenuItem value="Finalizada">Finalizada</MenuItem>
               </Select>
             </FormControl>
           </Card>

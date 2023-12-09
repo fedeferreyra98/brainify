@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Typography,
@@ -8,8 +8,8 @@ import {
   Box,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import { apiGetHiringsByUser } from '../../api/apiService';
 import HiringList from './HiringList';
-import mockHirings from '../../data/mockHirings';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,17 +41,34 @@ const useStyles = makeStyles((theme) => ({
 function Hirings() {
   const classes = useStyles();
 
-  const [contrataciones, setContrataciones] = useState(mockHirings);
-  const [currentTab, setCurrentTab] = useState('General');
+  const [contrataciones, setContrataciones] = useState([]);
+  const [currentTab, setCurrentTab] = useState('all');
+
+  const storedUser = localStorage.getItem('user');
+  const obj = JSON.parse(storedUser);
 
   const handleChangeTab = (event, newValue) => {
     setCurrentTab(newValue);
   };
 
+  // Obtener contrataciones de la API
+  useEffect(() => {
+    const getHirings = async () => {
+      try {
+        const response = await apiGetHiringsByUser(obj.id);
+        setContrataciones(response.hiring);
+        console.log(response.hiring);
+      } catch (error) {
+        console.error('Error getting comments info:', error);
+      }
+    };
+    getHirings();
+  }, []);
+
   const handleEstadoChange = (id, nuevoEstado) => {
     const updatedContrataciones = contrataciones.map((contratacion) => {
       if (contratacion.id === id) {
-        return { ...contratacion, estado: nuevoEstado };
+        return { ...contratacion, contractStatus: nuevoEstado };
       }
       return contratacion;
     });
@@ -60,15 +77,22 @@ function Hirings() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  // Filtrar contrataciones basado en la pestaña actual
 
+  // Filtrar contrataciones basado en la pestaña actual
   const filteredContrataciones =
-    currentTab === 'General'
+    currentTab === 'all'
       ? contrataciones
-      : contrataciones.filter((c) => c.estado === currentTab);
+      : contrataciones.filter((c) => c.contractStatus === currentTab);
 
   // Calcular el número total de páginas basado en las contrataciones filtradas
   const totalPages = Math.ceil(filteredContrataciones.length / itemsPerPage);
+
+  const slicedContrataciones = Array.isArray(filteredContrataciones)
+    ? filteredContrataciones.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      )
+    : [];
 
   return (
     <div>
@@ -85,43 +109,35 @@ function Hirings() {
           allowScrollButtonsMobile
           aria-label="scrollable force tabs example"
         >
-          <Tab
-            label="Todas"
-            value="General"
-            className={classes.tabHover}
-            wrapped
-          />
+          <Tab label="Todas" value="all" className={classes.tabHover} wrapped />
           <Tab
             label="Solicitadas"
-            value="solicitada"
+            value="Solicitada"
             className={classes.tabHover}
             wrapped
           />
           <Tab
             label="Aceptadas"
-            value="aceptada"
+            value="Aceptada"
             className={classes.tabHover}
             wrapped
           />
           <Tab
             label="Canceladas"
-            value="cancelada"
+            value="Cancelada"
             className={classes.tabHover}
             wrapped
           />
           <Tab
             label="Finalizadas"
-            value="finalizada"
+            value="Finalizada"
             className={classes.tabHover}
             wrapped
           />
         </Tabs>
 
         <HiringList
-          contrataciones={filteredContrataciones.slice(
-            (currentPage - 1) * itemsPerPage,
-            currentPage * itemsPerPage
-          )}
+          contrataciones={slicedContrataciones}
           handleEstadoChange={handleEstadoChange}
           classes={classes}
         />

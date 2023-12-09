@@ -183,9 +183,9 @@ export const apiGetHiringsByServiceId = (serviceId) => {
     });
 };
 
-export const apiGetHiringsByUser = () => {
+export const apiGetHiringsByUser = (userId) => {
   return axiosInstance
-    .get(`/hiring/user`)
+    .get(`/hiring/user/${userId}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
