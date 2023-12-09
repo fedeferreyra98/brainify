@@ -41,7 +41,8 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
                 labelId={`select-label-${contratacion.contractStatus}`}
                 value={contratacion.contractStatus}
                 onChange={(event) =>
-                  handleEstadoChange(contratacion.id, event.target.value)
+                  // eslint-disable-next-line no-underscore-dangle
+                  handleEstadoChange(contratacion._id, event.target.value)
                 }
                 label="Estado"
               >

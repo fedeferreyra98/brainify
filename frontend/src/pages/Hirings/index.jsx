@@ -8,7 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { apiGetHiringsByUser } from '../../api/apiService';
+import { apiGetHiringsByUser, apiUpdateHiring } from '../../api/apiService';
 import HiringList from './HiringList';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +43,7 @@ function Hirings() {
 
   const [contrataciones, setContrataciones] = useState([]);
   const [currentTab, setCurrentTab] = useState('all');
+  const [updateHirings, setUpdateHirings] = useState(false);
 
   const storedUser = localStorage.getItem('user');
   const obj = JSON.parse(storedUser);
@@ -57,22 +58,32 @@ function Hirings() {
       try {
         const response = await apiGetHiringsByUser(obj.id);
         setContrataciones(response.hiring);
-        console.log(response.hiring);
       } catch (error) {
         console.error('Error getting comments info:', error);
       }
     };
     getHirings();
-  }, []);
+  }, [updateHirings]);
 
-  const handleEstadoChange = (id, nuevoEstado) => {
-    const updatedContrataciones = contrataciones.map((contratacion) => {
-      if (contratacion.id === id) {
-        return { ...contratacion, contractStatus: nuevoEstado };
+  const handleEstadoChange = async (id, nuevoEstado) => {
+    try {
+      const estadoObj = { contractStatus: nuevoEstado };
+      const response = await apiUpdateHiring(id, estadoObj);
+      if (response) {
+        console.log(response);
+        // Actualizar el estado local con la nueva información
+        setContrataciones((prevContrataciones) =>
+          prevContrataciones.map((contratacion) =>
+            contratacion.id === id
+              ? { ...contratacion, ...estadoObj }
+              : contratacion
+          )
+        );
       }
-      return contratacion;
-    });
-    setContrataciones(updatedContrataciones);
+    } catch (error) {
+      console.error('Error updating hiring info:', error);
+    }
+    setUpdateHirings((prev) => !prev);
   };
 
   const [currentPage, setCurrentPage] = useState(1);
