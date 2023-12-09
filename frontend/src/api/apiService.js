@@ -44,6 +44,18 @@ export const apiResetPassword = ({ token, password }) => {
     });
 };
 
+export const apiChangePassword = (originalPass, newPass) => {
+  return axiosInstance
+    .post('/auth/change-password', {
+      originalPass,
+      newPass,
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const validateToken = (token) => {
   return axiosInstance
     .post('/auth/validate-token', { token })
@@ -148,9 +160,9 @@ export const apiUploadImage = (file) => {
     });
 };
 
-export const apiUpdateUser = (userId, data) => {
+export const apiUpdateUser = (data) => {
   return axiosInstance
-    .patch(`/user/${userId}`, data)
+    .patch(`/user`, data)
     .then((response) => {
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
@@ -218,18 +230,18 @@ export const apiGetCommentsByServiceId = (serviceId) => {
     });
 };
 
-export const apiGetAllCommentsByServiceId = (_id) => {
+export const apiGetAllCommentsByServiceId = (serviceId) => {
   return axiosInstance
-    .get(`/comment/${_id}`)
+    .get(`/comment/${serviceId}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
     });
 };
 
-export const apiGetAllCommentsByUser = (_id) => {
+export const apiGetAllCommentsByUser = (userId) => {
   return axiosInstance
-    .get(`/comment/my/${_id}`)
+    .get(`/comment/my/${userId}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

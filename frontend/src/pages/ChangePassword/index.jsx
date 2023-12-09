@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Typography, Container, Box } from '@mui/material';
-import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import mockDataBaseUserCredentials from '../../data/mockDataBaseUserCredentials';
+import { useNavigate } from 'react-router-dom';
+import { apiChangePassword } from '../../api/apiService';
 import SimplePasswordField from '../../components/form/SimplePasswordField';
 import ControlledPasswordField from '../../components/form/ControlledPasswordField';
 import NotificationRed from '../../components/ui/NotificationRed';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import { ROUTE_PROVIDER_PROFILE } from '../../routes/routePaths';
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -33,8 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ChangePasswordPage() {
   const classes = useStyles();
-  const query = useQuery();
-  const email = query.get('email');
+  const navigate = useNavigate();
   const [originalPassword, setOriginalPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -44,20 +41,8 @@ function ChangePasswordPage() {
   const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
   const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const userCredentials = mockDataBaseUserCredentials.find(
-      (user) => user.email === email
-    );
-
-    // TODO: Descomentar la siguiente línea para que funcione la validación de la contraseña original. (Está comentada para que no moleste en el desarrollo)
-    // eslint-disable-next-line
-    if ((!userCredentials || userCredentials.password !== originalPassword) && false) {
-      setNotificationRedMessage('Contraseña original incorrecta.');
-      setNotificationRedOpen(true);
-      return;
-    }
 
     if (password !== confirmPassword) {
       setNotificationRedMessage('Las contraseñas ingresadas no coinciden.');
@@ -65,6 +50,14 @@ function ChangePasswordPage() {
       return;
     }
 
+    try {
+      console.log(originalPassword);
+      console.log(password);
+      await apiChangePassword(originalPassword, password);
+      navigate(ROUTE_PROVIDER_PROFILE);
+    } catch (error) {
+      setNotificationRedMessage('Error al cambiar la contraseña', 'error');
+    }
     // Aquí puedes agregar la lógica para restablecer la contraseña en la base de datos.
     setNotificationGreenMessage('Contraseña modificada con exito!');
     setNotificationGreenOpen(true);

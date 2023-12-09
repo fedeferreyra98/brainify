@@ -28,7 +28,7 @@ const HiringSchema = new mongoose.Schema({
     },
     preferredContactTime : {
         type : String,
-        enum : ['Morning', 'Afternoon', 'Evening'],
+        enum : ['Mañana', 'Tarde', 'Noche'],
         required : true,
     },
     contractStatus : {
