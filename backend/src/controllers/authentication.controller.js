@@ -71,7 +71,6 @@ export const login = async (req, res) => {
 export const requestPasswordReset = async (req, res) => {
     try {
         const {email} = req.body;
-        console.log(email);
 
         const user = await AuthenticationService.findUserByEmail(email);
         if (user){
@@ -108,9 +107,7 @@ export const resetPassword = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     try {
-        console.log('AUTH CONTROLLER:', 'req.body:', req);
         const {originalPass, newPass} = req.body;
-        console.log('AUTH CONTROLLER:', 'originalPass:', originalPass,'newPass:' , newPass);
         const userId = req.userId
         const user = await AuthenticationService.findUserById(userId);
         if (!user) {
