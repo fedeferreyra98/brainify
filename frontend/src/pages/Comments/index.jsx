@@ -36,8 +36,9 @@ function Comments() {
     const getComments = async () => {
       try {
         if (user) {
-          const obj = JSON.parse(user);
-          const response = await apiGetAllCommentsByUser(obj.id);
+          // eslint-disable-next-line no-underscore-dangle
+          const userId = JSON.parse(user)._id;
+          const response = await apiGetAllCommentsByUser(userId);
           const blockedComments = response.comments.filter(
             (comment) => comment.isBlocked
           );

@@ -27,7 +27,7 @@ import {
   apiGetAllCommentsByServiceId,
 } from '../../api/apiService';
 
-function ServiceDetails({ service, onClose, onHire }) {
+function ServiceDetails({ service, onClose }) {
   const classes = useStyles();
   const [providerInfo, setProviderInfo] = React.useState(null);
 
@@ -143,9 +143,6 @@ function ServiceDetails({ service, onClose, onHire }) {
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cerrar
-        </Button>
-        <Button onClick={onHire} color="secondary">
-          Contratar
         </Button>
       </DialogActions>
     </Dialog>
