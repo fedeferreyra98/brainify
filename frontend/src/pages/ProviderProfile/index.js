@@ -7,11 +7,6 @@ import {
   Avatar,
   Card,
   CardContent,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Box,
   Rating,
 } from '@mui/material';
@@ -23,6 +18,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import mockComments from '../../data/mockComments';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 
+import EditProfileForm from '../../components/form/EditProfileForm';
 import { apiGetPublicUserData, apiUpdateUser } from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
@@ -82,7 +78,6 @@ function ProviderProfile() {
         experience: updatedProvider.experience,
       });
       setProviderInfo(response.user); // Assuming the response has the updated user data
-      console.log(response.user);
       setIsEditing(false);
       setNotificationOpen(true); // Mostrar la notificación
     } catch (error) {
@@ -192,7 +187,7 @@ function ProviderProfile() {
             className={classes.button}
             onClick={() => setIsEditing(true)}
           >
-            Editar Información
+            Editar Perfil
           </Button>
         </Grid>
       </Grid>
@@ -239,82 +234,16 @@ function ProviderProfile() {
           Contacto: info@brainify.com
         </Typography>
       </footer>
-      {/* Formulario de edición */}
-      <Dialog open={isEditing} onClose={() => setIsEditing(false)}>
-        <DialogTitle>Editar Perfil</DialogTitle>
-        <DialogContent>
-          <TextField
-            margin="dense"
-            label="Nombre"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={updatedProvider.firstName}
-            name="firstName"
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="dense"
-            label="Apellido"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={updatedProvider.lastName}
-            name="lastName"
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="dense"
-            label="Mail"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={updatedProvider.email}
-            name="mail"
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="dense"
-            label="Nro Télefono"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={updatedProvider.phoneNumber}
-            name="phoneNumber"
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="dense"
-            label="Título"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={updatedProvider.degree}
-            name="degree"
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="dense"
-            label="Experiencia"
-            type="text"
-            fullWidth
-            variant="outlined"
-            multiline
-            rows={4} // Aquí especificas cuántas líneas quieres que se muestren
-            value={updatedProvider.experience}
-            name="experience"
-            onChange={handleInputChange}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsEditing(false)} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleSave} color="primary">
-            Guardar
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <EditProfileForm
+        isOpen={isEditing}
+        onClose={() => {
+          setIsEditing(false);
+          setUpdatedProvider(providerInfo);
+        }}
+        onSave={handleSave}
+        formData={updatedProvider}
+        onInputChange={handleInputChange}
+      />
       <NotificationGreen
         open={notificationOpen}
         message="Información actualizada"
