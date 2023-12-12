@@ -1,4 +1,6 @@
 import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import {
   Dialog,
   DialogActions,
@@ -8,7 +10,25 @@ import {
   Button,
 } from '@mui/material';
 
-function EditProfileForm({ isOpen, onClose, onSave, formData, onInputChange }) {
+function EditProfileForm({ isOpen, onClose, handleSubmit, initialFormData }) {
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required('El nombre es requerido'),
+    lastName: Yup.string().required('El apellido es requerido'),
+    email: Yup.string().required('El correo electrónico es requerido'),
+    phoneNumber: Yup.string().required('El número de teléfono es requerido'),
+    degree: Yup.string()
+      .required('El título es requerido')
+      .max(50, 'El título no puede tener más de 50 caracteres'),
+    experience: Yup.string()
+      .required('La experiencia es requerida')
+      .max(255, 'La experiencia no puede tener más de 255 caracteres'),
+  });
+
+  const formik = useFormik({
+    initialValues: initialFormData,
+    validationSchema,
+    onSubmit: handleSubmit,
+  });
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>Editar Perfil</DialogTitle>
@@ -19,9 +39,9 @@ function EditProfileForm({ isOpen, onClose, onSave, formData, onInputChange }) {
           type="text"
           fullWidth
           variant="outlined"
-          value={formData.firstName}
+          value={formik.values.firstName}
           name="firstName"
-          onChange={onInputChange}
+          onChange={formik.handleChange}
         />
         <TextField
           margin="dense"
@@ -29,9 +49,9 @@ function EditProfileForm({ isOpen, onClose, onSave, formData, onInputChange }) {
           type="text"
           fullWidth
           variant="outlined"
-          value={formData.lastName}
+          value={formik.values.lastName}
           name="lastName"
-          onChange={onInputChange}
+          onChange={formik.handleChange}
         />
         <TextField
           margin="dense"
@@ -39,9 +59,9 @@ function EditProfileForm({ isOpen, onClose, onSave, formData, onInputChange }) {
           type="text"
           fullWidth
           variant="outlined"
-          value={formData.email}
+          value={formik.values.email}
           name="mail"
-          onChange={onInputChange}
+          onChange={formik.handleChange}
         />
         <TextField
           margin="dense"
@@ -49,9 +69,9 @@ function EditProfileForm({ isOpen, onClose, onSave, formData, onInputChange }) {
           type="text"
           fullWidth
           variant="outlined"
-          value={formData.phoneNumber}
+          value={formik.values.phoneNumber}
           name="phoneNumber"
-          onChange={onInputChange}
+          onChange={formik.handleChange}
         />
         <TextField
           margin="dense"
@@ -59,9 +79,9 @@ function EditProfileForm({ isOpen, onClose, onSave, formData, onInputChange }) {
           type="text"
           fullWidth
           variant="outlined"
-          value={formData.degree}
+          value={formik.values.degree}
           name="degree"
-          onChange={onInputChange}
+          onChange={formik.handleChange}
         />
         <TextField
           margin="dense"
@@ -71,16 +91,16 @@ function EditProfileForm({ isOpen, onClose, onSave, formData, onInputChange }) {
           variant="outlined"
           multiline
           rows={4}
-          value={formData.experience}
+          value={formik.values.experience}
           name="experience"
-          onChange={onInputChange}
+          onChange={formik.handleChange}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cancelar
         </Button>
-        <Button onClick={onSave} color="primary">
+        <Button onClick={formik.handleSubmit} color="primary">
           Guardar
         </Button>
       </DialogActions>
