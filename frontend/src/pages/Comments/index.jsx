@@ -77,7 +77,8 @@ function Comments() {
         {comments.length > 0 ? (
           <List>
             {comments.map((comment) => (
-              <ListItem key={comment.id} disablePadding>
+              // eslint-disable-next-line no-underscore-dangle
+              <ListItem key={comment._id} disablePadding>
                 <CommentCard
                   comment={comment}
                   onPublish={handlePublish}

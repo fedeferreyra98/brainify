@@ -190,6 +190,8 @@ function MyServices() {
     width: 1,
   });
 
+  console.log(currentServices);
+
   return (
     <div>
       <Container className={classes.mainContent}>
@@ -219,7 +221,8 @@ function MyServices() {
           </Button>
           <Grid container spacing={3}>
             {currentServices.map((service) => (
-              <Grid item xs={12} sm={6} md={4} key={service.id}>
+              // eslint-disable-next-line no-underscore-dangle
+              <Grid item xs={12} sm={6} md={4} key={service._id}>
                 <ServiceCard
                   service={service}
                   onEdit={() => {
