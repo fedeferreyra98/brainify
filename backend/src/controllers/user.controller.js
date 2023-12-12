@@ -42,7 +42,7 @@ export const getUser = async (req, res) => {
         try {
             const {userId} = req;
             const imageUrl = await upload(req.file.buffer);
-            const updatedUser = await userService.update(userId, {profileImgUrl: imageUrl});
+            const updatedUser = await userService.update(userId, {profileImage: imageUrl});
             return res.json({user: updatedUser});
         } catch (error) {
             console.error(error);
