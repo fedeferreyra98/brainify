@@ -11,6 +11,6 @@ const upload = multer({storage: multer.memoryStorage()});
 router.get('/', requireToken, getUser);
 router.get('/:id', getUserPublicData);
 router.patch('/', requireToken, updateUserBodyValidator, updateUser);
-router.patch('/:id/profileImg', requireToken, upload.single('file'), updateUserProfileImg);
+router.patch('/profileImg', requireToken, upload.single('file'), updateUserProfileImg);
 
 export default router;
