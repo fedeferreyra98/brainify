@@ -7,7 +7,7 @@ import { requireToken } from "../middlewares/requireToken.js";
 const router = express.Router();
 
 router.get("/:serviceId", getByServiceId);
-router.get("/:userId", getByUserId);
+router.get("/user/:userId", getByUserId);
 router.post("/:serviceId", createHiringBodyValidator, create);
 router.patch("/:hiringId", requireToken, updateHiringBodyValidator, updateHiring);
 //AttachServiceNameToHiring todo: Buscar una mejor forma de hacer esto
