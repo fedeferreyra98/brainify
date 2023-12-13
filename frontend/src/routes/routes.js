@@ -12,7 +12,7 @@ import Hirings from '../pages/Hirings';
 import LandingPage from '../pages/Home/index';
 import ForgotPassword from '../pages/ForgotPassword/index';
 import ChangePassword from '../pages/ChangePassword/index';
-import RestorePassword from '../pages/RestorePassword/index';
+import RestorePassword from '../pages/ResetPassword/index';
 import notFoundImage from '../assets/Logos/notFound.jpg';
 import {
   ROUTE_HOME,
