@@ -145,7 +145,7 @@ export const apiGetPublicUserData = (userId) => {
     });
 };
 
-export const apiUploadImage = (file) => {
+export const apiUpdateUserProfileImage = (file) => {
   const formData = new FormData();
   formData.append('file', file);
   return axiosInstance
@@ -260,6 +260,23 @@ export const apiUpdateComment = (commentId, status) => {
 export const apiDeleteComment = (commentId) => {
   return axiosInstance
     .delete(`/comment/rm/${commentId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+// Utilities endpoints
+
+export const apiUploadImage = (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return axiosInstance
+    .patch('/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       throw error;

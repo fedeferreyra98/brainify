@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 // @ts-nocheck
 import jwt from "jsonwebtoken";
 import sgMail from "@sendgrid/mail";
@@ -8,7 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 export const sendMail = async (email, subject, text, html) => {
   const msg = {
     to: email,
-    from: process.env.USER_EMAIL,
+    from: process.env.SENDGRID_SENDER_EMAIL,
     subject,
     text,
     html,
@@ -30,8 +29,8 @@ export const sendPasswordResetEmail = async (user) => {
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
-  const resetPasswordUrl = `http://localhost:5173/reset-password?token=${token}`;
-  const subject = "Restablecimiento de Contraseña";
+  const resetPasswordUrl = `${process.env.ORIGIN}/restore-password?token=${token}`;
+  const subject = "Brainify - Restablecimiento de Contraseña";
 
   const text = `Hola ${firstName}, por favor hacé en el enlace para restablecer tu contraseña: ${resetPasswordUrl}`;
 
@@ -82,7 +81,7 @@ export const sendPasswordResetEmail = async (user) => {
     <body>
       <div class="email-container">
         <div class="email-body">
-          <div class="email-title">EduHub Team</div>
+          <div class="email-title">Equipo Brainify</div>
           <p>Hola ${firstName},</p>
           <p>Por favor hacé click en el siguiente enlace para restablecer tu contraseña:</p>
           <a href="${resetPasswordUrl}" class="email-link">Restablecer Contraseña</a>

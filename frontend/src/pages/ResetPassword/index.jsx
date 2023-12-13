@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import RequestPasswordResetForm from './RequestPasswordResetForm';
+import ResetPasswordForm from './ResetPasswordForm';
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles((theme) => ({
@@ -9,19 +9,19 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
     height: '100vh',
     backgroundColor: '#DDEBF8',
   },
 }));
 
-function ForgotPassword() {
+function RestorePassword() {
   const classes = useStyles();
+
   return (
     <Container className={classes.root}>
-      <RequestPasswordResetForm />
+      <ResetPasswordForm />
     </Container>
   );
 }
 
-export default ForgotPassword;
+export default RestorePassword;

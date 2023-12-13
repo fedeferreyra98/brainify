@@ -6,6 +6,7 @@ import authRoutes from "./src/routes/auth.js";
 import serviceRoutes from "./src/routes/service.js";
 import commentRoutes from "./src/routes/comment.js";
 import hiringRoutes from "./src/routes/hiring.js";
+import imageRoutes from "./src/routes/image.route.js";
 import process from "process";
 import "dotenv/config";
 import "./src/database/connection.js";
@@ -34,6 +35,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/hiring", hiringRoutes);
+app.use("/api/upload", imageRoutes)
 
 // Declaration example for a get endpoint
 app.get("/api/ping", (req, res) => {

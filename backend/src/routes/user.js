@@ -1,19 +1,16 @@
 // @ts-ignore
 import  express  from 'express';
+import multer from 'multer';
 import {getUser, getUserPublicData, updateUser, updateUserProfileImg} from '../controllers/user.controller.js';
 import {requireToken} from '../middlewares/requireToken.js';
 import { updateUserBodyValidator } from '../middlewares/validationResultExpress.js';
 const router = express.Router();
+const upload = multer({storage: multer.memoryStorage()});
 
-// Define routes
 
-//Get
 router.get('/', requireToken, getUser);
-//Get public profile
 router.get('/:id', getUserPublicData);
-//Update
 router.patch('/', requireToken, updateUserBodyValidator, updateUser);
-//Update profile image
-router.patch('/:id/profileImg', requireToken, updateUserProfileImg); //TODO: Implement multer to upload images
+router.patch('/profileImg', requireToken, upload.single('file'), updateUserProfileImg);
 
 export default router;
