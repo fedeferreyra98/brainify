@@ -71,14 +71,13 @@ export const login = async (req, res) => {
 export const requestPasswordReset = async (req, res) => {
     try {
         const {email} = req.body;
-        console.log(email);
 
         const user = await AuthenticationService.findUserByEmail(email);
         if (user){
             await sendPasswordResetEmail(user);
         }
         return res.json({
-            message: "If the email exists, a password reset link will be sent to it shortly",
+            message: "Si una cuenta con este mail existe, se ha enviado un link para restablecer la contraseña.",
         });
         } catch (error) {
             return handleError(res, error);
@@ -91,7 +90,7 @@ export const resetPassword = async (req, res) => {
         // eslint-disable-next-line no-undef
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decoded.userId;
-        const user = await AuthenticationService.findUserById(userId);
+                const user = await AuthenticationService.findUserById(userId);
         if (!user) {
             return res.status(404).json({errors: [{message: "User not found"}]});
         }
@@ -108,9 +107,7 @@ export const resetPassword = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     try {
-        console.log('AUTH CONTROLLER:', 'req.body:', req);
         const {originalPass, newPass} = req.body;
-        console.log('AUTH CONTROLLER:', 'originalPass:', originalPass,'newPass:' , newPass);
         const userId = req.userId
         const user = await AuthenticationService.findUserById(userId);
         if (!user) {
