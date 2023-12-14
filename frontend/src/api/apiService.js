@@ -90,6 +90,15 @@ export const apiGetServices = (category) => {
     });
 };
 
+export const apiGetTop3Services = () => {
+  return axiosInstance
+    .get(`/service/top3`)
+    .then((response) => response.data.services)
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const apiGetServicesByUser = () => {
   return axiosInstance
     .get(`/service/user`)
@@ -233,6 +242,15 @@ export const apiGetCommentsByServiceId = (serviceId) => {
 export const apiGetAllCommentsByServiceId = (serviceId) => {
   return axiosInstance
     .get(`/comment/${serviceId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const apiGetTop3CommentsByServiceId = (serviceId) => {
+  return axiosInstance
+    .get(`/comment/${serviceId}/top3`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

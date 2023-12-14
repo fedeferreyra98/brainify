@@ -34,6 +34,9 @@ class ServiceRepository{
     async validateCategory(category){
         return category === "all" ||  checkCategory(category);
     }
+    async getTop3(){
+        return await Service.find().sort({averageRating: -1}).limit(3).lean();
+    }
 }
 
     const findServiceAndCheckOwnership= async (serviceId, userId) => {

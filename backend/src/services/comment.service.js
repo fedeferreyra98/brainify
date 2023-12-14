@@ -47,6 +47,23 @@ class CommentService {
         }
     }
 
+    async getTop3CommentsByServiceId(serviceId){
+        const comments = await commentRepository.getCommentsByServiceId(serviceId);
+        if (!comments) {
+            throw new Error("No se han encontrado comentarios en este servicio.");
+        }
+        const publishedComments = comments.map((comment) => {
+            if (comment.isBlocked) {
+                const { content, ...rest} = comment;
+                return rest;
+            }
+            return comment;
+        });
+        publishedComments.sort((a, b) => b.rating - a.rating);
+
+        return publishedComments.slice(0, 3);
+    }
+
     async create(serviceId, content, rating){
         return commentRepository.create(serviceId, content, rating);
     }

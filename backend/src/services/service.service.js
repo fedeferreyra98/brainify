@@ -28,6 +28,9 @@ class ServiceService {
     async validateCategory(category) {
         return ServiceRepository.validateCategory(category);
     }
+    async getTop3() {
+        return ServiceRepository.getTop3();
+    }
 }
 
 export default new ServiceService();

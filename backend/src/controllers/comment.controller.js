@@ -28,6 +28,15 @@ export const getAllCommentsByServiceId = async (req, res) => {
     }
 };
 
+export const getTop3CommentsByServiceId = async (req, res) => {
+    try {
+        const comments = await CommentService.getTop3CommentsByServiceId(req.params.serviceId);
+        return res.status(200).json({ comments });
+    } catch (error) {
+        return handleError(res, error);
+    }
+};
+
 export const getAllCommentsByUser = async (req, res) => {
     try {
         const userId = req.params._id;

@@ -92,6 +92,15 @@ export const Delete = async (req, res) => {
     }
 };
 
+export const GetTop3Services = async (req, res) => {
+    try {
+        const services = await ServiceService.getTop3();
+        return res.status(200).json({services});
+    } catch (error) {
+        return handleError(res, error);
+    }
+}
+
 
 const isValidUpdate = (allowedUpdates, updates) => {
     const isValidUpdate = updates.every((update) =>
