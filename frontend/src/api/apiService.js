@@ -248,6 +248,15 @@ export const apiGetAllCommentsByServiceId = (serviceId) => {
     });
 };
 
+export const apiGetTop3CommentsByServiceId = (serviceId) => {
+  return axiosInstance
+    .get(`/comment/${serviceId}/top3`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const apiGetAllCommentsByUser = (userId) => {
   return axiosInstance
     .get(`/comment/my/${userId}`)
