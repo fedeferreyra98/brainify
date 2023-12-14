@@ -56,7 +56,7 @@ function ServiceCard({
   };
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} style={{ width: '100%' }}>
       <CardContent>
         <Typography variant="h6">{service.name}</Typography>
         <Typography variant="body2">
