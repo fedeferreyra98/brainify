@@ -18,7 +18,7 @@ import {
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { categories } from '../../data/mockCategory';
-import { apiUpdateService } from '../../api/apiService';
+import { apiUpdateService, apiCreateService } from '../../api/apiService';
 
 function ServiceDialog({
   open,
@@ -96,6 +96,31 @@ function ServiceDialog({
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // Create service function
+  const createService = async (values) => {
+    try {
+      const newService = await apiCreateService(values);
+      console.log(newService);
+      // setServices((prevServices) => [...prevServices, newService]);
+      setNotificationMessage('Servicio agregado correctamente');
+      onClose();
+      setNotificationOpen(true);
+    } catch (error) {
+      console.log(error);
+      setNotificationMessage('Error al agregar el servicio');
+    }
+  };
+
+  // Guardar servicio
+  const handleSave = () => {
+    if (Object.values(formData).some((value) => !value)) {
+      setNotificationMessage('Faltan campos en el formulario');
+      setNotificationOpen(true);
+      return;
+    }
+    createService(formData);
   };
 
   return (
@@ -219,7 +244,13 @@ function ServiceDialog({
           Cancelar
         </Button>
         <Button
-          onClick={() => updateService(formData)}
+          onClick={() => {
+            if (service) {
+              updateService(formData);
+            } else {
+              handleSave();
+            }
+          }}
           color="primary"
           disabled={formData.duration < 0.5 || formData.cost < 0}
         >
