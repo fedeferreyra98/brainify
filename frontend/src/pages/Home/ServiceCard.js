@@ -77,9 +77,10 @@ function ServiceCard({ service, onClick, validation, send }) {
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
                     <Button
-                      size="small"
-                      color="secondary"
+                      size="medium"
+                      color="primary"
                       onClick={handleHireClick}
+                      variant="contained"
                     >
                       Contratar
                     </Button>

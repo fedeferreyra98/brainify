@@ -5,8 +5,8 @@ import {
   CardContent,
   Typography,
   CardActions,
-  IconButton,
   Grid,
+  Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -57,15 +57,27 @@ function ServiceCard({
 
   return (
     <Card className={classes.card} style={{ width: '100%' }}>
-      <CardContent>
-        <Typography variant="h6">{service.name}</Typography>
-        <Typography variant="body2">
-          Duración: {service.duration} horas
-        </Typography>
-        <Typography variant="body2">Costo: $ {service.cost}</Typography>
-      </CardContent>
-      <CardActions>
-        <Grid container spacing={2} justifyContent="center" margin-left={16}>
+      <CardContent
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // Centra verticalmente
+          height: '100%', // Asegúrate de que CardContent tenga altura completa
+          alignItems: 'flex-end',
+        }}
+      >
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Typography variant="h6">{service.name}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2">
+              Duración: {service.duration} horas
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2">Costo: $ {service.cost}</Typography>
+          </Grid>
           <Grid item xs={12}>
             <img
               src="https://masqueclases.es/wp-content/uploads/2021/08/Global-Online-Education.jpg"
@@ -77,38 +89,46 @@ function ServiceCard({
               alt="Product"
             />
           </Grid>
-          <Grid item xs={4}>
-            <IconButton onClick={() => onEdit(service)}>
-              <EditIcon />
-            </IconButton>
-          </Grid>
+          <Grid item xs={12}>
+            <CardActions>
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={12} md={6}>
+                  <Button
+                    variant="contained"
+                    startIcon={<EditIcon />}
+                    onClick={() => onEdit(service)}
+                  >
+                    Editar
+                  </Button>
+                </Grid>
 
-          <Grid item xs={4}>
-            {/*             eslint-disable-next-line no-underscore-dangle
-             */}{' '}
-            <IconButton onClick={() => onDelete(service._id)}>
-              <DeleteIcon />
-            </IconButton>
-          </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                  <Button
+                    variant="outlined"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => onDelete(service._id)}
+                  >
+                    Borrar
+                  </Button>
+                </Grid>
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={formData.isPublished}
-                onChange={changeIsPublished}
-                name="publushCheckbox"
-              />
-            }
-            label="Publicar"
-            style={{
-              margin: '8px 0',
-              height: '56px', // Ajusta la altura para que coincida con el dropdown
-              display: 'flex',
-              alignItems: 'center', // Asegúrate de que el contenido esté centrado verticalmente
-            }}
-          />
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={formData.isPublished}
+                        onChange={changeIsPublished}
+                        name="publushCheckbox"
+                      />
+                    }
+                    label="Publicar"
+                  />
+                </Grid>
+              </Grid>
+            </CardActions>
+          </Grid>
         </Grid>
-      </CardActions>
+      </CardContent>
     </Card>
   );
 }
