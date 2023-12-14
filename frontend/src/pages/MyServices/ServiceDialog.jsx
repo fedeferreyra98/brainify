@@ -202,7 +202,7 @@ function ServiceDialog({
             onChange={handleInputChange}
           >
             <MenuItem value="Individual">Individual</MenuItem>
-            <MenuItem value="Group">Grupal</MenuItem>
+            <MenuItem value="Grupal">Grupal</MenuItem>
           </Select>
         </FormControl>
         <Typography id="discrete-slider" gutterBottom>
