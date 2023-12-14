@@ -85,10 +85,10 @@ export const createHiringBodyValidator = [
 
 export const updateHiringBodyValidator = [
   body("contractStatus", "Estado de contratación inválido").isIn([
-    "requested",
-    "completed",
-    "accepted",
-    "cancelled",
+    "Solicitada",
+    "Aceptada",
+    "Cancelada",
+    "Finalizada",
   ]),
   validationResultExpress,
 ];
