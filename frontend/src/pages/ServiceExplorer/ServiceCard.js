@@ -84,7 +84,7 @@ function ServiceCard({ service, onClick, validation, send }) {
 
         <CardActions style={{ justifyContent: 'center' }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={6}>
               <Button
                 size="small"
                 color="primary"
@@ -93,14 +93,14 @@ function ServiceCard({ service, onClick, validation, send }) {
                 Ver más
               </Button>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Button size="small" color="secondary" onClick={handleHireClick}>
-                Contratar
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={6}>
               <Button size="small" onClick={handleCommentClick}>
                 Comentar
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Button size="small" color="secondary" onClick={handleHireClick}>
+                Contratar
               </Button>
             </Grid>
           </Grid>

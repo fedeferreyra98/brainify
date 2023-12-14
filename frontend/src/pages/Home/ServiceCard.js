@@ -36,7 +36,15 @@ function ServiceCard({ service, onClick, validation, send }) {
   return (
     <Grid item xs={12} sm={6} md={4} style={{ display: 'flex' }}>
       <Card style={{ width: '100%' }}>
-        <CardContent>
+        <CardContent
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center', // Centra verticalmente
+            height: '100%', // Asegúrate de que CardContent tenga altura completa
+            alignItems: 'flex-end',
+          }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h5" marginBottom={1} marginTop={1}>
@@ -55,27 +63,32 @@ function ServiceCard({ service, onClick, validation, send }) {
                 alt="Product"
               />
             </Grid>
+            <Grid item xs={12}>
+              <CardActions style={{ justifyContent: 'center' }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => onClick(service)}
+                    >
+                      Ver más
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <Button
+                      size="small"
+                      color="secondary"
+                      onClick={handleHireClick}
+                    >
+                      Contratar
+                    </Button>
+                  </Grid>
+                </Grid>
+              </CardActions>
+            </Grid>
           </Grid>
         </CardContent>
-
-        <CardActions style={{ justifyContent: 'center' }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} md={6}>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => onClick(service)}
-              >
-                Ver más
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={6}>
-              <Button size="small" color="secondary" onClick={handleHireClick}>
-                Contratar
-              </Button>
-            </Grid>
-          </Grid>
-        </CardActions>
 
         <Dialog open={openDialog} onClose={handleCloseHiringForm}>
           <DialogTitle>Contratar Servicio</DialogTitle>
