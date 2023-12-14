@@ -3,6 +3,7 @@ import { Container, Typography, Button, Grid, Pagination } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import NotificationRed from '../../components/ui/NotificationRed';
 import ServiceCard from './ServiceCard';
 import { apiGetServicesByUser, apiDeleteService } from '../../api/apiService';
 import ServiceDialog from './ServiceDialog';
@@ -47,7 +48,9 @@ function MyServices() {
   const [currentService, setCurrentService] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationRedMessage, setNotificationRedMessage] = useState('');
 
   // Estados para la paginación
   const [currentPage, setCurrentPage] = useState(1);
@@ -151,6 +154,8 @@ function MyServices() {
               classes={classes}
               setNotificationMessage={setNotificationMessage}
               setNotificationOpen={setNotificationOpen}
+              setNotificationRedMessage={setNotificationRedMessage}
+              setNotificationRedOpen={setNotificationRedOpen}
               onClose={() => {
                 setCurrentService(null);
                 setDialogOpen(false);
@@ -165,6 +170,11 @@ function MyServices() {
               setCurrentService(null);
               setNotificationOpen(false);
             }}
+          />
+          <NotificationRed
+            open={notificationRedOpen}
+            message={notificationRedMessage}
+            onClose={() => setNotificationRedOpen(false)}
           />
         </Container>
       </Container>

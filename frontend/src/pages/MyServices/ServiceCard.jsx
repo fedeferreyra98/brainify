@@ -27,7 +27,6 @@ function ServiceCard({
     try {
       // eslint-disable-next-line no-underscore-dangle
       await apiUpdateService(service._id, values);
-      setNotificationMessage('Servicio Actualizado');
       setNotificationOpen(true);
     } catch (error) {
       console.log(error);
@@ -48,6 +47,11 @@ function ServiceCard({
   const changeIsPublished = () => {
     const updatedFormData = { ...formData, isPublished: !formData.isPublished };
     setFormData(updatedFormData);
+    if (!formData.isPublished) {
+      setNotificationMessage('Servicio Publicado');
+    } else {
+      setNotificationMessage('Servicio Ocultado');
+    }
     updateService(updatedFormData);
   };
 

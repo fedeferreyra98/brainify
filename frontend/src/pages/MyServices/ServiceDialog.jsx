@@ -27,6 +27,8 @@ function ServiceDialog({
   classes,
   setNotificationMessage,
   setNotificationOpen,
+  setNotificationRedMessage,
+  setNotificationRedOpen,
 }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -93,7 +95,8 @@ function ServiceDialog({
       onClose();
       setNotificationOpen(true);
     } catch (error) {
-      console.log(error);
+      setNotificationRedMessage('Error al Actualizar el Servicio');
+      setNotificationRedOpen(true);
     }
   };
 
@@ -107,15 +110,16 @@ function ServiceDialog({
       setNotificationOpen(true);
     } catch (error) {
       console.log(error);
-      setNotificationMessage('Error al agregar el servicio');
+      setNotificationRedMessage('Error al agregar el servicio');
+      setNotificationRedOpen(true);
     }
   };
 
   // Guardar servicio
   const handleSave = () => {
     if (Object.values(formData).some((value) => !value)) {
-      setNotificationMessage('Faltan campos en el formulario');
-      setNotificationOpen(true);
+      setNotificationRedMessage('Faltan campos en el formulario');
+      setNotificationRedOpen(true);
       return;
     }
     createService(formData);
@@ -250,7 +254,6 @@ function ServiceDialog({
             }
           }}
           color="primary"
-          disabled={formData.duration < 0.5 || formData.cost < 0}
         >
           Guardar
         </Button>
