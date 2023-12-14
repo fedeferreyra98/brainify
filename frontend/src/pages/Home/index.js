@@ -11,7 +11,7 @@ import { Class, Comment, Group, Book } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
 import ServiceCard from './ServiceCard';
-import ServiceDetails from './ServiceDetails';
+import ServiceDetails from '../ServiceExplorer/ServiceDetails';
 import TopComments from './TopComments';
 import {
   apiGetTop3Services,
