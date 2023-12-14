@@ -49,9 +49,10 @@ export const getAllCommentsByUser = async (req, res) => {
 
 export const  create = async (req, res) => {
     try {
+        const serviceId = req.params.serviceId;
         const {content, rating} = req.body;
         const comment = await CommentService.create(
-            req.body.serviceId,
+            serviceId,
             content,
             rating
         );
