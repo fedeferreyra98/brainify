@@ -14,17 +14,9 @@ import {
 } from '@mui/material';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
-import { apiCreateComment } from '../../api/apiService';
-import ContratacionForm from './ContratacionForm';
-import CommentForm from '../../components/form/CommentForm';
+import ContratacionForm from '../ServiceExplorer/ContratacionForm';
 
 function ServiceCard({ service, onClick, validation, send }) {
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [mainComment, setMainComment] = useState('');
-  const [commentRating, setRating] = useState(5); // [1, 5]
-  const [openCommentForm, setOpenCommentForm] = useState(false);
-
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
   const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
@@ -41,22 +33,6 @@ function ServiceCard({ service, onClick, validation, send }) {
     setDialogOpen(false);
   };
 
-  const handleCommentClick = () => {
-    setOpenCommentForm(true);
-  };
-
-  const handleCloseCommentForm = () => {
-    setOpenCommentForm(false);
-  };
-
-  // Función para resetear el formulario de comentario
-  const resetFormCmment = () => {
-    setName('');
-    setLastName('');
-    setMainComment('');
-    setRating(5);
-  };
-
   return (
     <Grid item xs={12} sm={6} md={4} style={{ display: 'flex' }}>
       <Card style={{ width: '100%' }}>
@@ -69,7 +45,6 @@ function ServiceCard({ service, onClick, validation, send }) {
             alignItems: 'flex-end',
           }}
         >
-          {' '}
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h5" marginBottom={1} marginTop={1}>
@@ -88,45 +63,33 @@ function ServiceCard({ service, onClick, validation, send }) {
                 alt="Product"
               />
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <CardActions style={{ justifyContent: 'center' }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={6}>
-                  <Button
-                    size="small"
-                    color="primary"
-                    onClick={() => onClick(service)}
-                  >
-                    Ver más
-                  </Button>
+            <Grid item xs={12}>
+              <CardActions style={{ justifyContent: 'center' }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => onClick(service)}
+                    >
+                      Ver más
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <Button
+                      size="medium"
+                      color="primary"
+                      onClick={handleHireClick}
+                      variant="contained"
+                    >
+                      Contratar
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6}>
-                  <Button size="small" onClick={handleCommentClick}>
-                    Comentar
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={12} md={12}>
-                  <Button
-                    size="small"
-                    color="primary"
-                    variant="contained"
-                    onClick={handleHireClick}
-                  >
-                    Contratar
-                  </Button>
-                </Grid>
-              </Grid>
-            </CardActions>
+              </CardActions>
+            </Grid>
           </Grid>
         </CardContent>
-
-        <Dialog open={openCommentForm} onClose={handleCloseCommentForm}>
-          <CommentForm
-            serviceId={service._id}
-            handleCloseCommentForm={handleCloseCommentForm}
-          />
-        </Dialog>
 
         <Dialog open={openDialog} onClose={handleCloseHiringForm}>
           <DialogTitle>Contratar Servicio</DialogTitle>

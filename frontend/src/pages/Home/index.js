@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Container,
   Button,
-  Card,
-  CardContent,
-  CardMedia,
   Grid,
-  Rating,
   ListItemIcon,
   Box,
 } from '@mui/material';
 import { Class, Comment, Group, Book } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
-import mockServices from '../../data/mockServices';
-import mockComments from '../../data/mockComments';
+import ServiceCard from './ServiceCard';
 import ServiceDetails from '../ServiceExplorer/ServiceDetails';
-
-import service1Image from '../../assets/Logos/matematica.jpg';
-import service2Image from '../../assets/Logos/fisica.jpg';
-import service3Image from '../../assets/Logos/quimica.jpg';
+import TopComments from './TopComments';
+import {
+  apiGetTop3Services,
+  apiGetTop3CommentsByServiceId,
+} from '../../api/apiService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,28 +58,56 @@ function LandingPage() {
   const classes = useStyles();
   const [selectedService, setSelectedService] = useState(null);
 
-  // Función para calcular el rating promedio de un servicio
-  const getAverageRating = (serviceName) => {
-    const commentsForService = mockComments.filter(
-      (comment) => comment.serviceName === serviceName
-    );
-    if (commentsForService.length === 0) return 0; // Si no hay comentarios, retornar 0
-
-    const totalRating = commentsForService.reduce(
-      (acc, comment) => acc + comment.rating,
-      0
-    );
-    return totalRating / commentsForService.length;
-  };
-
   // Obtener los top 3 comentarios basados en el rating
-  const topComments = [...mockComments]
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 3);
+  const [topComments, setTopComments] = useState([]);
 
   const navigate = useNavigate();
 
-  const serviceImages = [service1Image, service2Image, service3Image];
+  const [topServices, setTopServices] = useState([]);
+
+  // Obtener servicios de la API
+  useEffect(() => {
+    const fetchServicesAndTheirTopComments = async () => {
+      try {
+        // Obtener servicios
+        const servicesResponse = await apiGetTop3Services();
+        const publishedServices = servicesResponse.filter(
+          (service) => service.isPublished
+        );
+        setTopServices(publishedServices);
+        // Preparar un array para almacenar todos los top comentarios
+        let allTopComments = [];
+
+        // Obtener comentarios para cada servicio
+        // eslint-disable-next-line no-restricted-syntax
+        for (const service of publishedServices) {
+          try {
+            // eslint-disable-next-line no-await-in-loop
+            const commentsResponse = await apiGetTop3CommentsByServiceId(
+              // eslint-disable-next-line no-underscore-dangle
+              service._id
+            );
+            allTopComments = [...allTopComments, ...commentsResponse.comments];
+          } catch (error) {
+            console.log(
+              // eslint-disable-next-line no-underscore-dangle
+              `Error getting comments for service ${service._id}`
+            );
+          }
+        }
+
+        // Ordenar todos los comentarios obtenidos y tomar los top 3
+        const sortedtopComments = allTopComments
+          .sort((a, b) => b.rating - a.rating)
+          .slice(0, 3);
+        setTopComments(sortedtopComments);
+      } catch (error) {
+        console.log('Error getting services:', error);
+      }
+    };
+
+    fetchServicesAndTheirTopComments();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -153,33 +177,13 @@ function LandingPage() {
             Echa un vistazo a algunos de nuestros servicios más populares
           </Typography>
           <Grid container spacing={3}>
-            {mockServices.slice(0, 3).map((service, index) => (
-              <Grid item xs={12} sm={4} key={service.id}>
-                <Card
-                  className={classes.card}
-                  onClick={() => setSelectedService(service)}
-                >
-                  <CardMedia
-                    className={classes.media}
-                    image={serviceImages[index]}
-                    title={service.nombre}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" component="div">
-                      {service.nombre}
-                    </Typography>
-                    <Rating
-                      value={getAverageRating(service.nombre)}
-                      readOnly
-                      size="small"
-                      precision={0.1}
-                    />
-                    <Typography variant="body2" component="span">
-                      {getAverageRating(service.nombre).toFixed(1)}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+            {topServices.map((servicio) => (
+              <ServiceCard
+                // eslint-disable-next-line no-underscore-dangle
+                key={servicio._id}
+                service={servicio}
+                onClick={setSelectedService}
+              />
             ))}
           </Grid>
         </div>
@@ -191,28 +195,7 @@ function LandingPage() {
           >
             Experiencias de usuarios
           </Typography>
-          <Grid container spacing={3}>
-            {topComments.map((comment) => (
-              <Grid item xs={12} sm={4} key={comment.id}>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography variant="h6" component="div">
-                      {comment.user}
-                    </Typography>
-                    <Rating
-                      value={comment.rating}
-                      readOnly
-                      size="small"
-                      precision={0.1}
-                    />
-                    <Typography variant="body2" component="span">
-                      {comment.rating.toFixed(1)}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <TopComments comments={topComments} classes={classes} />
         </div>
         <Typography variant="h6" paragraph>
           ¿Listo para explorar?

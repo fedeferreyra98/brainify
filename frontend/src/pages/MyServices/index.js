@@ -107,10 +107,18 @@ function MyServices() {
           >
             Nuevo Servicio
           </Button>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {currentServices.map((service) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Grid item xs={12} sm={6} md={4} key={service._id}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                // eslint-disable-next-line no-underscore-dangle
+                key={service._id}
+                style={{ display: 'flex' }}
+              >
                 <ServiceCard
                   service={service}
                   setNotificationMessage={setNotificationMessage}
