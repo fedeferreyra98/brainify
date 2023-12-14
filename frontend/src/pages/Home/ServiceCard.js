@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
-import ContratacionForm from './ContratacionForm';
+import ContratacionForm from '../ServiceExplorer/ContratacionForm';
 
 function ServiceCard({ service, onClick, validation, send }) {
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
