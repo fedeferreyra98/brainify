@@ -73,7 +73,7 @@ export const updateCommentStatus = async (req, res) => {
         if (!isUserAuthorized) {
             return res.status(403).json({ message: "No tienes permiso para editar este comentario" });
         }
-        const status = req.body.status;
+        const status = req.body.isBlocked;
         const updatedComment = await CommentService.updateCommentStatus(req.params.commentId, status);
         return res.status(200).json({ updatedComment });
     } catch (error) {
@@ -82,7 +82,7 @@ export const updateCommentStatus = async (req, res) => {
 };
 export const deleteComment = async (req, res) => {
     try {
-        const commentId = req.params._id;
+        const commentId = req.params.commentId;
         const comment = await CommentService.delete(commentId);
         return res.status(200).json({comment});
     } catch (error) {

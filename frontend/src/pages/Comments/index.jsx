@@ -37,7 +37,7 @@ function Comments() {
       try {
         if (user) {
           // eslint-disable-next-line no-underscore-dangle
-          const userId = JSON.parse(user)._id;
+          const userId = JSON.parse(user).id;
           const response = await apiGetAllCommentsByUser(userId);
           const blockedComments = response.comments.filter(
             (comment) => comment.isBlocked
@@ -52,7 +52,7 @@ function Comments() {
   }, [user, openSnackbar]);
 
   const handlePublish = (commentId) => {
-    const newCommentStatus = true;
+    const newCommentStatus = { isBlocked: false };
     apiUpdateComment(commentId, newCommentStatus);
     setSnackbarMessage('Comentario publicado');
     setOpenSnackbar(true);
