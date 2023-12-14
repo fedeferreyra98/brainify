@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 import {
   Grid,
@@ -9,14 +11,12 @@ import {
   Rating,
   Dialog,
   DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
 } from '@mui/material';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
 import { apiCreateComment } from '../../api/apiService';
 import ContratacionForm from './ContratacionForm';
+import CommentForm from '../../components/form/CommentForm';
 
 function ServiceCard({ service, onClick, validation, send }) {
   const [name, setName] = useState('');
@@ -26,11 +26,8 @@ function ServiceCard({ service, onClick, validation, send }) {
   const [openCommentForm, setOpenCommentForm] = useState(false);
 
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
-  // eslint-disable-next-line no-unused-vars
   const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
 
   // Estado para controlar el diálogo de contratación
@@ -59,35 +56,6 @@ function ServiceCard({ service, onClick, validation, send }) {
     setMainComment('');
     setRating(5);
   };
-
-  const handleSendComment = async () => {
-    try {
-      console.log(service);
-      const response = await apiCreateComment({
-        // eslint-disable-next-line no-underscore-dangle
-        serviceId: service._id,
-        content: mainComment,
-        rating: commentRating,
-      });
-      if (response) {
-        if (validation) {
-          send(false);
-        } else {
-          send(true);
-        }
-        resetFormCmment();
-        setOpenCommentForm(false);
-        setNotificationGreenMessage('Comentario Enviado');
-        setNotificationGreenOpen(true);
-      }
-    } catch (error) {
-      console.error(error);
-      setOpenCommentForm(false);
-      setNotificationRedOpen(true);
-    }
-  };
-
-  const canSubmit = name && lastName;
 
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -139,48 +107,10 @@ function ServiceCard({ service, onClick, validation, send }) {
         </CardActions>
 
         <Dialog open={openCommentForm} onClose={handleCloseCommentForm}>
-          <DialogTitle>Comentar</DialogTitle>
-          <DialogContent>
-            <TextField
-              margin="dense"
-              label="Nombre"
-              fullWidth
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-              margin="dense"
-              label="Apellido"
-              fullWidth
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <Typography>Rating:</Typography>
-            <Rating
-              name="hover-feedback"
-              value={commentRating}
-              onChange={(e) => setRating(Number(e.target.value))}
-            />
-            <TextField
-              margin="dense"
-              label="Comentario"
-              fullWidth
-              value={mainComment}
-              onChange={(e) => setMainComment(e.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseCommentForm} color="primary">
-              Cancelar
-            </Button>
-            <Button
-              onClick={handleSendComment}
-              color="primary"
-              disabled={!canSubmit}
-            >
-              Enviar
-            </Button>
-          </DialogActions>
+          <CommentForm
+            serviceId={service._id}
+            handleCloseCommentForm={handleCloseCommentForm}
+          />
         </Dialog>
 
         <Dialog open={openDialog} onClose={handleCloseHiringForm}>

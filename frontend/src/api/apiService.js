@@ -221,9 +221,9 @@ export const apiUpdateHiring = (hiringId, hiringData) => {
 
 // Comment endpoints /api/comment
 
-export const apiCreateComment = (commentData) => {
+export const apiCreateComment = (serviceId, commentData) => {
   return axiosInstance
-    .post(`/comment/`, commentData)
+    .post(`/comment/${serviceId}`, commentData)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
