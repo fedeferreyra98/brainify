@@ -49,7 +49,7 @@ const ServiceSchema = new mongoose.Schema({
     },
     isPublished : {
         type : Boolean,
-        default : true,
+        default : false,
     },
     totalRatings:{
         type: Number,
