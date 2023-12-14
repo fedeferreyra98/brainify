@@ -33,8 +33,8 @@ const HiringSchema = new mongoose.Schema({
     },
     contractStatus : {
         type : String,
-        enum : ['Pending', 'Accepted', 'Rejected'],
-        default : 'Pending',
+        enum : ['Solicitada', 'Aceptada', 'Cancelada', 'Finalizada'],
+        default : 'Solicitada',
     },
 });
 
