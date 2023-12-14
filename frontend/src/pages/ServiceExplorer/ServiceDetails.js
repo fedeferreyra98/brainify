@@ -36,7 +36,7 @@ function ServiceDetails({ service, onClose }) {
       const fetchProviderInfo = async () => {
         try {
           const response = await apiGetPublicUserData(service.userId);
-          setProviderInfo(response.user);
+          setProviderInfo(response.publicProfile);
         } catch (error) {
           console.log('Error getting provider info:', error);
         }

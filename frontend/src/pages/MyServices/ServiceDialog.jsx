@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Dialog,
+  Grid,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -11,53 +12,117 @@ import {
   MenuItem,
   Typography,
   Button,
+  Avatar,
+  Slider,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { categories } from '../../data/mockCategory';
+import { apiUpdateService, apiCreateService } from '../../api/apiService';
 
-function ServiceDialog({ open, onClose, service, onSave, classes }) {
+function ServiceDialog({
+  open,
+  onClose,
+  service,
+  classes,
+  setNotificationMessage,
+  setNotificationOpen,
+  setNotificationRedMessage,
+  setNotificationRedOpen,
+}) {
   const [formData, setFormData] = useState({
-    nombre: '',
-    categoria: '',
-    tipo: '',
-    duracion: '',
-    frecuencia: '',
-    costo: '',
+    name: '',
+    category: '',
+    description: '',
+    type: '',
+    duration: '',
+    frequency: '',
+    cost: '',
   });
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (service) {
       setFormData({
-        nombre: service.nombre,
-        categoria: service.categoria,
-        tipo: service.tipo,
-        duracion: service.duracion,
-        frecuencia: service.frecuencia,
-        costo: service.costo,
+        name: service.name,
+        category: service.category,
+        description: service.description,
+        type: service.type,
+        duration: service.duration,
+        frequency: service.frequency,
+        cost: service.cost,
       });
     } else {
       setFormData({
-        nombre: '',
-        categoria: '',
-        tipo: '',
-        duracion: '',
-        frecuencia: '',
-        costo: '',
+        name: '',
+        category: '',
+        description: '',
+        type: '',
+        duration: '',
+        frequency: '',
+        cost: '',
       });
     }
   }, [service]);
 
+  // Function to handle changes on form inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSaveClick = () => {
+  const handleSliderChange = (event, newValue) => {
+    setFormData({ ...formData, duration: newValue });
+  };
+
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
+  // Update service function
+  const updateService = async (values) => {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      await apiUpdateService(service._id, values);
+      setNotificationMessage('Servicio Actualizado');
+      onClose();
+      setNotificationOpen(true);
+    } catch (error) {
+      setNotificationRedMessage('Error al Actualizar el Servicio');
+      setNotificationRedOpen(true);
+    }
+  };
+
+  // Create service function
+  const createService = async (values) => {
+    try {
+      await apiCreateService(values);
+      // setServices((prevServices) => [...prevServices, newService]);
+      setNotificationMessage('Servicio agregado correctamente');
+      onClose();
+      setNotificationOpen(true);
+    } catch (error) {
+      console.log(error);
+      setNotificationRedMessage('Error al agregar el servicio');
+      setNotificationRedOpen(true);
+    }
+  };
+
+  // Guardar servicio
+  const handleSave = () => {
     if (Object.values(formData).some((value) => !value)) {
-      setErrorMessage('Por favor, completa todos los campos del formulario.');
+      setNotificationRedMessage('Faltan campos en el formulario');
+      setNotificationRedOpen(true);
       return;
     }
-    onSave(formData);
-    onClose();
+    createService(formData);
   };
 
   return (
@@ -66,74 +131,129 @@ function ServiceDialog({ open, onClose, service, onSave, classes }) {
         {service ? 'Modificar Servicio' : 'Agregar Servicio'}
       </DialogTitle>
       <DialogContent>
+        <Grid item xs={12} sm={4} md={3}>
+          <Grid
+            container
+            spacing={2}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Grid item xs={12}>
+              <Avatar
+                alt="Class"
+                src="https://masqueclases.es/wp-content/uploads/2021/08/Global-Online-Education.jpg"
+                sx={{ width: 200, height: 200 }}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+              >
+                Subir Foto
+                <VisuallyHiddenInput type="file" />
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
         <TextField
           fullWidth
           margin="normal"
           label="Nombre"
-          name="nombre"
-          value={formData.nombre}
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+        />
+        <TextField
+          style={{ textAlign: 'left' }}
+          hintText="Message Field"
+          floatingLabelText="MultiLine and FloatingLabel"
+          multiline
+          rows={3}
+          fullWidth
+          margin="normal"
+          label="Descripción"
+          name="description"
+          value={formData.description}
           onChange={handleInputChange}
         />
         <FormControl className={classes.formControl}>
           <InputLabel>Categoría</InputLabel>
           <Select
-            name="categoria"
-            value={formData.categoria}
+            name="category"
+            value={formData.category}
             onChange={handleInputChange}
           >
-            <MenuItem value="tutorias">Tutorías escolares</MenuItem>
-            <MenuItem value="idioma">Clases de idioma</MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl className={classes.formControl}>
           <InputLabel>Tipo de clase</InputLabel>
           <Select
-            name="tipo"
-            value={formData.tipo}
+            name="type"
+            value={formData.type}
             onChange={handleInputChange}
           >
-            <MenuItem value="individual">Individual</MenuItem>
-            <MenuItem value="grupal">Grupal</MenuItem>
+            <MenuItem value="Individual">Individual</MenuItem>
+            <MenuItem value="Group">Grupal</MenuItem>
           </Select>
         </FormControl>
-        <TextField
+        <Typography id="discrete-slider" gutterBottom>
+          Duración (horas)
+        </Typography>
+        <Slider
+          name="duration"
           fullWidth
-          margin="normal"
-          label="Duración (Minutos)"
-          name="duracion"
-          value={formData.duracion}
-          onChange={handleInputChange}
+          value={formData.duration}
+          onChange={handleSliderChange}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          step={0.5}
+          marks
+          min={0}
+          max={4} // Puedes ajustar el máximo según tus necesidades
         />
         <FormControl className={classes.formControl}>
           <InputLabel>Frecuencia</InputLabel>
           <Select
-            name="frecuencia"
-            value={formData.frecuencia}
+            name="frequency"
+            value={formData.frequency}
             onChange={handleInputChange}
           >
-            <MenuItem value="única">Única</MenuItem>
-            <MenuItem value="semanal">Semanal</MenuItem>
-            <MenuItem value="mensual">Mensual</MenuItem>
+            <MenuItem value="One-time">Única</MenuItem>
+            <MenuItem value="Weekly">Semanal</MenuItem>
+            <MenuItem value="Monthly">Mensual</MenuItem>
           </Select>
         </FormControl>
         <TextField
           fullWidth
           margin="normal"
-          label="Costo"
-          name="costo"
-          value={formData.costo}
+          label="Precio"
+          name="cost"
+          value={formData.cost}
           onChange={handleInputChange}
         />
-        {errorMessage && <Typography color="error">{errorMessage}</Typography>}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cancelar
         </Button>
         <Button
-          onClick={handleSaveClick}
+          onClick={() => {
+            if (service) {
+              updateService(formData);
+            } else {
+              handleSave();
+            }
+          }}
           color="primary"
-          disabled={formData.duracion < 1 || formData.costo < 0}
         >
           Guardar
         </Button>

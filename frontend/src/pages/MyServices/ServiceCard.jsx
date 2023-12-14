@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -12,8 +12,49 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { apiUpdateService } from '../../api/apiService';
 
-function ServiceCard({ service, onEdit, onDelete, classes }) {
+function ServiceCard({
+  service,
+  onEdit,
+  onDelete,
+  classes,
+  setNotificationMessage,
+  setNotificationOpen,
+}) {
+  // Update service function
+  const updateService = async (values) => {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      await apiUpdateService(service._id, values);
+      setNotificationOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [formData, setFormData] = useState({
+    name: service.name,
+    category: service.category,
+    description: service.description,
+    type: service.type,
+    duration: service.duration,
+    frequency: service.frequency,
+    cost: service.cost,
+    isPublished: service.isPublished,
+  });
+
+  const changeIsPublished = () => {
+    const updatedFormData = { ...formData, isPublished: !formData.isPublished };
+    setFormData(updatedFormData);
+    if (!formData.isPublished) {
+      setNotificationMessage('Servicio Publicado');
+    } else {
+      setNotificationMessage('Servicio Ocultado');
+    }
+    updateService(updatedFormData);
+  };
+
   return (
     <Card className={classes.card}>
       <CardContent>
@@ -53,8 +94,8 @@ function ServiceCard({ service, onEdit, onDelete, classes }) {
           <FormControlLabel
             control={
               <Checkbox
-                // checked={publicado}
-                // onChange={handlePublish}
+                checked={formData.isPublished}
+                onChange={changeIsPublished}
                 name="publushCheckbox"
               />
             }
