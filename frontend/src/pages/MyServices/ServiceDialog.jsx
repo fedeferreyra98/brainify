@@ -87,7 +87,6 @@ function ServiceDialog({
   // Update service function
   const updateService = async (values) => {
     try {
-      console.log(values);
       // eslint-disable-next-line no-underscore-dangle
       await apiUpdateService(service._id, values);
       setNotificationMessage('Servicio Actualizado');
@@ -101,8 +100,7 @@ function ServiceDialog({
   // Create service function
   const createService = async (values) => {
     try {
-      const newService = await apiCreateService(values);
-      console.log(newService);
+      await apiCreateService(values);
       // setServices((prevServices) => [...prevServices, newService]);
       setNotificationMessage('Servicio agregado correctamente');
       onClose();

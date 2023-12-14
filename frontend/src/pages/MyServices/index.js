@@ -82,7 +82,6 @@ function MyServices() {
       setNotificationMessage('Servicio eliminado correctamente');
       setNotificationOpen(true);
     } catch (error) {
-      console.log(error);
       setNotificationMessage('Error al eliminar el servicio');
     }
   };
@@ -111,6 +110,8 @@ function MyServices() {
               <Grid item xs={12} sm={6} md={4} key={service._id}>
                 <ServiceCard
                   service={service}
+                  setNotificationMessage={setNotificationMessage}
+                  setNotificationOpen={setNotificationOpen}
                   onEdit={() => {
                     setCurrentService(service);
                     setDialogOpen(true);
