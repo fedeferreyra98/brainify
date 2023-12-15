@@ -20,7 +20,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { categories } from '../../data/mockCategory';
 import { apiUpdateService, apiCreateService } from '../../api/apiService';
 
-function ServiceDialog({
+function ServiceEditForm({
   open,
   onClose,
   service,
@@ -262,4 +262,4 @@ function ServiceDialog({
   );
 }
 
-export default ServiceDialog;
+export default ServiceEditForm;

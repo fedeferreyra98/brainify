@@ -14,7 +14,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { apiUpdateService } from '../../api/apiService';
 
-function ServiceCard({
+function ServiceCardEditable({
   service,
   onEdit,
   onDelete,
@@ -133,4 +133,4 @@ function ServiceCard({
   );
 }
 
-export default ServiceCard;
+export default ServiceCardEditable;

@@ -4,9 +4,9 @@ import { makeStyles } from '@mui/styles';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
-import ServiceCard from './ServiceCard';
+import ServiceCardEditable from './ServiceCardEditable';
 import { apiGetServicesByUser, apiDeleteService } from '../../api/apiService';
-import ServiceDialog from './ServiceDialog';
+import ServiceEditForm from './ServiceEditForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,7 +119,7 @@ function MyServices() {
                 key={service._id}
                 style={{ display: 'flex' }}
               >
-                <ServiceCard
+                <ServiceCardEditable
                   service={service}
                   setNotificationMessage={setNotificationMessage}
                   setNotificationOpen={setNotificationOpen}
@@ -156,7 +156,7 @@ function MyServices() {
           </footer>
 
           {dialogOpen && (
-            <ServiceDialog
+            <ServiceEditForm
               open={dialogOpen}
               service={currentService}
               classes={classes}
