@@ -53,7 +53,7 @@ function SignUpPage() {
       }
     } catch (error) {
       setNotificationRedMessage(
-        error.errors[0].message || 'Error al iniciar sesión'
+        error.errors[0].msg || 'Error al iniciar sesión'
       );
       setNotificationRedOpen(true);
     }
@@ -69,7 +69,7 @@ function SignUpPage() {
       }
     } catch (error) {
       console.error('Hubo un error al registrarse', error.message || error);
-      setNotificationRedMessage(error.message);
+      setNotificationRedMessage(error.errors[0].msg);
       setNotificationRedOpen(true);
     }
   };
