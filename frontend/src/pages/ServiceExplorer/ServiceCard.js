@@ -83,7 +83,7 @@ function ServiceCard({
             </Grid>
             <Grid item xs={12}>
               <img
-                src="https://masqueclases.es/wp-content/uploads/2021/08/Global-Online-Education.jpg"
+                src={service.imageUrl}
                 style={{
                   width: '100%',
                   height: '20vh',
