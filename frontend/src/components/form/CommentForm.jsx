@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import {
@@ -11,15 +11,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import NotificationGreen from '../ui/NotificationGreen';
-import NotificationRed from '../ui/NotificationRed';
 import { apiCreateComment } from '../../api/apiService';
 
-function CommentForm({ serviceId, handleCloseCommentForm }) {
-  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
-  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
-  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
-  const [notificationRedMessage, setNotificationRedMessage] = useState('');
+function CommentForm({
+  serviceId,
+  handleCloseCommentForm,
+  setNotificationGreenOpen,
+  setNotificationGreenMessage,
+  setNotificationRedOpen,
+  setNotificationRedMessage,
+}) {
   const formik = useFormik({
     initialValues: {
       rating: 0,
@@ -37,8 +38,8 @@ function CommentForm({ serviceId, handleCloseCommentForm }) {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
-        const response = await apiCreateComment(serviceId, values);
-        setNotificationGreenMessage(response.message);
+        await apiCreateComment(serviceId, values);
+        setNotificationGreenMessage('Comentario enviado');
         setNotificationGreenOpen(true);
       } catch (error) {
         setNotificationRedMessage(
@@ -93,16 +94,6 @@ function CommentForm({ serviceId, handleCloseCommentForm }) {
           </Button>
         </DialogActions>
       </Box>
-      <NotificationGreen
-        open={notificationGreenOpen}
-        message={notificationGreenMessage}
-        onClose={() => setNotificationGreenOpen(false)}
-      />
-      <NotificationRed
-        open={notificationRedOpen}
-        message={notificationRedMessage}
-        onClose={() => setNotificationRedOpen(false)}
-      />
     </Box>
   );
 }

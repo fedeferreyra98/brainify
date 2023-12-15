@@ -27,7 +27,7 @@ function SignUpPage() {
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
-  const { register } = useContext(AuthContext);
+  const { register, handleLogin } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -45,13 +45,27 @@ function SignUpPage() {
     });
   };
 
+  const onLogin = async () => {
+    try {
+      const response = await handleLogin(formData.email, formData.password);
+      if (response) {
+        navigate(ROUTE_PROVIDER_PROFILE);
+      }
+    } catch (error) {
+      setNotificationRedMessage(
+        error.errors[0].message || 'Error al iniciar sesión'
+      );
+      setNotificationRedOpen(true);
+    }
+  };
+
   // Maneja la presentación del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await register(formData);
       if (response) {
-        navigate(ROUTE_PROVIDER_PROFILE);
+        onLogin();
       }
     } catch (error) {
       console.error('Hubo un error al registrarse', error.message || error);

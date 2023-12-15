@@ -12,16 +12,16 @@ import {
 } from '@mui/material';
 import useStyles from '../../styles/styles';
 import { apiCreateHiring } from '../../api/apiService';
-import NotificationGreen from '../../components/ui/NotificationGreen';
-import NotificationRed from '../../components/ui/NotificationRed';
 
-function ContratacionForm({ selectedService, closeHiringForm }) {
+function ContratacionForm({
+  selectedService,
+  closeHiringForm,
+  setNotificationRedOpen,
+  setNotificationRedMessage,
+  setNotificationGreenOpen,
+  setNotificationGreenMessage,
+}) {
   const classes = useStyles();
-
-  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
-  const [notificationRedMessage, setNotificationRedMessage] = useState('');
-  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
-  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
 
   // Estados para los campos del formulario de contratación
   const [telefono, setTelefono] = useState('');
@@ -57,7 +57,7 @@ function ContratacionForm({ selectedService, closeHiringForm }) {
 
   // Función para verificar si todos los campos del formulario están completos
   const isFormComplete = () => {
-    return telefono && email && horario;
+    return telefono && email && horario && mensaje;
   };
 
   // Función para validar un número de teléfono
@@ -154,16 +154,6 @@ function ContratacionForm({ selectedService, closeHiringForm }) {
           Enviar
         </Button>
       </DialogActions>
-      <NotificationRed
-        open={notificationRedOpen}
-        message={notificationRedMessage}
-        onClose={() => setNotificationRedOpen(false)}
-      />
-      <NotificationGreen
-        open={notificationGreenOpen}
-        message={notificationGreenMessage}
-        onClose={() => setNotificationGreenOpen(false)}
-      />
     </Container>
   );
 }
