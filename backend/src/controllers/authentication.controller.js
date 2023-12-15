@@ -33,7 +33,7 @@ export const login = async (req, res) => {
         if (user === null) {
             return res.status(404).json({ errors: [
                 {
-                message: "User does not exist",
+                message: "El usuario no existe",
                 },
             ]
         })
@@ -43,7 +43,7 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(404).json({ errors: [
                 {
-                message: "Invalid credentials",
+                message: "Contraseña invalida",
                 },
             ]
         });
