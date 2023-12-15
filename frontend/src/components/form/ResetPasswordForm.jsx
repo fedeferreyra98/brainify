@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 import queryString from 'query-string';
 import { Box, Typography, TextField, Button } from '@mui/material';
 import { apiResetPassword } from '../../api/apiService';
-import NotificationGreen from '../../components/ui/NotificationGreen';
-import NotificationRed from '../../components/ui/NotificationRed';
+import NotificationGreen from '../ui/NotificationGreen';
+import NotificationRed from '../ui/NotificationRed';
 import { ROUTE_LOGIN } from '../../routes/routePaths';
 
 function ResetPasswordForm() {

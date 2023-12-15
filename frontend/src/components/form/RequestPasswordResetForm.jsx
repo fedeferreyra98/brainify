@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { apiRequestPasswordReset } from '../../api/apiService';
-import NotificationGreen from '../../components/ui/NotificationGreen';
+import NotificationGreen from '../ui/NotificationGreen';
 import { ROUTE_LOGIN } from '../../routes/routePaths';
 
 function RequestPasswordReset() {
