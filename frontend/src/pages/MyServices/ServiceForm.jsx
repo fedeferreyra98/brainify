@@ -51,6 +51,12 @@ function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
     onSubmit: handleSubmit,
   });
 
+  const handleCancel = () => {
+    onClose();
+    // Restablecer los valores del formulario a los iniciales
+    formik.resetForm({ values: formik.initialValues });
+  };
+
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -233,7 +239,7 @@ function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Cancelar</Button>
+          <Button onClick={handleCancel}>Cancelar</Button>
           <Button color="primary" variant="contained" type="submit">
             {initialFormData ? 'Guardar' : 'Agregar'}
           </Button>
