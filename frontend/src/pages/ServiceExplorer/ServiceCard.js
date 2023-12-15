@@ -142,6 +142,10 @@ function ServiceCard({
             // eslint-disable-next-line no-underscore-dangle
             selectedService={service._id}
             dialogOpen={openDialog}
+            setNotificationGreenOpen={setNotificationGreenOpen}
+            setNotificationGreenMessage={setNotificationGreenMessage}
+            setNotificationRedOpen={setNotificationRedOpen}
+            setNotificationRedMessage={setNotificationRedMessage}
             closeHiringForm={handleCloseHiringForm}
           />
         </Dialog>
