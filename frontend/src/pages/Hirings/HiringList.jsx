@@ -102,6 +102,11 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
+                  <Typography color="textSecondary">
+                    {`Mensaje: ${contratacion.message}`}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
                   <FormControl
                     fullWidth
                     variant="outlined"

@@ -57,7 +57,7 @@ function ContratacionForm({
 
   // Función para verificar si todos los campos del formulario están completos
   const isFormComplete = () => {
-    return telefono && email && horario;
+    return telefono && email && horario && mensaje;
   };
 
   // Función para validar un número de teléfono
