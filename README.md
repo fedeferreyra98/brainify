@@ -82,3 +82,5 @@ Nota: Mantén estas variables seguras y no las compartas públicamente.
 2. Instala las dependencias ejecutando npm install (usando --force en el caso de frontend debido a problemas de dependencias con Material UI v5) en los directorios /frontend y /backend.
 3. Crea un archivo .env en el directorio /backend con las variables de entorno necesarias.
 4. Ejecuta la aplicación con npm start en ambos proyectos /frontend y /backend.
+
+###  Tambien puedes consultar la documentacion de la [Brainify-API](https://documenter.getpostman.com/view/30977948/2s9YeG7XFL)
