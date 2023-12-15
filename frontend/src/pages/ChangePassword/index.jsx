@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography, Container, Box } from '@mui/material';
+import { Button, Typography, Container, Box, Link, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { apiChangePassword } from '../../api/apiService';
@@ -7,7 +7,11 @@ import SimplePasswordField from '../../components/form/SimplePasswordField';
 import ControlledPasswordField from '../../components/form/ControlledPasswordField';
 import NotificationRed from '../../components/ui/NotificationRed';
 import NotificationGreen from '../../components/ui/NotificationGreen';
-import { ROUTE_PROVIDER_PROFILE } from '../../routes/routePaths';
+import {
+  ROUTE_PROVIDER_PROFILE,
+  ROUTE_LOGIN,
+  ROUTE_FORGOT_PASSWORD,
+} from '../../routes/routePaths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,35 +75,66 @@ function ChangePasswordPage() {
         </Typography>
       </Box>
       <form onSubmit={handleSubmit}>
-        <SimplePasswordField
-          className={classes.textField}
-          label="Contraseña Original"
-          value={originalPassword}
-          onChange={(event) => setOriginalPassword(event.target.value)}
-          sx={{ mb: 2 }}
-        />
-        <ControlledPasswordField
-          className={classes.textField}
-          label="Nueva Contraseña"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          sx={{ mb: 2 }}
-        />
-        <SimplePasswordField
-          className={classes.textField}
-          label="Confirmar Contraseña"
-          value={confirmPassword}
-          onChange={(event) => setConfirmPassword(event.target.value)}
-          sx={{ mb: 2 }}
-        />
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          type="submit"
-        >
-          Confirmar
-        </Button>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} sm={12}>
+            <SimplePasswordField
+              className={classes.textField}
+              label="Contraseña Original"
+              value={originalPassword}
+              onChange={(event) => setOriginalPassword(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <ControlledPasswordField
+              className={classes.textField}
+              label="Nueva Contraseña"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <SimplePasswordField
+              className={classes.textField}
+              label="Confirmar Contraseña"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="secondary"
+                type="submit"
+                fullWidth
+                sx={{ mt: 3, mb: 1 }}
+              >
+                Confirmar
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                color="primary"
+                variant="contained"
+                type="submit"
+                fullWidth
+                onClick={() => navigate(ROUTE_LOGIN)}
+              >
+                Volver
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                color="primary"
+                fullWidth
+                component={Link}
+                to={ROUTE_FORGOT_PASSWORD}
+              >
+                ¿Olvidaste tu contraseña?
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </form>
       <NotificationRed
         open={notificationRedOpen}
