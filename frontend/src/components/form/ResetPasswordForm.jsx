@@ -13,8 +13,8 @@ import {
   Grid,
 } from '@mui/material';
 import { apiResetPassword } from '../../api/apiService';
-import NotificationGreen from '../../components/ui/NotificationGreen';
-import NotificationRed from '../../components/ui/NotificationRed';
+import NotificationGreen from '../ui/NotificationGreen';
+import NotificationRed from '../ui/NotificationRed';
 import { ROUTE_LOGIN } from '../../routes/routePaths';
 
 const useStyles = makeStyles((theme) => ({
