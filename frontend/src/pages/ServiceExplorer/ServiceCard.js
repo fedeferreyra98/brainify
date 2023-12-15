@@ -12,10 +12,7 @@ import {
   Dialog,
   DialogTitle,
 } from '@mui/material';
-import NotificationGreen from '../../components/ui/NotificationGreen';
-import NotificationRed from '../../components/ui/NotificationRed';
-import { apiCreateComment } from '../../api/apiService';
-import ContratacionForm from './ContratacionForm';
+import HiringForm from '../../components/form/HiringForm';
 import CommentForm from '../../components/form/CommentForm';
 
 function ServiceCard({
@@ -138,15 +135,14 @@ function ServiceCard({
 
         <Dialog open={openDialog} onClose={handleCloseHiringForm}>
           <DialogTitle>Contratar Servicio</DialogTitle>
-          <ContratacionForm
+          <HiringForm
             // eslint-disable-next-line no-underscore-dangle
-            selectedService={service._id}
-            dialogOpen={openDialog}
-            setNotificationGreenOpen={setNotificationGreenOpen}
-            setNotificationGreenMessage={setNotificationGreenMessage}
-            setNotificationRedOpen={setNotificationRedOpen}
-            setNotificationRedMessage={setNotificationRedMessage}
+            selectedServiceId={service._id}
             closeHiringForm={handleCloseHiringForm}
+            setNotificationGreenMessage={setNotificationGreenMessage}
+            setNotificationGreenOpen={setNotificationGreenOpen}
+            setNotificationRedMessage={setNotificationRedMessage}
+            setNotificationRedOpen={setNotificationRedOpen}
           />
         </Dialog>
       </Card>
