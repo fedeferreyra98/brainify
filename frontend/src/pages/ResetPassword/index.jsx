@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import ResetPasswordForm from '../../components/form/ResetPasswordForm';
+import ResetPasswordForm from './ResetPasswordForm';
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles((theme) => ({
