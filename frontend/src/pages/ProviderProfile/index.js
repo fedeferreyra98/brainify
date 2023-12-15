@@ -160,23 +160,31 @@ function ProviderProfile() {
         </Typography>
       </Box>
 
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} sm={8} md={9}>
+      <Grid container spacing={2} alignItems="center" sx={{ pl: 3, pb: 1 }}>
+        <Grid item xs={12}>
           <Typography variant="h5">{`${session.firstName} ${session.lastName}`}</Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="subtitle1">{session.degree}</Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="subtitle2">{`E-mail: ${session.email}`}</Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="string">{`Tel: ${session.phoneNumber}`}</Typography>
         </Grid>
       </Grid>
 
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography variant="h6">Experiencia:</Typography>
-          <Typography variant="body2">{session.experience}</Typography>
-        </CardContent>
-      </Card>
-      <Grid container spacing={2}>
-        <Grid item>
+      <Grid container spacing={2} alignItems="center" sx={{ px: 3, pb: 2 }}>
+        <Grid item xs={12}>
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography variant="h6">Experiencia:</Typography>
+              <Typography variant="body2">{session.experience}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
           <Button
             variant="contained"
             color="secondary"
