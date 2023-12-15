@@ -16,9 +16,18 @@ import {
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SlideTooltip from '../ui/SlideTooltip';
 import { apiUploadImage } from '../../api/apiService';
-import { categories } from '../../data/mockCategory';
 
 function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
+  const categories = [
+    'Programacion',
+    'Diseño',
+    'Marketing',
+    'Idiomas',
+    'Musica',
+    'Deportes',
+    'Arte',
+    'Otros',
+  ];
   const validationSchema = Yup.object({
     name: Yup.string()
       .required('El nombre es requerido')
