@@ -5,8 +5,12 @@ import AddIcon from '@mui/icons-material/Add';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
 import ServiceCardEditable from './ServiceCardEditable';
-import { apiGetServicesByUser, apiDeleteService } from '../../api/apiService';
-import ServiceEditForm from './ServiceEditForm';
+import {
+  apiGetServicesByUser,
+  apiDeleteService,
+  apiCreateService,
+} from '../../api/apiService';
+import ServiceForm from './ServiceForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
 function MyServices() {
   const classes = useStyles();
   const [services, setServices] = useState([]);
-  const [currentService, setCurrentService] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
@@ -89,6 +92,22 @@ function MyServices() {
     }
   };
 
+  // Create a service
+  const handleCreateService = async (values, actions) => {
+    try {
+      await apiCreateService(values);
+      setNotificationMessage('Servicio creado correctamente');
+      setNotificationOpen(true);
+      setDialogOpen(false);
+    } catch (error) {
+      console.log(error);
+      setNotificationRedMessage('Error al crear el servicio');
+      setNotificationRedOpen(true);
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
   return (
     <div>
       <Container className={classes.mainContent}>
@@ -101,7 +120,6 @@ function MyServices() {
             color="primary"
             startIcon={<AddIcon />}
             onClick={() => {
-              setCurrentService(null);
               setDialogOpen(true);
             }}
           >
@@ -123,10 +141,6 @@ function MyServices() {
                   service={service}
                   setNotificationMessage={setNotificationMessage}
                   setNotificationOpen={setNotificationOpen}
-                  onEdit={() => {
-                    setCurrentService(service);
-                    setDialogOpen(true);
-                  }}
                   // eslint-disable-next-line no-underscore-dangle
                   onDelete={() => deleteService(service._id)}
                   classes={classes}
@@ -155,27 +169,20 @@ function MyServices() {
             </Typography>
           </footer>
 
-          {dialogOpen && (
-            <ServiceEditForm
-              open={dialogOpen}
-              service={currentService}
-              classes={classes}
-              setNotificationMessage={setNotificationMessage}
-              setNotificationOpen={setNotificationOpen}
-              setNotificationRedMessage={setNotificationRedMessage}
-              setNotificationRedOpen={setNotificationRedOpen}
-              onClose={() => {
-                setCurrentService(null);
-                setDialogOpen(false);
-              }}
-            />
-          )}
+          <ServiceForm
+            isOpen={dialogOpen}
+            onClose={() => {
+              setDialogOpen(false);
+            }}
+            handleSubmit={(values, actions) => {
+              handleCreateService(values, actions);
+            }}
+          />
 
           <NotificationGreen
             open={notificationOpen}
             message={notificationMessage}
             onClose={() => {
-              setCurrentService(null);
               setNotificationOpen(false);
             }}
           />

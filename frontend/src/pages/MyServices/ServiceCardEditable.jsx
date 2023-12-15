@@ -13,26 +13,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { apiUpdateService } from '../../api/apiService';
+import ServiceForm from './ServiceForm';
 
 function ServiceCardEditable({
   service,
-  onEdit,
   onDelete,
   classes,
   setNotificationMessage,
   setNotificationOpen,
 }) {
-  // Update service function
-  const updateService = async (values) => {
-    try {
-      // eslint-disable-next-line no-underscore-dangle
-      await apiUpdateService(service._id, values);
-      setNotificationOpen(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const [formData, setFormData] = useState({
     name: service.name,
     category: service.category,
@@ -43,6 +32,35 @@ function ServiceCardEditable({
     cost: service.cost,
     isPublished: service.isPublished,
   });
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  // Edit a service
+  const handleEditService = async (values, actions) => {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      await apiUpdateService(service._id, values);
+      setNotificationMessage('Servicio editado correctamente');
+      setNotificationOpen(true);
+      setDialogOpen(false);
+    } catch (error) {
+      console.log(error);
+      setNotificationMessage('Error al editar el servicio');
+      setNotificationOpen(true);
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
+  /// / Publish service function
+  const updateService = async (values) => {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      await apiUpdateService(service._id, values);
+      setNotificationOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const changeIsPublished = () => {
     const updatedFormData = { ...formData, isPublished: !formData.isPublished };
@@ -96,7 +114,7 @@ function ServiceCardEditable({
                   <Button
                     variant="contained"
                     startIcon={<EditIcon />}
-                    onClick={() => onEdit(service)}
+                    onClick={() => setDialogOpen(true)}
                   >
                     Editar
                   </Button>
@@ -129,6 +147,16 @@ function ServiceCardEditable({
           </Grid>
         </Grid>
       </CardContent>
+      <ServiceForm
+        isOpen={dialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+        }}
+        handleSubmit={(values, actions) => {
+          handleEditService(values, actions);
+        }}
+        initialFormData={formData}
+      />
     </Card>
   );
 }

@@ -15,7 +15,7 @@ import {
 import SlideTooltip from '../../components/ui/SlideTooltip';
 import { categories } from '../../data/mockCategory';
 
-function ServiceEditForm({ isOpen, onClose, handleSubmit, initialFormData }) {
+function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
   const validationSchema = Yup.object({
     name: Yup.string()
       .required('El nombre es requerido')
@@ -53,7 +53,7 @@ function ServiceEditForm({ isOpen, onClose, handleSubmit, initialFormData }) {
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>
-        {initialFormData ? 'Editar Servicio' : 'Agregar Servicio'}{' '}
+        {formik.values ? 'Editar Servicio' : 'Agregar Servicio'}{' '}
       </DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
@@ -191,4 +191,4 @@ function ServiceEditForm({ isOpen, onClose, handleSubmit, initialFormData }) {
   );
 }
 
-export default ServiceEditForm;
+export default ServiceForm;
