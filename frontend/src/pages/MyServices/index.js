@@ -128,7 +128,6 @@ function MyServices() {
           </Button>
           <Grid container spacing={2}>
             {currentServices.map((service) => (
-              // eslint-disable-next-line no-underscore-dangle
               <Grid
                 item
                 xs={12}
