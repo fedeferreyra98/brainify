@@ -14,7 +14,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
 import ImageUploadModal from '../../components/form/ImageUploadModal';
-import EditableAvatar from './EditableAvatar';
 import EditProfileForm from '../../components/form/EditProfileForm';
 import {
   apiUpdateUser,
@@ -162,22 +161,6 @@ function ProviderProfile() {
       </Box>
 
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} sm={4} md={3}>
-          <Grid
-            container
-            spacing={2}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Grid item xs={12}>
-              <EditableAvatar
-                src={session.profileImg}
-                onEdit={() => setIsModalOpen(true)}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
         <Grid item xs={12} sm={8} md={9}>
           <Typography variant="h5">{`${session.firstName} ${session.lastName}`}</Typography>
           <Typography variant="subtitle1">{session.degree}</Typography>
