@@ -18,9 +18,11 @@ const useStyles = makeStyles((theme) => ({
 function ForgotPassword() {
   const classes = useStyles();
   return (
-    <Container className={classes.root}>
-      <RequestPasswordResetForm />
-    </Container>
+    <div className={classes.root}>
+      <Container className={classes.mainContent}>
+        <RequestPasswordResetForm />
+      </Container>
+    </div>
   );
 }
 
