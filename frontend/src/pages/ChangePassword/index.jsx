@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Typography, Container, Box, Link, Grid } from '@mui/material';
+import { Button, Typography, Container, Box, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { apiChangePassword } from '../../api/apiService';
 import SimplePasswordField from '../../components/form/SimplePasswordField';
 import ControlledPasswordField from '../../components/form/ControlledPasswordField';
 import NotificationRed from '../../components/ui/NotificationRed';
-import NotificationGreen from '../../components/ui/NotificationGreen';
-import {
-  ROUTE_PROVIDER_PROFILE,
-  ROUTE_LOGIN,
-  ROUTE_FORGOT_PASSWORD,
-} from '../../routes/routePaths';
+import { ROUTE_PROVIDER_PROFILE } from '../../routes/routePaths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +37,6 @@ function ChangePasswordPage() {
 
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
   const [notificationRedMessage, setNotificationRedMessage] = useState('');
-  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
-  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,10 +54,8 @@ function ChangePasswordPage() {
       navigate(ROUTE_PROVIDER_PROFILE);
     } catch (error) {
       setNotificationRedMessage('Error al cambiar la contraseña', 'error');
+      setNotificationRedOpen(true);
     }
-    // Aquí puedes agregar la lógica para restablecer la contraseña en la base de datos.
-    setNotificationGreenMessage('Contraseña modificada con exito!');
-    setNotificationGreenOpen(true);
   };
 
   return (
@@ -118,19 +109,9 @@ function ChangePasswordPage() {
                 variant="contained"
                 type="submit"
                 fullWidth
-                onClick={() => navigate(ROUTE_LOGIN)}
+                onClick={() => navigate(ROUTE_PROVIDER_PROFILE)}
               >
                 Volver
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                color="primary"
-                fullWidth
-                component={Link}
-                to={ROUTE_FORGOT_PASSWORD}
-              >
-                ¿Olvidaste tu contraseña?
               </Button>
             </Grid>
           </Grid>
@@ -140,11 +121,6 @@ function ChangePasswordPage() {
         open={notificationRedOpen}
         message={notificationRedMessage}
         onClose={() => setNotificationRedOpen(false)}
-      />
-      <NotificationGreen
-        open={notificationGreenOpen}
-        message={notificationGreenMessage}
-        onClose={() => setNotificationGreenOpen(false)}
       />
     </Container>
   );
