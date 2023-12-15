@@ -64,6 +64,7 @@ export const createServiceBodyValidator = [
   body("type", "Tipo inválido").isIn(["Individual", "Grupal"]),
   body("duration", "La duración es requerida").trim().notEmpty(),
   body("duration", "Duración inválida").isFloat({ min: 0.5, max: 4 }).toFloat(),
+  body("imageUrl", "La imagen es requerida").trim().notEmpty(),
   validationResultExpress,
 ];
 

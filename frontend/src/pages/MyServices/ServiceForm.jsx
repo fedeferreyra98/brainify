@@ -44,7 +44,8 @@ function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
       duration: 0.5,
       frequency: '',
       cost: 0.99,
-      imageUrl: '',
+      imageUrl:
+        'https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg', // Imagen por defecto
     },
     validationSchema,
     onSubmit: handleSubmit,
@@ -60,7 +61,6 @@ function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
       try {
         const response = await apiUploadImage(file);
         formik.setFieldValue('imageUrl', response.url);
-        console.log('Carga de imagen exitosa: ', response.url);
       } catch (error) {
         console.error('Error al subir la imagen:', error);
       }
@@ -84,10 +84,7 @@ function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
               >
                 <Grid item xs={12}>
                   <img
-                    src={
-                      formik.values.imageUrl ||
-                      'https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg'
-                    }
+                    src={formik.values.imageUrl}
                     style={{
                       maxWidth: '100%', // Ancho máximo al 100% del contenedor
                       maxHeight: '300px', // Altura máxima de 300px

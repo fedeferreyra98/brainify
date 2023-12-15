@@ -99,6 +99,7 @@ function MyServices() {
       setNotificationMessage('Servicio creado correctamente');
       setNotificationOpen(true);
       setDialogOpen(false);
+      actions.resetForm();
     } catch (error) {
       console.log(error);
       setNotificationRedMessage('Error al crear el servicio');

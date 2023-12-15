@@ -31,7 +31,9 @@ function ServiceCardEditable({
     frequency: service.frequency,
     cost: service.cost,
     isPublished: service.isPublished,
-    imageUrl: service.imageUrl,
+    imageUrl:
+      service.imageUrl ||
+      'https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg', // Imagen por defecto, quitar una vez que todos los servicios tengan una imagen
   });
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -39,8 +41,6 @@ function ServiceCardEditable({
   const handleEditService = async (values, actions) => {
     try {
       // eslint-disable-next-line no-underscore-dangle
-      console.log(values); // Agrega esto en tu función handleEditService antes de la llamada a apiUpdateService
-
       await apiUpdateService(service._id, values);
       setNotificationMessage('Servicio editado correctamente');
       setNotificationOpen(true);
@@ -101,10 +101,7 @@ function ServiceCardEditable({
           </Grid>
           <Grid item xs={12}>
             <img
-              src={
-                service.imageUrl ||
-                'https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg'
-              }
+              src={service.imageUrl}
               style={{
                 width: '100%',
                 height: '20vh',
