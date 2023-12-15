@@ -14,7 +14,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
 import ImageUploadModal from '../../components/form/ImageUploadModal';
-import EditableAvatar from './EditableAvatar';
 import EditProfileForm from '../../components/form/EditProfileForm';
 import {
   apiUpdateUser,
@@ -161,39 +160,31 @@ function ProviderProfile() {
         </Typography>
       </Box>
 
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} sm={4} md={3}>
-          <Grid
-            container
-            spacing={2}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Grid item xs={12}>
-              <EditableAvatar
-                src={session.profileImg}
-                onEdit={() => setIsModalOpen(true)}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} sm={8} md={9}>
+      <Grid container spacing={2} alignItems="center" sx={{ pl: 3, pb: 1 }}>
+        <Grid item xs={12}>
           <Typography variant="h5">{`${session.firstName} ${session.lastName}`}</Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="subtitle1">{session.degree}</Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="subtitle2">{`E-mail: ${session.email}`}</Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="string">{`Tel: ${session.phoneNumber}`}</Typography>
         </Grid>
       </Grid>
 
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography variant="h6">Experiencia:</Typography>
-          <Typography variant="body2">{session.experience}</Typography>
-        </CardContent>
-      </Card>
-      <Grid container spacing={2}>
-        <Grid item>
+      <Grid container spacing={2} alignItems="center" sx={{ px: 3, pb: 2 }}>
+        <Grid item xs={12}>
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography variant="h6">Experiencia:</Typography>
+              <Typography variant="body2">{session.experience}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
           <Button
             variant="contained"
             color="secondary"
@@ -214,41 +205,56 @@ function ProviderProfile() {
           Mejores Comentarios
         </Typography>
         <Grid container spacing={3}>
-          {topCommentsByUser.map((comment) => (
+          {topCommentsByUser.length === 0 ? (
             <Grid
               item
+              m={2}
               xs={12}
-              sm={4}
-              // eslint-disable-next-line no-underscore-dangle
-              key={comment._id}
               style={{ display: 'flex' }}
+              alignItems="center"
+              justifyContent="center"
             >
-              <Card className={classes.card} style={{ width: '100%' }}>
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Typography variant="h5" component="div">
-                        {comment.serviceName}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="h12" component="div">
-                        {comment.content}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Rating
-                        value={comment.rating}
-                        readOnly
-                        size="small"
-                        precision={0.1}
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
+              <Typography variant="h6">
+                Aun no tienes ningún comentario en tus servicios
+              </Typography>
             </Grid>
-          ))}
+          ) : (
+            topCommentsByUser.map((comment) => (
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                // eslint-disable-next-line no-underscore-dangle
+                key={comment._id}
+                style={{ display: 'flex' }}
+              >
+                <Card className={classes.card} style={{ width: '100%' }}>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Typography variant="h5" component="div">
+                          {comment.serviceName}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h12" component="div">
+                          {comment.content}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Rating
+                          value={comment.rating}
+                          readOnly
+                          size="small"
+                          precision={0.1}
+                        />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))
+          )}
         </Grid>
       </div>
       <footer className={classes.footer}>

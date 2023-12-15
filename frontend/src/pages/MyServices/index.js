@@ -127,26 +127,40 @@ function MyServices() {
             Nuevo Servicio
           </Button>
           <Grid container spacing={2}>
-            {currentServices.map((service) => (
+            {currentServices.length === 0 ? (
               <Grid
                 item
+                m={2}
                 xs={12}
-                sm={6}
-                md={4}
                 // eslint-disable-next-line no-underscore-dangle
-                key={service._id}
                 style={{ display: 'flex' }}
               >
-                <ServiceCardEditable
-                  service={service}
-                  setNotificationMessage={setNotificationMessage}
-                  setNotificationOpen={setNotificationOpen}
-                  // eslint-disable-next-line no-underscore-dangle
-                  onDelete={() => deleteService(service._id)}
-                  classes={classes}
-                />
+                <Typography variant="h5">
+                  Aun no has cargado ningún servicio
+                </Typography>
               </Grid>
-            ))}
+            ) : (
+              currentServices.map((service) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  // eslint-disable-next-line no-underscore-dangle
+                  key={service._id}
+                  style={{ display: 'flex' }}
+                >
+                  <ServiceCardEditable
+                    service={service}
+                    setNotificationMessage={setNotificationMessage}
+                    setNotificationOpen={setNotificationOpen}
+                    // eslint-disable-next-line no-underscore-dangle
+                    onDelete={() => deleteService(service._id)}
+                    classes={classes}
+                  />
+                </Grid>
+              ))
+            )}
           </Grid>
           <div className={classes.paginationContainer}>
             <Pagination
