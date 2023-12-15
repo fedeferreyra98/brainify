@@ -2,27 +2,31 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { validateToken, apiLogin, apiRegister } from '../../api/apiService';
 import { ROUTE_LOGIN } from '../../routes/routePaths';
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [session, setSession] = useState(null);
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true); // Nuevo estado para el indicador de carga
 
   useEffect(() => {
     const checkTokenValidity = async () => {
-      const storedUser = await localStorage.getItem('user');
-      const storedToken = await localStorage.getItem('jwt');
+      const storedUser = localStorage.getItem('user');
+      const storedToken = localStorage.getItem('jwt');
       if (storedUser && storedToken) {
         try {
+          setIsLoading(true); // Inicia el indicador de carga
           const obj = JSON.parse(storedToken);
-          const isValid = await validateToken(obj.token);
+          const isValid = obj.token && (await validateToken(obj.token));
           if (isValid) {
             setSession(JSON.parse(storedUser));
-            setIsAuthenticated(true);
+            setIsAuthenticated(isValid);
           } else {
             console.log('Entre al else');
             handleLogout();
@@ -30,11 +34,30 @@ export function AuthProvider({ children }) {
         } catch (error) {
           console.error('Error al validar el token:', error);
           handleLogout();
+        } finally {
+          setIsLoading(false); // Finaliza el indicador de carga
         }
+      } else {
+        setIsLoading(false); // Finaliza el indicador de carga si no hay token
       }
     };
     checkTokenValidity();
   }, []);
+
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh', // Altura del viewport para centrar verticalmente
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   const handleLogin = async (email, password) => {
     try {
