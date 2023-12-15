@@ -14,7 +14,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import SlideTooltip from '../../components/ui/SlideTooltip';
+import SlideTooltip from '../ui/SlideTooltip';
 import { apiUploadImage } from '../../api/apiService';
 import { categories } from '../../data/mockCategory';
 
