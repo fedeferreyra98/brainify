@@ -14,16 +14,17 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const checkTokenValidity = async () => {
-      const storedUser = localStorage.getItem('user');
-      const storedToken = localStorage.getItem('jwt');
+      const storedUser = await localStorage.getItem('user');
+      const storedToken = await localStorage.getItem('jwt');
       if (storedUser && storedToken) {
         try {
           const obj = JSON.parse(storedToken);
-          const isValid = await validateToken(obj.jwt.token);
+          const isValid = await validateToken(obj.token);
           if (isValid) {
             setSession(JSON.parse(storedUser));
             setIsAuthenticated(true);
           } else {
+            console.log('Entre al else');
             handleLogout();
           }
         } catch (error) {
