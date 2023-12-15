@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
-import ContratacionForm from '../ServiceExplorer/ContratacionForm';
+import HiringForm from '../../components/form/HiringForm';
 
 function ServiceCard({ service, onClick, validation, send }) {
   const [notificationRedOpen, setNotificationRedOpen] = useState(false);
@@ -93,11 +93,14 @@ function ServiceCard({ service, onClick, validation, send }) {
 
         <Dialog open={openDialog} onClose={handleCloseHiringForm}>
           <DialogTitle>Contratar Servicio</DialogTitle>
-          <ContratacionForm
+          <HiringForm
             // eslint-disable-next-line no-underscore-dangle
-            selectedService={service._id}
-            dialogOpen={openDialog}
+            selectedServiceId={service._id}
             closeHiringForm={handleCloseHiringForm}
+            setNotificationGreenMessage={setNotificationGreenMessage}
+            setNotificationGreenOpen={setNotificationGreenOpen}
+            setNotificationRedMessage={setNotificationRedMessage}
+            setNotificationRedOpen={setNotificationRedOpen}
           />
         </Dialog>
 
@@ -109,7 +112,7 @@ function ServiceCard({ service, onClick, validation, send }) {
         <NotificationGreen
           open={notificationGreenOpen}
           message={notificationGreenMessage}
-          onClose={() => notificationGreenOpen(false)}
+          onClose={() => setNotificationGreenOpen(false)}
         />
       </Card>
     </Grid>
