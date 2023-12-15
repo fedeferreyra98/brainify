@@ -214,41 +214,56 @@ function ProviderProfile() {
           Mejores Comentarios
         </Typography>
         <Grid container spacing={3}>
-          {topCommentsByUser.map((comment) => (
+          {topCommentsByUser.length === 0 ? (
             <Grid
               item
+              m={2}
               xs={12}
-              sm={4}
-              // eslint-disable-next-line no-underscore-dangle
-              key={comment._id}
               style={{ display: 'flex' }}
+              alignItems="center"
+              justifyContent="center"
             >
-              <Card className={classes.card} style={{ width: '100%' }}>
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Typography variant="h5" component="div">
-                        {comment.serviceName}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="h12" component="div">
-                        {comment.content}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Rating
-                        value={comment.rating}
-                        readOnly
-                        size="small"
-                        precision={0.1}
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
+              <Typography variant="h6">
+                Aun no tienes ningún comentario en tus servicios
+              </Typography>
             </Grid>
-          ))}
+          ) : (
+            topCommentsByUser.map((comment) => (
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                // eslint-disable-next-line no-underscore-dangle
+                key={comment._id}
+                style={{ display: 'flex' }}
+              >
+                <Card className={classes.card} style={{ width: '100%' }}>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Typography variant="h5" component="div">
+                          {comment.serviceName}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h12" component="div">
+                          {comment.content}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Rating
+                          value={comment.rating}
+                          readOnly
+                          size="small"
+                          precision={0.1}
+                        />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))
+          )}
         </Grid>
       </div>
       <footer className={classes.footer}>
