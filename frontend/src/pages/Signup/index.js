@@ -65,7 +65,9 @@ function SignUpPage() {
     try {
       const response = await register(formData);
       if (response) {
-        onLogin();
+        setTimeout(() => {
+          onLogin();
+        }, 2000);
       }
     } catch (error) {
       console.error('Hubo un error al registrarse', error.message || error);
