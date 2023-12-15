@@ -159,7 +159,7 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => {
                 if (
-                  !providerInfo &&
+                  !isAuthenticated &&
                   (page === 'Mis Servicios' ||
                     page === 'Comentarios' ||
                     page === 'Contrataciones')
@@ -211,7 +211,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => {
               if (
-                !providerInfo &&
+                !isAuthenticated &&
                 (page === 'Mis Servicios' ||
                   page === 'Comentarios' ||
                   page === 'Contrataciones')
@@ -232,7 +232,7 @@ function ResponsiveAppBar() {
             })}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            {!providerInfo ? (
+            {!isAuthenticated ? (
               <Button component={Link} to="/login" sx={{ color: 'white' }}>
                 Proveedores
               </Button>
