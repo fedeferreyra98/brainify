@@ -31,6 +31,7 @@ function ServiceCardEditable({
     frequency: service.frequency,
     cost: service.cost,
     isPublished: service.isPublished,
+    imageUrl: service.imageUrl,
   });
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -38,6 +39,8 @@ function ServiceCardEditable({
   const handleEditService = async (values, actions) => {
     try {
       // eslint-disable-next-line no-underscore-dangle
+      console.log(values); // Agrega esto en tu función handleEditService antes de la llamada a apiUpdateService
+
       await apiUpdateService(service._id, values);
       setNotificationMessage('Servicio editado correctamente');
       setNotificationOpen(true);
@@ -79,8 +82,8 @@ function ServiceCardEditable({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center', // Centra verticalmente
-          height: '100%', // Asegúrate de que CardContent tenga altura completa
+          justifyContent: 'center',
+          height: '100%',
           alignItems: 'flex-end',
         }}
       >
@@ -98,7 +101,10 @@ function ServiceCardEditable({
           </Grid>
           <Grid item xs={12}>
             <img
-              src="https://masqueclases.es/wp-content/uploads/2021/08/Global-Online-Education.jpg"
+              src={
+                service.imageUrl ||
+                'https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg'
+              }
               style={{
                 width: '100%',
                 height: '20vh',

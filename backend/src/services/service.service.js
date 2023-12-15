@@ -18,6 +18,7 @@ class ServiceService {
     }
 
     async update(serviceId, userId, service) {
+        console.log('Service Service, service body: ', service)
         return ServiceRepository.update(serviceId, userId, service);
     }
 

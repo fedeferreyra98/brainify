@@ -49,6 +49,10 @@ const ServiceSchema = new mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    imageUrl: {
+        type: String,
+        default:"https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg"
+    },
     totalRatings:{
         type: Number,
         default: 0,

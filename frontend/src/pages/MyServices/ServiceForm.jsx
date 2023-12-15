@@ -6,13 +6,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
   Typography,
   Button,
   Slider,
   MenuItem,
 } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SlideTooltip from '../../components/ui/SlideTooltip';
+import { apiUploadImage } from '../../api/apiService';
 import { categories } from '../../data/mockCategory';
 
 function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
@@ -41,6 +44,7 @@ function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
       duration: 0.5,
       frequency: '',
       cost: 0.99,
+      imageUrl: '',
     },
     validationSchema,
     onSubmit: handleSubmit,
@@ -50,13 +54,64 @@ function ServiceForm({ isOpen, onClose, handleSubmit, initialFormData }) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const response = await apiUploadImage(file);
+        formik.setFieldValue('imageUrl', response.url);
+        console.log('Carga de imagen exitosa: ', response.url);
+      } catch (error) {
+        console.error('Error al subir la imagen:', error);
+      }
+    }
+  };
+
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>
-        {formik.values ? 'Editar Servicio' : 'Agregar Servicio'}{' '}
+        {initialFormData ? 'Editar Servicio' : 'Agregar Servicio'}{' '}
       </DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Grid
+                container
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Grid item xs={12}>
+                  <img
+                    src={
+                      formik.values.imageUrl ||
+                      'https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg'
+                    }
+                    style={{
+                      maxWidth: '100%', // Ancho máximo al 100% del contenedor
+                      maxHeight: '300px', // Altura máxima de 300px
+                      width: 'auto', // Ancho automático para mantener la relación de aspecto
+                      height: 'auto', // Altura automática para mantener la relación de aspecto
+                      objectFit: 'cover',
+                    }}
+                    alt="Product"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Button
+                    component="label"
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    Subir Foto
+                    <input type="file" hidden onChange={handleFileChange} />
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
           <TextField
             margin="dense"
             fullWidth

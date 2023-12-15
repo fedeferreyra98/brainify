@@ -71,6 +71,7 @@ export const Update = async (req, res) => {
     try {
         const serviceId = req.params.serviceId;
         const userId = req.userId;
+        console.log('Service Controller, request body: ', req.body)
         const service = await ServiceService.update(serviceId, userId, req.body);
         if (!service) {
             return res.status(404).json({message: "Servicio no encontrado"});
@@ -117,5 +118,6 @@ const allowedUpdates = [
     "cost",
     "type",
     "duration",
-    "isPublished"
+    "isPublished",
+    "imageUrl",
   ];
