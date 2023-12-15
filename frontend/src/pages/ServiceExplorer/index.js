@@ -108,7 +108,7 @@ function ServiceExplorer() {
                 className={classes.formControl}
                 options={[
                   { value: 'Individual', label: 'Individual' },
-                  { value: 'Group Session', label: 'Grupal' },
+                  { value: 'Grupal', label: 'Grupal' },
                 ]}
               />
             </Grid>
