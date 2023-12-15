@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import {
   Button,
   Container,
@@ -9,19 +9,19 @@ import {
   CardContent,
   Box,
   Rating,
-  Dialog,
 } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
-
-import mockComments from '../../data/mockComments';
 import NotificationGreen from '../../components/ui/NotificationGreen';
 import NotificationRed from '../../components/ui/NotificationRed';
 import ImageUploadModal from '../../components/form/ImageUploadModal';
 import EditableAvatar from './EditableAvatar';
 import EditProfileForm from '../../components/form/EditProfileForm';
-import { apiUpdateUser, apiUpdateUserProfileImage } from '../../api/apiService';
-
+import {
+  apiUpdateUser,
+  apiUpdateUserProfileImage,
+  apiGetAllCommentsByUser,
+  apiGetServicesByUser,
+} from '../../api/apiService';
 import { AuthContext } from '../../components/auth/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -114,9 +114,44 @@ function ProviderProfile() {
     setIsModalOpen(false);
   };
 
-  const topComments = [...mockComments]
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 6);
+  const [topCommentsByUser, setTopCommentsByUser] = useState([]);
+  const [servicesByUser, setServicesByUser] = useState([]);
+
+  // Obtener comentarios y servicios de la API
+  useEffect(() => {
+    const fetchCommentsAndServices = async () => {
+      try {
+        // Obtener comentarios
+        const commentsResponse = await apiGetAllCommentsByUser(session.id);
+        // Obtener servicios
+        const servicesResponse = await apiGetServicesByUser();
+
+        const servicesById = servicesResponse.reduce((acc, service) => {
+          // eslint-disable-next-line no-underscore-dangle
+          acc[service._id] = service.name; // asumiendo que 'name' es el campo que contiene el nombre del servicio
+          return acc;
+        }, {});
+
+        // Enriquecer los comentarios con el nombre del servicio
+        const enrichedComments = commentsResponse.comments
+          .filter((comment) => !comment.isBlocked)
+          .map((comment) => {
+            return {
+              ...comment,
+              serviceName: servicesById[comment.serviceId], // Añadir el nombre del servicio
+            };
+          })
+          .sort((a, b) => b.rating - a.rating)
+          .slice(0, 6);
+
+        setTopCommentsByUser(enrichedComments);
+      } catch (error) {
+        console.log('Error getting comments or services:', error);
+      }
+    };
+
+    fetchCommentsAndServices();
+  }, [session.id]);
 
   return (
     <Container className={classes.root}>
@@ -179,25 +214,37 @@ function ProviderProfile() {
           Mejores Comentarios
         </Typography>
         <Grid container spacing={3}>
-          {topComments.map((comment) => (
-            <Grid item xs={12} sm={4} key={comment.id}>
-              <Card className={classes.card}>
+          {topCommentsByUser.map((comment) => (
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              // eslint-disable-next-line no-underscore-dangle
+              key={comment._id}
+              style={{ display: 'flex' }}
+            >
+              <Card className={classes.card} style={{ width: '100%' }}>
                 <CardContent>
-                  <Typography variant="h5" component="div">
-                    {comment.serviceName}
-                  </Typography>
-                  <Typography variant="h12" component="div">
-                    {comment.user}
-                  </Typography>
-                  <Rating
-                    value={comment.rating}
-                    readOnly
-                    size="small"
-                    precision={0.1}
-                  />
-                  <Typography variant="body2" component="span">
-                    {comment.rating.toFixed(1)}
-                  </Typography>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Typography variant="h5" component="div">
+                        {comment.serviceName}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h12" component="div">
+                        {comment.content}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Rating
+                        value={comment.rating}
+                        readOnly
+                        size="small"
+                        precision={0.1}
+                      />
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
             </Grid>

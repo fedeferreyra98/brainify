@@ -58,7 +58,6 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
       </Box>
     );
   }
-
   return (
     <Grid container spacing={3}>
       {userServices.map((contratacion) => (
@@ -67,7 +66,8 @@ function HiringList({ contrataciones, handleEstadoChange, classes }) {
           xs={12}
           sm={6}
           md={4}
-          key={contratacion.id}
+          // eslint-disable-next-line no-underscore-dangle
+          key={contratacion._id}
           style={{ display: 'flex' }}
         >
           <Card className={classes.card} style={{ width: '100%' }}>

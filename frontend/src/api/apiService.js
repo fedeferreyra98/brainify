@@ -211,6 +211,8 @@ export const apiCreateHiring = (serviceId, hiringData) => {
 };
 
 export const apiUpdateHiring = (hiringId, hiringData) => {
+  console.log(hiringId);
+  console.log(hiringData);
   return axiosInstance
     .patch(`/hiring/${hiringId}`, hiringData)
     .then((response) => response.data)

@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  CircularProgress,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { apiRequestPasswordReset } from '../../api/apiService';
 import NotificationGreen from '../../components/ui/NotificationGreen';
+import { ROUTE_LOGIN } from '../../routes/routePaths';
 
 function RequestPasswordReset() {
   const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
   const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -36,56 +46,61 @@ function RequestPasswordReset() {
   });
 
   return (
-    <Box className="w-full max-w-full flex-start flex-col">
-      <Typography variant="h1" sx={{ textAlign: 'left' }}>
-        <span className="blue_gradient">Restablecer contraseña</span>
-      </Typography>
+    <Container maxWidth="sm">
       <Box
-        component="form"
-        onSubmit={formik.handleSubmit}
         sx={{
-          mt: 10,
-          width: '100%',
-          maxWidth: '2xl',
           display: 'flex',
           flexDirection: 'column',
-          gap: 7,
-          mx: 'auto',
+          alignItems: 'center',
         }}
-        noValidate
       >
-        <TextField
-          label="Correo Electrónico"
-          id="email"
-          name="email"
-          type="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          fullWidth
-        />
-
-        <Box
-          sx={{ display: 'flex', justifyContent: 'end', mx: 3, mb: 5, gap: 4 }}
-        >
+        <Typography variant="h4" gutterBottom>
+          Modificar Contraseña
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            margin="normal"
+            fullWidth
+            id="email"
+            label="Correo Electrónico"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+          <Typography variant="h7" gutterBottom>
+            Por favor ingresa tu correo electronico para modificar la contraseña
+          </Typography>
           <Button
             type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            sx={{ mt: 3, mb: 1 }}
             disabled={formik.isSubmitting}
-            sx={{ px: 5, py: 1.5, textTransform: 'uppercase' }}
+          >
+            {formik.isSubmitting ? <CircularProgress size={24} /> : 'Enviar'}
+          </Button>
+          <Button
             color="primary"
             variant="contained"
+            type="submit"
+            fullWidth
+            onClick={() => navigate(ROUTE_LOGIN)}
           >
-            {formik.isSubmitting ? 'Enviando...' : 'Enviar'}
+            Volver
           </Button>
-        </Box>
+        </form>
       </Box>
       <NotificationGreen
         open={notificationGreenOpen}
         message={notificationGreenMessage}
         onClose={() => setNotificationGreenOpen(false)}
       />
-    </Box>
+    </Container>
   );
 }
 
