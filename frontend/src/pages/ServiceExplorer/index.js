@@ -127,9 +127,9 @@ function ServiceExplorer() {
                 onChange={(e) => setFrecuenciaFiltro(e.target.value)}
                 className={classes.formControl}
                 options={[
-                  { value: 'One-time', label: 'Única' },
-                  { value: 'Weekly', label: 'Semanal' },
-                  { value: 'Monthly', label: 'Mensual' },
+                  { value: 'Unica', label: 'Única' },
+                  { value: 'Semanal', label: 'Semanal' },
+                  { value: 'Mensual', label: 'Mensual' },
                 ]}
               />
             </Grid>
