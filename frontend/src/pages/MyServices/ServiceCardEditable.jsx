@@ -13,26 +13,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { apiUpdateService } from '../../api/apiService';
+import ServiceForm from './ServiceForm';
 
-function ServiceCard({
+function ServiceCardEditable({
   service,
-  onEdit,
   onDelete,
   classes,
   setNotificationMessage,
   setNotificationOpen,
 }) {
-  // Update service function
-  const updateService = async (values) => {
-    try {
-      // eslint-disable-next-line no-underscore-dangle
-      await apiUpdateService(service._id, values);
-      setNotificationOpen(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const [formData, setFormData] = useState({
     name: service.name,
     category: service.category,
@@ -42,7 +31,39 @@ function ServiceCard({
     frequency: service.frequency,
     cost: service.cost,
     isPublished: service.isPublished,
+    imageUrl:
+      service.imageUrl ||
+      'https://res.cloudinary.com/dcmqhvqqw/image/upload/v1702615757/vqtp0oyfqdyw4nw3z5c1.jpg', // Imagen por defecto, quitar una vez que todos los servicios tengan una imagen
   });
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  // Edit a service
+  const handleEditService = async (values, actions) => {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      await apiUpdateService(service._id, values);
+      setNotificationMessage('Servicio editado correctamente');
+      setNotificationOpen(true);
+      setDialogOpen(false);
+    } catch (error) {
+      console.log(error);
+      setNotificationMessage('Error al editar el servicio');
+      setNotificationOpen(true);
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
+  /// / Publish service function
+  const updateService = async (values) => {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      await apiUpdateService(service._id, values);
+      setNotificationOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const changeIsPublished = () => {
     const updatedFormData = { ...formData, isPublished: !formData.isPublished };
@@ -61,8 +82,8 @@ function ServiceCard({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center', // Centra verticalmente
-          height: '100%', // Asegúrate de que CardContent tenga altura completa
+          justifyContent: 'center',
+          height: '100%',
           alignItems: 'flex-end',
         }}
       >
@@ -80,7 +101,7 @@ function ServiceCard({
           </Grid>
           <Grid item xs={12}>
             <img
-              src="https://masqueclases.es/wp-content/uploads/2021/08/Global-Online-Education.jpg"
+              src={service.imageUrl}
               style={{
                 width: '100%',
                 height: '20vh',
@@ -96,7 +117,7 @@ function ServiceCard({
                   <Button
                     variant="contained"
                     startIcon={<EditIcon />}
-                    onClick={() => onEdit(service)}
+                    onClick={() => setDialogOpen(true)}
                   >
                     Editar
                   </Button>
@@ -129,8 +150,18 @@ function ServiceCard({
           </Grid>
         </Grid>
       </CardContent>
+      <ServiceForm
+        isOpen={dialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+        }}
+        handleSubmit={(values, actions) => {
+          handleEditService(values, actions);
+        }}
+        initialFormData={formData}
+      />
     </Card>
   );
 }
 
-export default ServiceCard;
+export default ServiceCardEditable;

@@ -6,6 +6,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/prop-types': 0,
+    'requireConfigFile': false
     // Add more custom rules as needed
   },
   env: {

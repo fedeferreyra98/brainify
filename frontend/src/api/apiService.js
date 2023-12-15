@@ -292,7 +292,7 @@ export const apiUploadImage = (file) => {
   const formData = new FormData();
   formData.append('file', file);
   return axiosInstance
-    .patch('/upload', formData, {
+    .post('/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

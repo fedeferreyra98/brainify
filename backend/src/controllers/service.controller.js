@@ -42,7 +42,7 @@ export const GetServicesByUser = async (req, res) => {
 
 export const Create = async (req, res) => {
     try {
-        const {name, description, category, frequency, cost, type, duration} = req.body;
+        const {name, description, category, frequency, cost, type, duration, imageUrl} = req.body;
         const serviceData = {
             userId: req.userId,
             name: name,
@@ -55,6 +55,7 @@ export const Create = async (req, res) => {
             averageRating: 0,
             totalRating: 0,
             sumOfRatings: 0,
+            imageUrl: imageUrl,
         };
         const service = await ServiceService.create(serviceData);
         return res.status(201).json({service});
@@ -117,5 +118,6 @@ const allowedUpdates = [
     "cost",
     "type",
     "duration",
-    "isPublished"
+    "isPublished",
+    "imageUrl",
   ];

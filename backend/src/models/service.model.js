@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Comment from "./comment.model.js";
 import Hiring from "./hiring.model.js";
-import { categories } from "../database/categories.hardcode.js";
 
 const ServiceSchema = new mongoose.Schema({
     userId: {
@@ -13,28 +12,27 @@ const ServiceSchema = new mongoose.Schema({
         type : String,
         required : true,
         trim : true,
-        maxLength: [50, "Name can not be more than 50 characters"],
+        maxLength: [50, "El nombre no puede tener más de 50 caracteres"],
     },
     description : {
         type : String,
         required : true,
         trim : true,
-        maxLength: [255, "Description can not be more than 255 characters"],
+        maxLength: [255, "La descripción no puede tener más de 255 caracteres"],
     },
     category : {
         type : String,
-        enum : categories.map((c) => c.toLowerCase()),
         required : true,
     },
     frequency: {
         type: String,
-        enum: ['One-time', 'Weekly', 'Monthly'],
+        enum: ['Unica', 'Semanal', 'Mensual'],
         required: true,
     },
     cost: {
         type: Number,
         required: true,
-        min: [0.99, "Cost can not be less than 0.99"],
+        min: [0.99, "El costo debe ser al menos de $0.99"],
     },
     type : {
         type : String,
@@ -44,12 +42,16 @@ const ServiceSchema = new mongoose.Schema({
     duration :{
         type: Number,
         required: true,
-        min: [0.5, "Duration can not be less than 30 minutes"],
-        max: [4, "Duration can not be more than 4 hours"],
+        min: [0.5, "La Duracion no puede ser menor a 30 minutos"],
+        max: [4, "La duracion no puede ser mayor a 4 horas"],
     },
     isPublished : {
         type : Boolean,
         default : false,
+    },
+    imageUrl: {
+        type: String,
+        required : true,
     },
     totalRatings:{
         type: Number,
