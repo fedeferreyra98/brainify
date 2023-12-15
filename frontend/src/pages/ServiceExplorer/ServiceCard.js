@@ -18,17 +18,21 @@ import { apiCreateComment } from '../../api/apiService';
 import ContratacionForm from './ContratacionForm';
 import CommentForm from '../../components/form/CommentForm';
 
-function ServiceCard({ service, onClick, validation, send }) {
+function ServiceCard({
+  service,
+  onClick,
+  validation,
+  send,
+  setNotificationRedOpen,
+  setNotificationRedMessage,
+  setNotificationGreenOpen,
+  setNotificationGreenMessage,
+}) {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [mainComment, setMainComment] = useState('');
   const [commentRating, setRating] = useState(5); // [1, 5]
   const [openCommentForm, setOpenCommentForm] = useState(false);
-
-  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
-  const [notificationRedMessage, setNotificationRedMessage] = useState('');
-  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
-  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
 
   // Estado para controlar el diálogo de contratación
   const [openDialog, setDialogOpen] = useState(false);
@@ -125,6 +129,10 @@ function ServiceCard({ service, onClick, validation, send }) {
           <CommentForm
             serviceId={service._id}
             handleCloseCommentForm={handleCloseCommentForm}
+            setNotificationGreenOpen={setNotificationGreenOpen}
+            setNotificationGreenMessage={setNotificationGreenMessage}
+            setNotificationRedOpen={setNotificationRedOpen}
+            setNotificationRedMessage={setNotificationRedMessage}
           />
         </Dialog>
 
@@ -137,17 +145,6 @@ function ServiceCard({ service, onClick, validation, send }) {
             closeHiringForm={handleCloseHiringForm}
           />
         </Dialog>
-
-        <NotificationRed
-          open={notificationRedOpen}
-          message={notificationRedMessage}
-          onClose={() => setNotificationRedOpen(false)}
-        />
-        <NotificationGreen
-          open={notificationGreenOpen}
-          message={notificationGreenMessage}
-          onClose={() => notificationGreenOpen(false)}
-        />
       </Card>
     </Grid>
   );

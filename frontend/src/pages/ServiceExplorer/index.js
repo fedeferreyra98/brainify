@@ -6,6 +6,8 @@ import ServiceCard from './ServiceCard';
 import ServiceDetails from './ServiceDetails';
 import useStyles from '../../styles/styles';
 import { apiGetServices } from '../../api/apiService';
+import NotificationGreen from '../../components/ui/NotificationGreen';
+import NotificationRed from '../../components/ui/NotificationRed';
 
 function ServiceExplorer() {
   const classes = useStyles();
@@ -19,6 +21,11 @@ function ServiceExplorer() {
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [tipoFiltro, setTipoFiltro] = useState('');
   const [frecuenciaFiltro, setFrecuenciaFiltro] = useState('');
+
+  const [notificationRedOpen, setNotificationRedOpen] = useState(false);
+  const [notificationRedMessage, setNotificationRedMessage] = useState('');
+  const [notificationGreenOpen, setNotificationGreenOpen] = useState(false);
+  const [notificationGreenMessage, setNotificationGreenMessage] = useState('');
 
   const [selectedService, setSelectedService] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -152,6 +159,10 @@ function ServiceExplorer() {
                 onClick={setSelectedService}
                 validation={newComment}
                 send={setNewComment}
+                setNotificationRedOpen={setNotificationRedOpen}
+                setNotificationRedMessage={setNotificationRedMessage}
+                setNotificationGreenOpen={setNotificationGreenOpen}
+                setNotificationGreenMessage={setNotificationGreenMessage}
               />
             ))}
           </Grid>
@@ -178,6 +189,16 @@ function ServiceExplorer() {
           </Typography>
         </footer>
       </Container>
+      <NotificationRed
+        open={notificationRedOpen}
+        message={notificationRedMessage}
+        onClose={() => setNotificationRedOpen(false)}
+      />
+      <NotificationGreen
+        open={notificationGreenOpen}
+        message={notificationGreenMessage}
+        onClose={() => setNotificationGreenOpen(false)}
+      />
     </div>
   );
 }
