@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { apiUpdateService } from '../../api/apiService';
-import ServiceForm from './ServiceForm';
+import ServiceForm from '../../components/form/ServiceForm';
 
 function ServiceCardEditable({
   service,

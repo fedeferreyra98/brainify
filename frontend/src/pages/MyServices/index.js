@@ -10,7 +10,7 @@ import {
   apiDeleteService,
   apiCreateService,
 } from '../../api/apiService';
-import ServiceForm from './ServiceForm';
+import ServiceForm from '../../components/form/ServiceForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
