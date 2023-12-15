@@ -76,6 +76,8 @@ function CommentForm({
             value={formik.values.content}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            multiline
+            rows={4}
             error={formik.touched.content && Boolean(formik.errors.content)}
             helperText={formik.touched.content && formik.errors.content}
           />

@@ -104,6 +104,8 @@ function EditProfileForm({ isOpen, onClose, handleSubmit, initialFormData }) {
             label="Experiencia"
             value={formik.values.experience}
             onChange={formik.handleChange}
+            multiline
+            rows={4}
             onBlur={formik.handleBlur}
             error={
               formik.touched.experience && Boolean(formik.errors.experience)
